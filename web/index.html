@@ -1,0 +1,176 @@
+
+<link rel="stylesheet" href="/styles/98.css">
+<link rel="stylesheet" href="/styles/main.css">
+
+<div class="wrapper" style="display:flex;flex-direction: row;">
+
+<div class="field-column">
+  <div class="window" style="margin: 32px;position:relative;min-width:800px;max-height:100vh;">
+    <div class="title-bar">
+      <div class="title-bar-text">Search</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    <form  id="searcher"method="post">
+      <div class="field-row">
+        <img src="/resources/clippy.gif">
+        <div class="field-row-stacked" style="width: 400px">
+          <select id="searchType"name="type">
+            <option>query</option>
+            <option>artist</option>
+            <option>album</option>
+            <option>genre</option>
+          </select>
+          <input id="query"name="query" type="text" >
+          <!-- <input type="submit"> -->
+        </div>
+      </div>
+    </form>
+    <div id="searchRes" class="sunken-panel" style="position:relative;width:100%;height:100%;">
+
+    </div>
+  </div>
+</div>
+
+
+<div class="field-column">
+  <div id="playerWindow" class="window" style="margin: 32px;position:relative;min-width:800px;max-height:100vh;">
+    <div class="title-bar">
+      <div class="title-bar-text">Player</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <audio id="audioPlayer" controls>
+        <source id="audioPlayerSource" src="/" type="audio/mp3">
+      </audio>
+      <div id="playlistWrapper" class="sunken-panel" style="position:relative;width:100%;height:100%;">
+
+      </div>
+    </div>
+  </div>
+
+
+  <div id="playlistsWindow" class="window" style="margin: 32px;position:relative;min-width:800px;max-height:100vh;">
+    <div class="title-bar">
+      <div class="title-bar-text">Playlists</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="window-body">
+
+      <div  class="sunken-panel" style="position:relative;width:100%;height:100%;">
+
+      </div>    
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+  let timer = null
+  const searchField = document.getElementById("query")
+  // re render table whe user stopped typing search query
+  searchField.addEventListener('keystopped', function(event){
+    clearTimeout(timer); 
+    timer = setTimeout(reRenderTable(), 1000)
+  }, false);
+
+  // idk what is it
+  (function(){
+    var keystoppedTimer = null;
+    var keystoppedInputs = document.getElementsByTagName('input');
+    for (var i = 0, l = keystoppedInputs.length; i < l; i++) {
+      keystoppedInputs[i].addEventListener('keydown', function(event){
+        clearTimeout(keystoppedTimer);
+        keystoppedTimer = setTimeout(function() {
+          event.target.dispatchEvent( new Event('keystopped') );
+        }, 800);
+      }, false);
+    }
+  }());
+
+  function reRenderTable(){
+    let searchType = document.getElementById('searchType').value
+    let query = document.getElementById('query').value
+    let url = "/api/searchTrack.php?type="+searchType+"&query="+query
+    let bannedColumns = ["year","filesize"]
+    try {document.getElementById("searchResTable").remove()}catch (error){}
+    fetch(url).then(response => response.json()).then(data => createTable(data)).catch(error => console.log(error))
+
+    const createTable = (data) => {
+      const tableData = data;
+      const headerData = Object.keys(tableData[0]);
+      const table = document.createElement('table');
+      const tr = table.insertRow(-1);
+
+      for (let i = 0; i < headerData.length; i++) {
+        const th = document.createElement('th');
+        if ( bannedColumns.includes(headerData[i]) ){continue}
+        th.innerHTML = headerData[i];
+        tr.appendChild(th)
+      }
+
+      for (let i = 0; i < tableData.length; i++) {
+        const tr = table.insertRow(-1);
+        
+        const obj = tableData[i];
+        for (let key in obj) {
+          const td = document.createElement('td');
+          switch(key){
+            case "filename":
+              let shortFname = [...obj[key].slice(0, 20)].join("")
+              td.innerHTML = "<a href='/Music/"+obj[key]+"'>"+shortFname+"</a>";
+            break;
+            case "genre":
+              td.innerHTML = "<a href='"+obj[key]+"'>"+obj[key]+"</a>"
+              break
+            case "filesize":
+              continue
+              break
+            case "year":
+              continue
+              break
+            case "title":
+              td.innerHTML = obj[key].replace(/\(.+\)/gm, "");
+              break
+            case "artist":
+              let artists = obj['artist'].split(", ")
+              if (artists.length>1){
+                for (let key in artists){
+                  artists[key] = "<a href=?type=artist&query="+artists[key].replace(" ","+")+"'>"+artists[key]+"</a>"
+                }
+                td.innerHTML = artists.toString()
+              }else{
+                
+                td.innerHTML = "<a href=?type=artist&query="+artists[0].replace(" ","+")+"'>"+artists[0]+"</a>"
+              }              
+              break
+              
+              
+            default:
+            td.innerHTML = obj[key];
+          }
+
+          tr.appendChild(td);
+        }
+      }
+      table.id="searchResTable"
+      document.getElementById('searchRes').appendChild(table);
+    }
+  }
+ preventSend = function(e){e.preventDefault()}
+  document.getElementById("searcher").addEventListener("submit", preventSend, true)
+
+</script>
+<script src="/js/lib.js"></script>

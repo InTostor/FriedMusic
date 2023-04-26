@@ -1,0 +1,48 @@
+*{
+  font-smooth: never;
+  /* font-family: 'Popa_slarka'; */
+}
+
+@font-face {
+  font-family: 'Popa_slarka';
+  src: url('/resources/Popa_slarka-Regular.ttf');
+}
+
+body {
+  
+  /* background: Teal; */
+  background-image: url("/resources/Clouds.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: transparent;
+  white-space: initial;
+}
+
+tr:nth-child(even) {
+  background-color: #c0c0c0;
+}
+
+.wrapper{
+  position: relative;
+
+  height:100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.window{
+  display:flex;
+  flex-direction: column;
+}
+
+td + a,td {
+  overflow: hidden;
+  line-clamp: 2; 
+}
+
