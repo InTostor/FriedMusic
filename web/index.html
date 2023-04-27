@@ -1,11 +1,12 @@
-
+<head>
 <link rel="stylesheet" href="/styles/98.css">
 <link rel="stylesheet" href="/styles/main.css">
+</head>
 
 <div class="wrapper" style="display:flex;flex-direction: row;">
 
 <div class="field-column">
-  <div class="window" style="margin: 32px;position:relative;min-width:800px;max-height:100vh;">
+  <div class="window" style="margin: 32px;position:relative;min-width:600px;max-height:100vh;">
     <div class="title-bar">
       <div class="title-bar-text">Search</div>
       <div class="title-bar-controls">
@@ -30,14 +31,16 @@
       </div>
     </form>
     <div id="searchRes" class="sunken-panel" style="position:relative;width:100%;height:100%;">
+      <table id="searchRes">
 
+      </table>
     </div>
   </div>
 </div>
 
 
 <div class="field-column">
-  <div id="playerWindow" class="window" style="margin: 32px;position:relative;min-width:800px;max-height:100vh;">
+  <div id="playerWindow" class="window" style="margin: 32px;position:relative;min-width:600px;max-height:40vh;">
     <div class="title-bar">
       <div class="title-bar-text">Player</div>
       <div class="title-bar-controls">
@@ -46,14 +49,25 @@
         <button aria-label="Close"></button>
       </div>
     </div>
-    <div class="window-body">
-      <audio id="audioPlayer" controls>
-        <source id="audioPlayerSource" src="/" type="audio/mp3">
-      </audio>
-      <div id="playlistWrapper" class="sunken-panel" style="position:relative;width:100%;height:100%;">
 
+      <div class="field-column">
+        <audio id="audioPlayer" controls onended="trackFinished()" style="width:100%">
+          <source id="audioPlayerSource" src="/" type="audio/mp3">
+        </audio>
+        <div class="field-row">
+        <p id="audioPlayerStatus">
+          ff
+        </p>
+        <button onclick="prevTrack()"><<</button>
+        <button onclick="nextTrack()">>></button>
       </div>
-    </div>
+      </div>
+      <div id="playlistWrapper" class="sunken-panel" style="position:relative;width:100%;height:100%;">
+        <table id="curPlaylist">
+
+        </table>
+      </div>
+
   </div>
 
 
@@ -77,7 +91,22 @@
 
 </div>
 
+<script src="/js/lib.js"></script>
 <script>
+  // globals are not so bad
+  $_GET = getUrlParams()
+  let type     = $_GET["type"]
+  let query    = $_GET["query"]
+  let playlist = $_GET["playlist"]
+  let tid      = $_GET["tid"]
+
+  let currentPlaylist
+  let currentKey
+  let currentPlaylistName
+
+  let saved = false
+  
+
   let timer = null
   const searchField = document.getElementById("query")
   // re render table whe user stopped typing search query
@@ -85,6 +114,7 @@
     clearTimeout(timer); 
     timer = setTimeout(reRenderTable(), 1000)
   }, false);
+
 
   // idk what is it
   (function(){
@@ -100,77 +130,95 @@
     }
   }());
 
+  document.getElementById('audioPlayer').addEventListener('timeupdate', (event) => {
+    console.log("FF")
+    if ((document.getElementById('audioPlayer').currentTime >= 10) & !saved){
+      fetch("/api/addTrackToHistory.php?track="+currentPlaylist[currentKey])
+      saved = true
+    }
+  })
+
   function reRenderTable(){
     let searchType = document.getElementById('searchType').value
     let query = document.getElementById('query').value
-    let url = "/api/searchTrack.php?type="+searchType+"&query="+query
-    let bannedColumns = ["year","filesize"]
-    try {document.getElementById("searchResTable").remove()}catch (error){}
-    fetch(url).then(response => response.json()).then(data => createTable(data)).catch(error => console.log(error))
+    let url = "/render/renderPlaylist.php?src=search&type="+searchType+"&query="+query
+    // write into search.txt
+    fetch("/api/rememberSearch.php?type="+searchType+"&query="+query)
 
-    const createTable = (data) => {
-      const tableData = data;
-      const headerData = Object.keys(tableData[0]);
-      const table = document.createElement('table');
-      const tr = table.insertRow(-1);
 
-      for (let i = 0; i < headerData.length; i++) {
-        const th = document.createElement('th');
-        if ( bannedColumns.includes(headerData[i]) ){continue}
-        th.innerHTML = headerData[i];
-        tr.appendChild(th)
-      }
-
-      for (let i = 0; i < tableData.length; i++) {
-        const tr = table.insertRow(-1);
-        
-        const obj = tableData[i];
-        for (let key in obj) {
-          const td = document.createElement('td');
-          switch(key){
-            case "filename":
-              let shortFname = [...obj[key].slice(0, 20)].join("")
-              td.innerHTML = "<a href='/Music/"+obj[key]+"'>"+shortFname+"</a>";
-            break;
-            case "genre":
-              td.innerHTML = "<a href='"+obj[key]+"'>"+obj[key]+"</a>"
-              break
-            case "filesize":
-              continue
-              break
-            case "year":
-              continue
-              break
-            case "title":
-              td.innerHTML = obj[key].replace(/\(.+\)/gm, "");
-              break
-            case "artist":
-              let artists = obj['artist'].split(", ")
-              if (artists.length>1){
-                for (let key in artists){
-                  artists[key] = "<a href=?type=artist&query="+artists[key].replace(" ","+")+"'>"+artists[key]+"</a>"
-                }
-                td.innerHTML = artists.toString()
-              }else{
-                
-                td.innerHTML = "<a href=?type=artist&query="+artists[0].replace(" ","+")+"'>"+artists[0]+"</a>"
-              }              
-              break
-              
-              
-            default:
-            td.innerHTML = obj[key];
-          }
-
-          tr.appendChild(td);
-        }
-      }
-      table.id="searchResTable"
-      document.getElementById('searchRes').appendChild(table);
-    }
+    updateUrl("/?type="+searchType+"&query="+query)
+    tableHtml = fetch(url).then((response) => response.text()).then(text => {document.getElementById('searchRes').innerHTML = text})
   }
- preventSend = function(e){e.preventDefault()}
+
+  function renderCurrentPlaylist(){
+    if (currentPlaylistName=="search"){
+      pl = "/userdata/"+getCookie('who')+"/search.txt"
+    }else{
+      pl = "/userdata/"+getCookie('who')+"/search.txt"
+    }
+    let url = "/render/renderPlaylist.php?src="+pl
+    console.log(url)
+    fetch(url).then((response) => response.text()).then(text => 
+    {
+      document.getElementById('curPlaylist').innerHTML = text
+    })
+  }
+  
+  function reqPlayTrack(key,playlist){
+    userData = "/userdata/"+getCookie('who')
+    currentPlaylistName = playlist
+    if (playlist == 'search'){
+      userData = userData + "/search.txt"
+      fetch(userData+'/search.txt').then((response) => response.text()).then(text => {
+        currentPlaylist = text.split("\n")
+
+        currentKey = key
+        playTrack('audioPlayer',getMusicPath()+currentPlaylist[key])
+        saved=false
+        updatePlayerInfo("audioPlayerStatus",currentPlaylist[key],currentPlaylistName)
+
+      })
+    }
+    renderCurrentPlaylist()
+  }
+
+preventSend = function(e){e.preventDefault()}
   document.getElementById("searcher").addEventListener("submit", preventSend, true)
 
+function trackFinished(){
+  console.log("fin")
+  currentKey += 1
+  if (currentKey>=currentPlaylist.length){
+    currentKey = 0
+    playTrackWrapper()
+    document.getElementById('audioPlayer').pause()
+  }else{
+    playTrackWrapper()
+  }
+  saved=false
+}
+function playTrackWrapper(){
+  playTrack('audioPlayer',getMusicPath()+currentPlaylist[currentKey])
+  updatePlayerInfo("audioPlayerStatus",currentPlaylist[currentKey],currentPlaylistName)
+    
+}
+
+function nextTrack(){
+  if (currentKey<currentPlaylist.length){
+  currentKey = currentKey+1
+  playTrackWrapper()
+  }
+}
+function prevTrack(){
+  if (currentKey>=0){
+  currentKey = currentKey-1
+  playTrackWrapper()
+  }
+}
+
+function addToFavourite(track){
+  fetch("/api/addTrackToPlaylist.php?playlist=favourite&track="+track)
+}
+
 </script>
-<script src="/js/lib.js"></script>
+
