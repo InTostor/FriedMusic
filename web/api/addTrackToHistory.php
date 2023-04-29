@@ -3,7 +3,7 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
 
-$maxHistoryLength = 10;
+$maxHistoryLength = 100;
 
 $uname = User::getUsername();
 
@@ -27,8 +27,8 @@ if ( !file_exists($userRoot) ){
   mkdir("$root/userdata/$uname");
 }
 
-$historyFile = fopen("$userRoot/history.txt","r");
-$hFileSize = filesize("$userRoot/history.txt");
+$historyFile = fopen("$userRoot/history.fpl","r");
+$hFileSize = filesize("$userRoot/history.fpl");
 if ($hFileSize==0){
   $history = array("");
 }else{
@@ -42,7 +42,7 @@ if ( sizeof($history) > $maxHistoryLength ){
   $history = array_slice($history,1,-1);
 }
 // if ( $history[0]==""){$history = array_slice($history,1,-1);}
-$historyFile = fopen("$userRoot/history.txt","w");
+$historyFile = fopen("$userRoot/history.fpl","w");
 fwrite($historyFile,implode("\n",$history));
 fclose($historyFile);
 echo "OK";

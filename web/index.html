@@ -142,7 +142,7 @@
     let searchType = document.getElementById('searchType').value
     let query = document.getElementById('query').value
     let url = "/render/renderPlaylist.php?src=search&type="+searchType+"&query="+query
-    // write into search.txt
+    // write into search.fpl
     fetch("/api/rememberSearch.php?type="+searchType+"&query="+query)
 
 
@@ -152,9 +152,9 @@
 
   function renderCurrentPlaylist(){
     if (currentPlaylistName=="search"){
-      pl = "/userdata/"+getCookie('who')+"/search.txt"
+      pl = "/userdata/"+getCookie('who')+"/search.fpl"
     }else{
-      pl = "/userdata/"+getCookie('who')+"/search.txt"
+      pl = "/userdata/"+getCookie('who')+"/search.fpl"
     }
     let url = "/render/renderPlaylist.php?src="+pl
     console.log(url)
@@ -168,8 +168,8 @@
     userData = "/userdata/"+getCookie('who')
     currentPlaylistName = playlist
     if (playlist == 'search'){
-      userData = userData + "/search.txt"
-      fetch(userData+'/search.txt').then((response) => response.text()).then(text => {
+      userData = userData + "/search.fpl"
+      fetch(userData+'/search.fpl').then((response) => response.text()).then(text => {
         currentPlaylist = text.split("\n")
 
         currentKey = key

@@ -22,6 +22,6 @@ $fNames = [];
 foreach ($sResult as $track){
   array_push($fNames,$track['filename']);
 }
-$search = fopen("$userRoot/search.txt","w");
+$search = fopen("$userRoot/search.fpl","w");
 fwrite($search,implode("\n",$fNames));
 fclose($search);

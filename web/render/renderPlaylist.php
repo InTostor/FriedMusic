@@ -84,7 +84,6 @@ foreach ($musicList as $key=>$track){
     $filename = $track;
   }
   // buttons
-  $filename = "Linkin Park - Numb.mp3";
   echo "<td><div class='trackActionsDiv'>";
   echo "<button class='trackActionButton'onclick=\"reqPlayTrack($key,'search')\"><img class='actionIco'src='/resources/loudspeaker_rays-0.png'></button>";
   echo "<button class='trackActionButton'onclick=\"addToFavourite('$filename')\">       <img class='actionIco'src='/resources/directory_favorites-2.png'></button>";
