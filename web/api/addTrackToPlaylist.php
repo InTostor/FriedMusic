@@ -1,7 +1,6 @@
 <?php
-// CODE DOUBLING
+// CODE DOUBLING ALERT
 $root = $_SERVER['DOCUMENT_ROOT'];
-require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
 require_once "$root/lib/fileWrapper.php";
 
