@@ -3,6 +3,7 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
 require_once "$root/lib/fetchTracks.php";
+require_once "$root/lib/fileWrapper.php";
 
 $uname = User::getUsername();
 
@@ -12,7 +13,7 @@ if ( $uname == "anonymous" ){
   http_response_code(401);
   die;
 }
-$userRoot = $root."/".$userData.$uname;
+$userRoot = "$root/$userData.$uname";
 
 $query = $_GET['query'];
 $type = $_GET['type'];
@@ -22,6 +23,6 @@ $fNames = [];
 foreach ($sResult as $track){
   array_push($fNames,$track['filename']);
 }
-$search = fopen("$userRoot/search.fpl","w");
+$search = File::open("$userRoot/search.fpl","w");
 fwrite($search,implode("\n",$fNames));
 fclose($search);

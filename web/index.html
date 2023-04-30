@@ -39,73 +39,15 @@
 </div>
 
 
-<div class="field-column">
-  <div id="playerWindow" class="window" style="margin: 32px;position:relative;min-width:600px;max-height:40vh;">
-    <div class="title-bar">
-      <div class="title-bar-text">Player</div>
-      <div class="title-bar-controls">
-        <button aria-label="Minimize"></button>
-        <button aria-label="Maximize"></button>
-        <button aria-label="Close"></button>
-      </div>
-    </div>
-
-      <div class="field-column">
-        <audio id="audioPlayer" controls onended="trackFinished()" style="width:100%">
-          <source id="audioPlayerSource" src="/" type="audio/mp3">
-        </audio>
-        <div class="field-row">
-        <p id="audioPlayerStatus">
-          ff
-        </p>
-        <button onclick="prevTrack()"><<</button>
-        <button onclick="nextTrack()">>></button>
-      </div>
-      </div>
-      <div id="playlistWrapper" class="sunken-panel" style="position:relative;width:100%;height:100%;">
-        <table id="curPlaylist">
-
-        </table>
-      </div>
-
-  </div>
-
-
-  <div id="playlistsWindow" class="window" style="margin: 32px;position:relative;min-width:800px;max-height:100vh;">
-    <div class="title-bar">
-      <div class="title-bar-text">Playlists</div>
-      <div class="title-bar-controls">
-        <button aria-label="Minimize"></button>
-        <button aria-label="Maximize"></button>
-        <button aria-label="Close"></button>
-      </div>
-    </div>
-    <div class="window-body">
-
-      <div  class="sunken-panel" style="position:relative;width:100%;height:100%;">
-
-      </div>    
-    </div>
-  </div>
-</div>
 
 </div>
 
 <script src="/js/lib.js"></script>
 <script>
   // globals are not so bad
-  $_GET = getUrlParams()
-  let type     = $_GET["type"]
-  let query    = $_GET["query"]
-  let playlist = $_GET["playlist"]
-  let tid      = $_GET["tid"]
-
-  let currentPlaylist
-  let currentKey
-  let currentPlaylistName
-
-  let saved = false
   
+  $_GET = getUrlParams()
+
 
   let timer = null
   const searchField = document.getElementById("query")
@@ -130,13 +72,7 @@
     }
   }());
 
-  document.getElementById('audioPlayer').addEventListener('timeupdate', (event) => {
-    console.log("FF")
-    if ((document.getElementById('audioPlayer').currentTime >= 10) & !saved){
-      fetch("/api/addTrackToHistory.php?track="+currentPlaylist[currentKey])
-      saved = true
-    }
-  })
+
 
   function reRenderTable(){
     let searchType = document.getElementById('searchType').value
@@ -150,75 +86,14 @@
     tableHtml = fetch(url).then((response) => response.text()).then(text => {document.getElementById('searchRes').innerHTML = text})
   }
 
-  function renderCurrentPlaylist(){
-    if (currentPlaylistName=="search"){
-      pl = "/userdata/"+getCookie('who')+"/search.fpl"
-    }else{
-      pl = "/userdata/"+getCookie('who')+"/search.fpl"
-    }
-    let url = "/render/renderPlaylist.php?src="+pl
-    console.log(url)
-    fetch(url).then((response) => response.text()).then(text => 
-    {
-      document.getElementById('curPlaylist').innerHTML = text
-    })
-  }
+
   
-  function reqPlayTrack(key,playlist){
-    userData = "/userdata/"+getCookie('who')
-    currentPlaylistName = playlist
-    if (playlist == 'search'){
-      userData = userData + "/search.fpl"
-      fetch(userData+'/search.fpl').then((response) => response.text()).then(text => {
-        currentPlaylist = text.split("\n")
 
-        currentKey = key
-        playTrack('audioPlayer',getMusicPath()+currentPlaylist[key])
-        saved=false
-        updatePlayerInfo("audioPlayerStatus",currentPlaylist[key],currentPlaylistName)
-
-      })
-    }
-    renderCurrentPlaylist()
-  }
 
 preventSend = function(e){e.preventDefault()}
   document.getElementById("searcher").addEventListener("submit", preventSend, true)
 
-function trackFinished(){
-  console.log("fin")
-  currentKey += 1
-  if (currentKey>=currentPlaylist.length){
-    currentKey = 0
-    playTrackWrapper()
-    document.getElementById('audioPlayer').pause()
-  }else{
-    playTrackWrapper()
-  }
-  saved=false
-}
-function playTrackWrapper(){
-  playTrack('audioPlayer',getMusicPath()+currentPlaylist[currentKey])
-  updatePlayerInfo("audioPlayerStatus",currentPlaylist[currentKey],currentPlaylistName)
-    
-}
 
-function nextTrack(){
-  if (currentKey<currentPlaylist.length){
-  currentKey = currentKey+1
-  playTrackWrapper()
-  }
-}
-function prevTrack(){
-  if (currentKey>=0){
-  currentKey = currentKey-1
-  playTrackWrapper()
-  }
-}
-
-function addToFavourite(track){
-  fetch("/api/addTrackToPlaylist.php?playlist=favourite&track="+track)
-}
 
 </script>
 

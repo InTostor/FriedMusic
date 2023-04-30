@@ -6,10 +6,11 @@ class Track{
   static function getMetaData($filename){
     $ret = Database::executeStmt("select * from fullmeta where filename = ?","s",[$filename]);
     if (isset($ret[0])){
-      return $ret[0];
+      $ret =  $ret[0];
     }else{
-      return $ret;
+      $ret =  $ret;
     }
+    return $ret;
   }
   static function getSameBy($column,$as,$fuzzy=false){
     if ($fuzzy){
@@ -17,12 +18,11 @@ class Track{
     }else{
       $ret = Database::executeStmt("select * from fullmeta where $column = ?","s",[$as]);
     }
-    if (isset($ret[0])){
-      return $ret[0];
-    }else{
-      return $ret;
-    }
+
+    return $ret;
 
   }
+
+
 
 }

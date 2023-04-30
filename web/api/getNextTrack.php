@@ -1,19 +1,29 @@
 <?php
+// this is most complex script in whole project. At some point it will require
+// elastic search for fuzzy track generating, more lists of track (white/black)
+// and maybe machine learning algohritms for most accurate track generation.
+
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
-require_once "$root/lib/getUserPlaylists.php";
 require_once "$root/lib/track.php";
 require_once "$root/lib/dev.php";
+require_once "$root/lib/fileWrapper.php";
 
 $uname = User::getUsername();
+$uroot = "$root/userdata/$uname/";
 
 if ( $uname == "anonymous" ){
   echo "403";
   http_response_code(401);
   die;
 }
+// header('Content-Type: text/plain');
 
+$oldRolls = File::getAsArray("$uroot/oldRoll.frf");
+
+// track roulette
+reroll:
 // source
 $rng = rand(1,100);
 if ($rng<=54){
@@ -25,19 +35,18 @@ if ($rng<=54){
 }
 // level
 $rng = rand(1,10);
-if ($rng<=4){
+if ($rng<=2){
   $level = "track";
-}elseif ($rng<=8){
+}elseif ($rng<=6){
   $level = "artist";
 }else{
   $level = "genre";
 }
 
 
+$level = "genre";
 
 
-echo $src."<br>";
-echo $level."<br>";
 $retTrack = "na";
 switch ($src){
   case "history":
@@ -51,7 +60,14 @@ switch ($src){
   case "anyF":
     // $track = Track::getSameBy()
 }
-echo "track: $retTrack";
+
+$retTrack = $retTrack['filename'];
+
+if ($retTrack == "na" or in_array($retTrack,$oldRolls)){
+goto reroll;
+}
+File::addToLimited("$uroot/oldRoll.frf",10,$retTrack);
+echo($retTrack);
 
 function secondIteration($tracks,$level){
   switch ($level){
@@ -69,7 +85,7 @@ function secondIteration($tracks,$level){
       break;
     case "genre":
       $genre = Track::getMetaData($tracks[rngw(2,sizeof($tracks))])['genre'];
-      $tracks = Track::getSameBy("genre",$genre,rand(0,1) == 1);
+      $tracks = Track::getSameBy("genre",$genre,true);
       if (!isset($tracks['filename'])){
         return $tracks[rngw(1,sizeof($tracks))];
       }else{

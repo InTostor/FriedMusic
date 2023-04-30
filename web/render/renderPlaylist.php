@@ -3,6 +3,7 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/fetchTracks.php";
 require_once "$root/lib/dev.php";
 require_once "$root/lib/fileWrapper.php";
+require_once "$root/lib/user.php";
 
 if (isset($_GET['src'])){
   if ( isset($_GET['type']) and isset($_GET['query']) and $_GET['src']=="search"){
@@ -69,6 +70,10 @@ foreach ($musicList as $key=>$track){
   $genre = $track['genre'];
   $title = preg_replace("/\(.+\)/m",'',$track['title']);
   $artists=[];
+  $fav = '/resources/directory_favorites-2.png';
+  if (File::isInFile($filename,$root."/userdata/".User::getUsername()."/favourite.fpl")){
+    $fav = '/resources/directory_favorites-remove-2.png';
+  }
   foreach (explode(", ",$track["artist"]) as $artist){array_push($artists,$artist);}
   echo"<tr>";
 
@@ -86,7 +91,7 @@ foreach ($musicList as $key=>$track){
   // buttons
   echo "<td><div class='trackActionsDiv'>";
   echo "<button class='trackActionButton'onclick=\"reqPlayTrack($key,'search')\"><img class='actionIco'src='/resources/loudspeaker_rays-0.png'></button>";
-  echo "<button class='trackActionButton'onclick=\"addToFavourite('$filename')\">       <img class='actionIco'src='/resources/directory_favorites-2.png'></button>";
+  echo "<button class='trackActionButton'onclick=\"addToFavourite('$filename')\">       <img class='actionIco'src='$fav'></button>";
   echo "<button class='trackActionButton'onclick=\"addToPlaylist('$filename')\">        <img class='actionIco'src='/resources/directory_open_file_mydocs-4.png'></button>";
   echo "</div></td>";
 

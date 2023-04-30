@@ -1,0 +1,127 @@
+<head>
+  <link rel="stylesheet" href="/styles/98.css">
+</head>
+  
+<!-- this is parent object in html. inside is js generated code-->
+<div class="playerHolder"id="playerHolder">
+  <div class="playerContainer col window">
+    <audio id="playerSoundMaker" preload="metadata" ontimeupdate="a.updateSeeker(this.currentTime)" ondurationchange="a.setSeekerRange()" onended="a.trackEnded()"></audio>
+    <div class="title-bar">
+      <div class="title-bar-text">Super Ultra hyper black cock player 40k</div>
+    </div>
+    <div class="window-body">
+      <div class="playerSection col">
+        <div class="playerSectionUpper col">
+
+          <p id="playerTrackMeta"class="playerTrackMeta">FFF from FFF</p>
+          <div class="seekerSection row">
+            <div class="playerControls row">
+              <button id="playerPrevious"class="playerTrackActionButton" onclick="a.prev()"><img class="playerTrackActionIco" src="/resources/Fast_backward_font_awesome.svg"></button>
+              <button id="playerPlaypause"class="playerTrackActionButton" onclick="a.playPause()"><img class="playerTrackActionIco" src="/resources/Octicons-playback-play.svg"></button>
+              <button id="playerNext"class="playerTrackActionButton" onclick="a.next()"><img class="playerTrackActionIco" src="/resources/Fast_forward_font_awesome.svg"></button>
+            </div>
+            <input id="playerSeeker" oninput="a.seekTo(this.value)" type="range" min="0" max="11" value="5" />
+          </div>
+
+        </div>
+        <div class="playerSectionBottom row">
+          <p id="playerTimeElapsed"class="playerTimeElapsed">00:00</p>
+          <div class="playerVolumeSection col playerBottomCol">
+            <input id="playerVolumeRange"type="range" min="0" max="100" value="5" onchange="a.setVolume(this.value)"oninput="a.setVolume(this.value)"/>
+            <label id="playerVolumeText"for="playerVolumeRange">volume</label>
+          </div>
+          <div class="playerActionsSection playerBottomCol">
+            <button id="playerActionFavourite" class="playerTrackActionButton" onclick="a.toFavourite()"><img class="playerTrackActionIco" src="/resources/directory_favorites-2.png"></button>
+            <button id="playerActionToPlaylist" class="playerTrackActionButton"onclick="a.addToPlaylist()"><img class="playerTrackActionIco" src="/resources/directory_open_file_mydocs-4.png"></button>
+            <button id="playerShuffle" class="playerTrackActionButton" onclick="a.shufflePlay(this)"><img class="playerTrackActionIco" src="/resources/shuffle.svg"></button>
+            <button id="playerLoopPlaylist" class="playerTrackActionButton" onclick="a.loopList(this)"><img class="playerTrackActionIco" src="/resources/repeat.svg"></button>
+            <button id="playerLoopTrack" class="playerTrackActionButton" onclick="a.loopTrack(this)"><img class="playerTrackActionIco" src="/resources/repeatOnce.svg"></button>
+          </div>
+        </div>
+      </div>
+      <div class="playlistSection">
+
+        <div class="title-bar playListTitlebar">
+          <div class="title-bar-text">A Title Bar</div>
+          <div class="title-bar-controls">
+            <button id="playerMinimizePlaylist" aria-label="Minimize" onclick="a.cyclePlaylistVisibility()"></button>
+          </div>
+        </div>
+
+        <div id="playerPlaylistHolder"class="sunken-panel">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  *{
+    transition: all ease 0.5s;
+  }
+.playerContainer{
+  min-width:250px;
+  max-width:500px;
+  max-height:800px;
+  padding:2px;
+}
+.playerSection{
+  min-height:100px;
+  width:100%;
+  overflow: unset;
+}
+
+.playerSectionUpper{
+
+}
+.playerSectionBottom{
+
+}
+.col{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.playerBottomCol{
+  width:40%;
+}
+
+.seekerSection{
+
+
+}
+
+.playerTrackActionButton{
+  height: 28px;
+  width: 28px;
+  min-width: unset;
+  padding: 0px;
+  margin: 0px;
+}
+.playerTrackActionIco{
+  height: 22px;
+  margin: 2px;
+}
+
+*{
+  /* outline: red 1px solid; */
+
+}
+
+
+
+</style>
+
+
+<script src="/js/playerCombine.js"></script>
+<script>
+  a = new AudioPlayer()
+</script>

@@ -1,0 +1,240 @@
+
+
+SAVETOHISTORYTIME = 15
+
+class AudioPlayer {
+  constructor(){
+    // html elements
+    self.EtrackInfo = $("playerTrackMeta")
+    self.Eseeker = $("playerSeeker")
+    self.Etime = $("playerTimeElapsed")
+    self.Evolume = $("playerVolumeRange")
+    self.EfavouriteButton = $("playerActionFavourite")
+    self.EtoPlaylistButton = $("playerActionToPlaylist")
+    self.EminimizePlaylistButton = $("playerMinimizePlaylist")
+    self.EplaylistHolder = $("playerPlaylistHolder")
+    self.EsoundMaker = $("playerSoundMaker")
+    // properties
+    self.loop = "none"
+    self.shuffle = false
+    self.musicRoot = "/Music/"
+    self.srcType = null
+    self.src = ""
+    self.savedToHistory = false
+    // listeners & handlers
+    navigator.mediaSession.setActionHandler('play', () => this.play());
+    navigator.mediaSession.setActionHandler('pause', () => this.pause());
+    // navigator.mediaSession.setActionHandler('seekbackward', () => console.log('seekbackward'));
+    // navigator.mediaSession.setActionHandler('seekforward', () => console.log('seekforward'));
+    // navigator.mediaSession.setActionHandler('seekto', () => console.log('seekto'));
+    navigator.mediaSession.setActionHandler('previoustrack', () => this.prev());
+    navigator.mediaSession.setActionHandler('nexttrack', () => this.next());
+
+    // set up
+    self.EsoundMaker.volume = self.Eseeker.value/100
+  }
+  use(type,src="",trackNumber=0){
+    self.srcType = type
+    self.src = src
+    self.trackNumber = trackNumber
+    if (self.srcType=="radio"){
+      self.src = "gachiWave.fm"
+    }
+    console.log(self.srcType)
+  }
+
+  getTrack(){
+    switch (self.srcType){
+      case "track":
+
+        return self.musicRoot + src
+      case "radio":
+        return self.musicRoot + syncFetch("/api/getNextTrack.php")
+      case "playlist":
+        return src[trackNumber]
+
+    }
+  }
+
+  playPause(){
+    if (!self.EsoundMaker.paused){
+      this.pause()
+      
+    }else{
+      this.play()
+      
+    }
+  }
+
+  play(){
+    self.EsoundMaker.play()
+    self.playing = self.EsoundMaker.playing
+    self.Eseeker.max = self.EsoundMaker.duration
+    $('playerPlaypause').lastChild.src = "/resources/Octicons-playback-pause.svg"
+  }
+  pause(){
+    self.EsoundMaker.pause()
+    self.paused = self.EsoundMaker.paused
+    self.Eseeker.max = self.EsoundMaker.duration
+    $('playerPlaypause').lastChild.src = "/resources/Octicons-playback-play.svg"
+  }
+  prev(){
+    if (srcType == "playlist" & self.trackNumber>0){
+      self.trackNumber -= 1
+    }
+  }
+  next(){
+    if (srcType == "playlist" & self.trackNumber<src.length-1){
+      self.trackNumber += 1
+    }
+    if (srcType=="radio"){
+      this.loadTrackIntoMusician()
+    }
+    this.play()
+    self.savedToHistory = false
+  }
+
+  setVolume(value){
+    self.EsoundMaker.volume = value/100
+    self.Evolume.value = value
+    $("playerVolumeText").innerText = "volume: "+value+"%"
+  }
+
+  setSeekerRange(dur){
+    self.Eseeker.max = dur
+  }
+
+  updateSeeker(time){
+    
+    self.Eseeker.value = time
+    const timeobj = new Date(time*1000)
+    let timeMS = timeobj.getUTCMinutes().toString().padStart(2, '0') +":"+timeobj.getUTCSeconds().toString().padStart(2, '0')
+    self.Etime.innerText = timeMS
+    if (time>=SAVETOHISTORYTIME & !self.savedToHistory){
+      fetch("/api/addTrackToHistory.php?track="+self.currentTrackName)
+      self.savedToHistory = true
+    }
+  }
+  seekTo(time){
+    self.EsoundMaker.currentTime = time
+  }
+
+  cyclePlaylistVisibility(){
+    if (self.EplaylistHolder.style.height == 0){
+      // self.EplaylistHolder.style.display = null
+      self.EplaylistHolder.style.height = null
+    }else{
+      // self.EplaylistHolder.style.display = "none"
+      self.EplaylistHolder.style.height = 0
+    }
+  }
+
+  loadTrackIntoMusician(){
+    self.currentTrack = this.getTrack()
+    self.currentTrackName = self.currentTrack.split('/').pop()
+    self.EsoundMaker.src = self.currentTrack
+    self.EsoundMaker.load()
+    self.trackInFavourite = syncFetch("/api/isInFavourite.php?track="+self.currentTrackName)=="true"
+    if (self.trackInFavourite){
+      $("playerActionFavourite").lastChild.src = "/resources/directory_favorites-remove-2.png"
+    }else{
+      $("playerActionFavourite").lastChild.src = "/resources/directory_favorites-2.png"
+    }
+
+    
+    self.EtrackInfo.textContent = "playing "+self.currentTrackName + " from: " + self.src
+    document.title = self.currentTrackName
+  }
+  toFavourite(){
+    if (self.trackInFavourite){
+      alert("can't remove from favourites yet. Contact dev in case you want to use this feature")
+    }else{
+      fetch("/api/addTrackToPlaylist.php?playlist=favourite&track="+self.currentTrackName)
+    }
+  }
+
+  addToPlaylist(){
+    alert("not implemented")
+  }
+
+  loopList(){
+    let act = "inset 1px 1px #0a0a0a,inset -1px -1px #fff,inset 2px 2px gray,inset -2px -2px #dfdfdf"
+    let inact = "inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf"
+    switch (self.loop){
+      case "none":
+        self.loop = "playlist"
+        $("playerLoopPlaylist").style.boxShadow = act        
+        break
+      case "playlist":
+        self.loop = "none"
+        $("playerLoopPlaylist").style.boxShadow = inact  
+        break
+      case "track":
+        self.loop = "playlist"
+        $("playerLoopTrack").style.boxShadow = inact
+        $("playerLoopPlaylist").style.boxShadow = act 
+        break
+    }
+  }
+  loopTrack(){
+    let act = "inset 1px 1px #0a0a0a,inset -1px -1px #fff,inset 2px 2px gray,inset -2px -2px #dfdfdf"
+    let inact = "inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf"
+    switch (self.loop){
+      case "none":
+        self.loop = "track"
+        $("playerLoopTrack").style.boxShadow = act        
+        break
+      case "track":
+        self.loop = "none"
+        $("playerLoopTrack").style.boxShadow = inact  
+        break
+      case "playlist":
+        self.loop = "track"
+        $("playerLoopPlaylist").style.boxShadow = inact
+        $("playerLoopTrack").style.boxShadow = act 
+        break
+    }
+  }
+  shufflePlay(){
+    //! Not implemented
+  }
+  trackEnded(){
+    switch(self.loop){
+      case "none":
+        this.next()
+        break
+      case "playlist":
+        if (self.srcType == "playlist"){
+          self.trackNumber+=1
+          if (self.trackNumber>self.src.length()){
+            self.trackNumber = 0
+          }
+        }
+        break
+      case "track":
+        this.currentTime = 0
+        this.play()
+        break
+    }
+  }
+
+
+}
+
+function $(id){
+  return document.getElementById(id)
+}
+function getPlaylist(){
+
+}
+
+function syncFetch(url){
+  const request = new XMLHttpRequest()
+  request.open('GET', url,false)
+  request.send()
+  if (request.status == 200){
+    return request.responseText
+  }else{
+    return false
+  }
+}

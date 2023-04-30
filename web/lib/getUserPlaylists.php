@@ -15,4 +15,3 @@ function getPlaylists($user){
   }
 
 }
-getPlaylists("InTostor");
