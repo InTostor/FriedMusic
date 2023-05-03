@@ -33,14 +33,14 @@ class AudioPlayer {
     // set up
     self.EsoundMaker.volume = self.Eseeker.value/100
   }
-  use(type,src="",trackNumber=0){
+  use(type,src="",trackNumber=0,playlistName=""){
     self.srcType = type
     self.src = src
     self.trackNumber = trackNumber
+    self.srcName = playlistName
     if (self.srcType=="radio"){
-      self.src = "gachiWave.fm"
+      self.srcName = "gachiWave.fm"
     }
-    console.log(self.srcType)
   }
 
   getTrack(){
@@ -51,7 +51,9 @@ class AudioPlayer {
       case "radio":
         return self.musicRoot + syncFetch("/api/getNextTrack.php")
       case "playlist":
-        return src[trackNumber]
+
+        self.currentTrackName = src[self.trackNumber]
+        return self.musicRoot + src[self.trackNumber]
 
     }
   }
@@ -70,14 +72,23 @@ class AudioPlayer {
     self.EsoundMaker.play()
     self.playing = self.EsoundMaker.playing
     self.Eseeker.max = self.EsoundMaker.duration
-    $('playerPlaypause').lastChild.src = "/resources/Octicons-playback-pause.svg"
+    this.updatePlayIcon()
   }
   pause(){
     self.EsoundMaker.pause()
     self.paused = self.EsoundMaker.paused
     self.Eseeker.max = self.EsoundMaker.duration
-    $('playerPlaypause').lastChild.src = "/resources/Octicons-playback-play.svg"
+    this.updatePlayIcon()
   }
+
+  updatePlayIcon(){
+    if (self.EsoundMaker.paused){
+      $('playerPlaypause').lastChild.src = "/resources/Octicons-playback-play.svg"
+    }else{
+      $('playerPlaypause').lastChild.src = "/resources/Octicons-playback-pause.svg"
+    }
+  }
+
   prev(){
     if (srcType == "playlist" & self.trackNumber>0){
       self.trackNumber -= 1
@@ -88,10 +99,10 @@ class AudioPlayer {
       self.trackNumber += 1
     }
     if (srcType=="radio"){
-      this.loadTrackIntoMusician()
     }
     this.play()
     self.savedToHistory = false
+    this.loadTrackIntoMusician()
   }
 
   setVolume(value){
@@ -135,25 +146,32 @@ class AudioPlayer {
     self.EsoundMaker.src = self.currentTrack
     self.EsoundMaker.load()
     self.trackInFavourite = syncFetch("/api/isInFavourite.php?track="+self.currentTrackName)=="true"
+    this.updateFavouriteIcon()
+    self.EtrackInfo.textContent = "playing "+self.currentTrackName + " from: " + self.srcName
+    document.title = self.currentTrackName
+    this.updatePlayIcon()
+  }
+
+  updateFavouriteIcon(){
+    self.trackInFavourite = syncFetch("/api/isInFavourite.php?track="+self.currentTrackName)=="true"
     if (self.trackInFavourite){
       $("playerActionFavourite").lastChild.src = "/resources/directory_favorites-remove-2.png"
     }else{
       $("playerActionFavourite").lastChild.src = "/resources/directory_favorites-2.png"
-    }
-
-    
-    self.EtrackInfo.textContent = "playing "+self.currentTrackName + " from: " + self.src
-    document.title = self.currentTrackName
+    }   
   }
-  toFavourite(){
+
+  toFavourite(track = self.currentTrackName){
+    this.updateFavouriteIcon()
     if (self.trackInFavourite){
-      alert("can't remove from favourites yet. Contact dev in case you want to use this feature")
+      fetch("/api/addTrackToPlaylist.php?playlist=favourite&remove=true&track="+track)
     }else{
-      fetch("/api/addTrackToPlaylist.php?playlist=favourite&track="+self.currentTrackName)
+      fetch("/api/addTrackToPlaylist.php?playlist=favourite&track="+track)
     }
+    this.updateFavouriteIcon()
   }
 
-  addToPlaylist(){
+  addToPlaylist(track = self.currentTrackName){
     alert("not implemented")
   }
 
@@ -224,16 +242,15 @@ class AudioPlayer {
 function $(id){
   return document.getElementById(id)
 }
-function getPlaylist(){
 
-}
 
 function syncFetch(url){
   const request = new XMLHttpRequest()
   request.open('GET', url,false)
   request.send()
   if (request.status == 200){
-    return request.responseText
+    let txt = request.responseText
+    return txt
   }else{
     return false
   }

@@ -13,4 +13,8 @@ if ( $uname == "anonymous" ){
 }
 header('Content-Type: text/plain');
 
-echo File::isInFile($_GET['track'],"$uroot/favourite.fpl");
+if( File::isInFile($_GET['track'],"$uroot/favourite.fpl") == 1){
+echo "true";
+}else{
+  echo "false";
+}

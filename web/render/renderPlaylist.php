@@ -22,10 +22,8 @@ if (isset($_GET['src'])){
 
 ?>
 
-<link rel="stylesheet" href="/styles/98.css">
-<link rel="stylesheet" href="/styles/main.css">
 
-<table>
+<table class="renderedPlaylist" style="white-space: initial ">
 
 <style>
 .trackActionsDiv{
@@ -48,7 +46,7 @@ if (isset($_GET['src'])){
 }
 </style>
 
-<tbody>
+<tbody style="white-space:unset;">
 <tr>
   <?php if ( $playListType == "search"){echo"
   <th>artist</th>
@@ -90,9 +88,9 @@ foreach ($musicList as $key=>$track){
   }
   // buttons
   echo "<td><div class='trackActionsDiv'>";
-  echo "<button class='trackActionButton'onclick=\"reqPlayTrack($key,'search')\"><img class='actionIco'src='/resources/loudspeaker_rays-0.png'></button>";
-  echo "<button class='trackActionButton'onclick=\"addToFavourite('$filename')\">       <img class='actionIco'src='$fav'></button>";
-  echo "<button class='trackActionButton'onclick=\"addToPlaylist('$filename')\">        <img class='actionIco'src='/resources/directory_open_file_mydocs-4.png'></button>";
+  echo "<button class='trackActionButton'onclick=\"reqPlayTrack($key,'$filename','search')\"><img class='actionIco'src='/resources/loudspeaker_rays-0.png'></button>";
+  echo "<button class='trackActionButton'onclick=\"a.toFavourite('$filename')\">       <img class='actionIco'src='$fav'></button>";
+  echo "<button class='trackActionButton'onclick=\"a.addToPlaylist('$filename')\">        <img class='actionIco'src='/resources/directory_open_file_mydocs-4.png'></button>";
   echo "</div></td>";
 
   if ( $playListType == "search"){

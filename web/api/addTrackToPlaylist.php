@@ -38,7 +38,14 @@ if ($hFileSize==0){
 }
 fclose($playlistFile);
 
-array_push($playlist,$track);
+if (isset($_GET['remove'])){
+  foreach (array_keys($playlist, $track) as $key) {
+    unset($playlist[$key]);
+}
+}else{
+  array_push($playlist,$track);
+}
+
 
 $playlistFile = File::open("$userRoot/$playlistG.fpl","w");
 fwrite($playlistFile,implode("\n",$playlist));

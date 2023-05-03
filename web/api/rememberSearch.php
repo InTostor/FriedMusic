@@ -13,7 +13,7 @@ if ( $uname == "anonymous" ){
   http_response_code(401);
   die;
 }
-$userRoot = "$root/$userData.$uname";
+$userRoot = "$root/$userData/$uname";
 
 $query = $_GET['query'];
 $type = $_GET['type'];
