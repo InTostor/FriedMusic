@@ -46,16 +46,45 @@ class AudioPlayer {
   getTrack(){
     switch (self.srcType){
       case "track":
-
+        self.EplaylistHolder.innerHTML = ""
         return self.musicRoot + src
       case "radio":
+        self.EplaylistHolder.innerHTML = ""
         return self.musicRoot + syncFetch("/api/getNextTrack.php")
       case "playlist":
-
+        this.drawPlaylist(self.src)
         self.currentTrackName = src[self.trackNumber]
         return self.musicRoot + src[self.trackNumber]
 
     }
+  }
+  drawPlaylist(playlist){
+    console.log("redraw")
+    let table = document.createElement("table")
+    let trackField
+    let trackPlay
+    let trackNumber = 0
+    playlist.forEach(track => {
+
+      e = document.createElement("tr")
+      trackField = document.createElement("td")
+      trackField.innerHTML=track
+      trackPlay = document.createElement("button")
+      trackPlay.setAttribute('onclick',`a.setTrackNumber(${trackNumber})`)
+      trackPlay.innerHTML = `<img class="playerTrackActionIco" src="/resources/Octicons-playback-play.svg">`
+      trackPlay.className = "playerTrackActionButton"
+      e.appendChild(trackField)
+      e.appendChild(trackPlay)
+      table.appendChild(e)
+      trackNumber+=1
+    });
+    self.EplaylistHolder.replaceChildren(table)
+  }
+
+  setTrackNumber(tn){
+    self.trackNumber = tn
+    this.loadTrackIntoMusician()
+    this.play()
   }
 
   playPause(){
@@ -100,9 +129,9 @@ class AudioPlayer {
     }
     if (srcType=="radio"){
     }
-    this.play()
     self.savedToHistory = false
     this.loadTrackIntoMusician()
+    this.play()
   }
 
   setVolume(value){
@@ -131,12 +160,12 @@ class AudioPlayer {
   }
 
   cyclePlaylistVisibility(){
-    if (self.EplaylistHolder.style.height == 0){
+    if (self.EplaylistHolder.style.height == "200px"){
       // self.EplaylistHolder.style.display = null
-      self.EplaylistHolder.style.height = null
+      self.EplaylistHolder.style.height = 0
     }else{
       // self.EplaylistHolder.style.display = "none"
-      self.EplaylistHolder.style.height = 0
+      self.EplaylistHolder.style.height = "200px"
     }
   }
 

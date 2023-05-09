@@ -16,9 +16,10 @@ $uroot = "$root/userdata/$uname/";
     <!-- <link rel="stylesheet" href="https://unpkg.com/xp.css" /> -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/7.css"> -->
     <link rel="stylesheet" href="/styles/main.css">
+
   </head>
   <body>
-
+  <script src = "/js/lib.js"></script>
 
 <?=html("$root/resources/player.html");?>
 <?=html("$root/resources/searcher.html");?>
