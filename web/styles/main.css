@@ -12,7 +12,6 @@ body {
   
   /* background: Teal; */
   background-image: url("/resources/Clouds.png");
-  background-repeat: no-repeat;
   background-size: cover;
 }
 
@@ -46,3 +45,6 @@ td + a,td {
   line-clamp: 2; 
 }
 
+button[aria-label="Close"]{
+  tabindex="-1"
+}

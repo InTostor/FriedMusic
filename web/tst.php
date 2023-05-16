@@ -1,2 +1,2 @@
 <?php
-print_r($_GET);
+echo $_SERVER['HTTP_USER_AGENT'];

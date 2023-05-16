@@ -13,7 +13,7 @@ urlsFile = open("urls.txt")
 urls = urlsFile.readlines()
 urlsFile.close()
 
-def runPerlDownloader(url,delay=2,bitrate=320,dir="~/Music"):
+def runPerlDownloader(url,delay=1,bitrate=320,dir="~/Music"):
   cmd = f"perl ya.pl --bitrate {bitrate} --skip-existing -u '{url}' --cookie '{COOKIE}' --dir {dir} --delay {delay}"
   subprocess.run(cmd,shell=True)
 

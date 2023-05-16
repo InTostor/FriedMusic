@@ -8,6 +8,10 @@ require_once "$root/lib/fileWrapper.php";
 $uname = User::getUsername();
 $uroot = "$root/userdata/$uname/";
 
+if ($uname == "anonymous"){
+  header('Location: /login/');
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,9 +25,14 @@ $uroot = "$root/userdata/$uname/";
   <body>
   <script src = "/js/lib.js"></script>
 
+  <div class="pageLimiter">
+
+
+<?=html("$root/resources/userPanel.html");?>
 <?=html("$root/resources/player.html");?>
 <?=html("$root/resources/searcher.html");?>
-<?=html("$root/resources/userPanel.html");?>
+<script src="/js/userpanel.js"></script>
+  </div>
 
 </body>
 
@@ -51,5 +60,32 @@ a.use("radio")
 a.loadTrackIntoMusician()
 
 </script>
+<style>
+.pageLimiter{
+  flex-wrap: wrap;
+  max-height:100vh;
+  max-width:100vw;
+  height:100vh;
+  width:100vw;
+  display:flex;
+}
+.window{
+  margin:10px
+  
+}
+.userpanelHolder{
+  width:fit-content;
+
+  float: right;
+}
+.playerHolder{
+  width:30%;
+}
+
+div[class*='Holder']{
+  height: fit-content;
+}
+
+</style>
 
 </html>

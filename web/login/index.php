@@ -8,9 +8,7 @@ require_once "$root/settings/config.php";
 
 $error = "U R FKD";
 
-if ( User::getUsername() != "anonymous"){
-  $error = "u r logged, go away";
-}
+if(User::getUsername() != "anonymous"){header("location: /");}
 
 
 if (isset($_POST['login'])){
@@ -25,7 +23,9 @@ if (isset($_POST['login'])){
   );
   if ( Database::executeStmt("select count(*) from users where `username`= ? and `token`= ?","ss",[$uname,$utoken])[0]['count(*)'] >=1){
     User::rememberUser($uname,$upass);
-
+    header("location: /");
+  }else{
+    $error = "Wrong login or password or something broke";
   }
 
 }elseif (isset($_POST['register'])){
@@ -44,6 +44,7 @@ if (isset($_POST['login'])){
     $ugender = $_POST['register-gender'];
     Database::executeStmt("insert into users (`username`,`token`,`gender`) values (?,?,?)","sss",[$uname,$utoken,$ugender]);
     User::rememberUser($uname,$upass);
+    header("location: /");
   }else{
     $error = "This user already registered";
   }
@@ -52,10 +53,10 @@ if (isset($_POST['login'])){
 
 
 }
-echo"<pre>";print_r($_POST);echo"</pre>";
 
 $genderList = file("$root/data/genders.txt");
 
+if(User::getUsername() != "anonymous"){header("location: /");}
 ?>
 
 

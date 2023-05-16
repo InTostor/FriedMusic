@@ -1,6 +1,7 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
+$cookieTime = 157680000; // 5 years
 
 class User{
   static function getUsername($authmethod = "cookie"){
@@ -25,9 +26,10 @@ class User{
   }
 
   static function rememberUser($uname,$upass){
-  setcookie("who",$uname, time() +86400 * 30,"/");
-  setcookie("what",$upass, time() +86400 * 30,"/");
-  setcookie("slim_shady","chto_blya", time() +86400 * 30,"/");
+  global $cookieTime;
+  setcookie("who",$uname, time() +$cookieTime * 30,"/");
+  setcookie("what",$upass, time() +$cookieTime * 30,"/");
+  setcookie("slim_shady","chto_blya", time() +$cookieTime * 30,"/");
 }
 
 

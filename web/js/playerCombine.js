@@ -135,7 +135,8 @@ class AudioPlayer {
   }
 
   setVolume(value){
-    self.EsoundMaker.volume = value/100
+
+    self.EsoundMaker.volume = (value/100)**2
     self.Evolume.value = value
     $("playerVolumeText").innerText = "volume: "+value+"%"
   }

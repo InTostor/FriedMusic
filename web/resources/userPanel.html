@@ -1,15 +1,21 @@
+<script>
+
+  function logout(){
+    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+    document.location.reload()
+}
+</script>
+
 <div class="userpanelHolder">
   <div class="userpanelContainer window">
     <div class="title-bar">
-      <div class="title-bar-text">Stuff finder</div>
-      <div class="title-bar-controls">
-        <button aria-label="Minimize"></button>
-        <button aria-label="Maximize"></button>
-        <button aria-label="Close"></button>
-      </div>
+      <div class="title-bar-text">User actions</div>
     </div>
     <div class="window-body">
-
+      <div class="userpanelActionsSection">
+        <button onclick="logout()">logout</button>
+      </div>
+      <label for="userpanelPlaylists">Playlists</label>
       <div id="userpanelPlaylists" class="userpanelPlaylists sunken-panel">
         <div class="userpanelPlaylist" onclick="playRadio()" style="background-color: rgb(192, 0, 64);">gachimuchi wave FM</div>
 
@@ -22,6 +28,11 @@
 <style>
   .usernamePlaylists{
     display: flex;
+    
+  }
+  .userpanelPlaylists{
+    width:128px;
+    height:256px;
   }
   .userpanelContainer{
     max-width:500px;
@@ -29,64 +40,8 @@
   .userpanelPlaylist{
     width:80px;
     height:80px;
-    background-color: aqua;
     margin:10px;
     padding:10px;
     cursor: pointer
   }
 </style>
-
-<script>
-  function playRadio(){
-    a.use("radio")
-    a.loadTrackIntoMusician()
-  }
-  function reqPlayList(playlist,key = 0){
-    playlist = syncFetch(playlist).toString().split("\n")
-    a.use("playlist",playlist,key,"search")
-    a.loadTrackIntoMusician()
-  }
-
-
-  // hashing function
-String.prototype.hash = function() {
-  var hash = 0,
-    i, chr;
-  if (this.length === 0) return hash;
-  for (i = 0; i < this.length; i++) {
-    chr = this.charCodeAt(i);
-    hash = ((hash << 5) - hash) + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-}
-
-fetch("/api/getMyPlaylists.php").then((response) => response.text())
-.then(text => {drawPlaylists(text)})
-const playlistsHolder = $("userpanelPlaylists")
-
-function drawPlaylists(playlistsString){
-  console.log(playlistsString)
-  playlists = playlistsString.split("\n")
-  playlists.forEach(element => {
-    e = document.createElement("div")
-    e.className = "userpanelPlaylist"
-    var nameHash = element.hash()
-    let colR = Math.floor(((nameHash & 0xFF0000) >> 16) /64)*64
-    let colG = Math.floor(((nameHash & 0x00FF00) >> 8 ) /64)*64
-    let colB = Math.floor( (nameHash & 0x0000FF)        /64)*64
-
-    var color = `rgb( ${colR},${colG},${colB} )`
-    console.log(color)
-
-    uname = getCookie('who')
-    e.setAttribute('onclick',`reqPlayList('/userdata/${uname}/${element}')`)
-
-    e.style.backgroundColor = color
-    e.innerText = element
-    playlistsHolder.appendChild(e)
-  });
-
-}
-
-</script>
