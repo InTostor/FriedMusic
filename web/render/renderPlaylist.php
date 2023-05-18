@@ -99,10 +99,11 @@ foreach ($musicList as $key=>$track){
   }
 
   echo"</tr>";
+  
 }
 
 ?>
 </tbody>
 
-
+max 100 tracks
 </table>

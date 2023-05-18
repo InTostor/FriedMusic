@@ -1,6 +1,6 @@
 from tinytag import TinyTag
 import mysql.connector
-import os
+import os, time
 
 musicDir = "/home/intostor/Music"
 
@@ -14,7 +14,10 @@ db = mysql.connector.connect(
 cur = db.cursor()
 
 files = [x for x in os.listdir(musicDir)]
+files = sorted(files,key = lambda x: os.stat(musicDir+"/"+str(x)).st_atime,reverse=True)
 lf=len(files)
+
+t=time.time()
 
 for i,filename in enumerate(files):
   tag = TinyTag.get(musicDir+"/"+filename)
@@ -45,7 +48,12 @@ for i,filename in enumerate(files):
     vals = (filename,title,duration,album,genre,artist,year,filesize)
     cur.execute(sql,vals)
     db.commit()
+  if res=="0":
+    res="+"
+  else:
+    res=" "
   print(res, i+1,"/",lf)
 
 db.close()
 
+print("elapsed: ", time.time()-t)

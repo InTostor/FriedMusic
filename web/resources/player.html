@@ -2,7 +2,7 @@
 <!-- this is parent object in html. inside is js generated code-->
 <div class="playerHolder"id="playerHolder">
   <div class="playerContainer col window">
-    <audio id="playerSoundMaker" preload="metadata" ontimeupdate="a.updateSeeker(this.currentTime)" ondurationchange="a.setSeekerRange()" onended="a.trackEnded()"></audio>
+    <audio id="playerSoundMaker" preload="none" ontimeupdate="a.updateSeeker(this.currentTime)" ondurationchange="a.setSeekerRange()" onended="a.trackEnded()"></audio>
     <div class="title-bar">
       <div class="title-bar-text">Super Ultra hyper black cock player 40k</div>
     </div>
@@ -24,7 +24,7 @@
         <div class="playerSectionBottom row">
           <p id="playerTimeElapsed"class="playerTimeElapsed">00:00</p>
           <div class="playerVolumeSection col playerBottomCol">
-            <input id="playerVolumeRange"type="range" min="0" max="100" value="5" onchange="a.setVolume(this.value)"oninput="a.setVolume(this.value)"/>
+            <input id="playerVolumeRange"type="range" min="0" max="100" value="5" onchange="a.setVolume(this.value)"oninput="a.setVolume(this.value)" style="margin: auto 0 auto 0;">
             <label id="playerVolumeText"for="playerVolumeRange">volume</label>
           </div>
           <div class="playerActionsSection playerBottomCol">

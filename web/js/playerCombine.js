@@ -100,13 +100,13 @@ class AudioPlayer {
   play(){
     self.EsoundMaker.play()
     self.playing = self.EsoundMaker.playing
-    self.Eseeker.max = self.EsoundMaker.duration
+    this.setSeekerRange(self.EsoundMaker.duration)
     this.updatePlayIcon()
   }
   pause(){
     self.EsoundMaker.pause()
     self.paused = self.EsoundMaker.paused
-    self.Eseeker.max = self.EsoundMaker.duration
+    this.setSeekerRange(self.EsoundMaker.duration)
     this.updatePlayIcon()
   }
 
@@ -139,6 +139,7 @@ class AudioPlayer {
     self.EsoundMaker.volume = (value/100)**2
     self.Evolume.value = value
     $("playerVolumeText").innerText = "volume: "+value+"%"
+    setCookie('volume',`${value}`,1825)
   }
 
   setSeekerRange(dur){
@@ -180,6 +181,7 @@ class AudioPlayer {
     self.EtrackInfo.textContent = "playing "+self.currentTrackName + " from: " + self.srcName
     document.title = self.currentTrackName
     this.updatePlayIcon()
+    this.setSeekerRange(self.EsoundMaker.duration)
   }
 
   updateFavouriteIcon(){

@@ -6,7 +6,7 @@ require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
 require_once "$root/settings/config.php";
 
-$error = "U R FKD";
+$error = "";
 
 if(User::getUsername() != "anonymous"){header("location: /");}
 
@@ -40,10 +40,10 @@ if (isset($_POST['login'])){
       10,
       45
     );
-    echo "SHIT";
     $ugender = $_POST['register-gender'];
     Database::executeStmt("insert into users (`username`,`token`,`gender`) values (?,?,?)","sss",[$uname,$utoken,$ugender]);
     User::rememberUser($uname,$upass);
+    User::makeDirectory($uname);
     header("location: /");
   }else{
     $error = "This user already registered";

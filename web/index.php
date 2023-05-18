@@ -16,6 +16,7 @@ if ($uname == "anonymous"){
 <!DOCTYPE html>
 <html>
   <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="stylesheet" href="/styles/98.css">
     <!-- <link rel="stylesheet" href="https://unpkg.com/xp.css" /> -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/7.css"> -->
@@ -59,27 +60,75 @@ function reqPlayTrack(key,src,type){
 a.use("radio")
 a.loadTrackIntoMusician()
 
+// patch for mobile devices
+if (isMobile()){
+a.setVolume(100)
+}else{
+  let cookieVol =  getCookie('volume')
+  if (cookieVol != ""){
+    a.setVolume(cookieVol)
+  }
+}
+
 </script>
+
 <style>
 .pageLimiter{
   flex-wrap: wrap;
   max-height:100vh;
   max-width:100vw;
-  height:100vh;
   width:100vw;
   display:flex;
+  margin:0px;
+  padding:0px;
 }
 .window{
   margin:10px
-  
 }
+@media (max-width:600px){
+  .window{
+    margin:0px;
+    width: calc(100% - 6px);
+    max-width: calc(100% - 6px);
+  }
+  *{
+    font-family: unset;
+    font-size:12px;
+  }
+  div[class*="Holder"] {
+  width: 100%;
+  }
+  .userpanelPlaylists{
+    width:100%;
+    display: flex;
+    height:fit-content;
+  }
+  .pageLimiter{
+    justify-content: flex-start;
+  }
+  div[class*='Container']{
+    width: 100%;
+  }
+  /* player fix */
+  .playerTrackActionButton{
+    width: 48px;
+    height:48px;
+  }
+  .playerTrackActionIco{
+    height:32px;
+  }
+  input[type="range"]::-moz-range-track{
+    height:4px;
+  }
+  input[type="range"]::-moz-range-thumb{
+    scale: 2 2;
+  }
+}
+
 .userpanelHolder{
   width:fit-content;
 
   float: right;
-}
-.playerHolder{
-  width:30%;
 }
 
 div[class*='Holder']{

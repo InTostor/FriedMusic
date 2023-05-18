@@ -13,6 +13,8 @@ body {
   /* background: Teal; */
   background-image: url("/resources/Clouds.png");
   background-size: cover;
+  margin:0px;
+  padding:0px;
 }
 
 table {
