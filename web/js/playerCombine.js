@@ -3,7 +3,16 @@
 SAVETOHISTORYTIME = 15
 
 class AudioPlayer {
-  constructor(){
+  loop
+  shuffle
+  srcType
+  src
+  savedToHistory
+  trackNumber
+
+  
+  constructor(loop="none",shuffle=false,srcType=null,src="",trackNumber = null){
+
     // html elements
     self.EtrackInfo = $("playerTrackMeta")
     self.Eseeker = $("playerSeeker")
@@ -15,12 +24,13 @@ class AudioPlayer {
     self.EplaylistHolder = $("playerPlaylistHolder")
     self.EsoundMaker = $("playerSoundMaker")
     // properties
-    self.loop = "none"
-    self.shuffle = false
+    self.loop = loop
+    self.shuffle = shuffle
     self.musicRoot = "/Music/"
-    self.srcType = null
-    self.src = ""
+    self.srcType = srcType
+    self.src = src
     self.savedToHistory = false
+    self.trackNumber = trackNumber
     // listeners & handlers
     navigator.mediaSession.setActionHandler('play', () => this.play());
     navigator.mediaSession.setActionHandler('pause', () => this.pause());
@@ -33,6 +43,10 @@ class AudioPlayer {
     // set up
     self.EsoundMaker.volume = self.Eseeker.value/100
   }
+  serialize(){
+    return [self.loop,self.shuffle,self.srcType,self.src,self.trackNumber]
+  }
+
   use(type,src="",trackNumber=0,playlistName=""){
     self.srcType = type
     self.src = src
@@ -59,13 +73,13 @@ class AudioPlayer {
     }
   }
   drawPlaylist(playlist){
-    console.log("redraw")
     let table = document.createElement("table")
     let trackField
     let trackPlay
     let trackNumber = 0
+    let e
     playlist.forEach(track => {
-
+      
       e = document.createElement("tr")
       trackField = document.createElement("td")
       trackField.innerHTML=track
@@ -79,6 +93,7 @@ class AudioPlayer {
       trackNumber+=1
     });
     self.EplaylistHolder.replaceChildren(table)
+    this.updateTrackInfo()
   }
 
   setTrackNumber(tn){
@@ -122,13 +137,17 @@ class AudioPlayer {
     if (srcType == "playlist" & self.trackNumber>0){
       self.trackNumber -= 1
     }
+    if (srcType=="radio"){
+    }
+    self.savedToHistory = false
+    this.loadTrackIntoMusician()
+    this.play()
   }
   next(){
     if (srcType == "playlist" & self.trackNumber<src.length-1){
       self.trackNumber += 1
     }
-    if (srcType=="radio"){
-    }
+
     self.savedToHistory = false
     this.loadTrackIntoMusician()
     this.play()
@@ -178,10 +197,15 @@ class AudioPlayer {
     self.EsoundMaker.load()
     self.trackInFavourite = syncFetch("/api/isInFavourite.php?track="+self.currentTrackName)=="true"
     this.updateFavouriteIcon()
-    self.EtrackInfo.textContent = "playing "+self.currentTrackName + " from: " + self.srcName
-    document.title = self.currentTrackName
+    this.updateTrackInfo()
     this.updatePlayIcon()
     this.setSeekerRange(self.EsoundMaker.duration)
+    storeObjectToCookie(this.serialize(),"player")
+  }
+
+  updateTrackInfo(){
+    self.EtrackInfo.textContent = "playing "+self.currentTrackName + " from: " + self.srcName
+    document.title = self.currentTrackName
   }
 
   updateFavouriteIcon(){
@@ -256,9 +280,13 @@ class AudioPlayer {
       case "playlist":
         if (self.srcType == "playlist"){
           self.trackNumber+=1
-          if (self.trackNumber>self.src.length()){
-            self.trackNumber = 0
+          if (self.trackNumber>self.src.length-1){
+            self.trackNumber = 0  
+            this.loadTrackIntoMusician()      
+          }else{
+            this.next()
           }
+          this.play()
         }
         break
       case "track":

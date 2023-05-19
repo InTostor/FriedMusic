@@ -1,0 +1,52 @@
+<style>
+  var{
+    color: red;
+  }
+  pre{
+    color:darkslategray;
+  }
+</style>
+
+
+If you are user, you might get there by accident. But if you are developer, read the documentation for api
+
+<p>
+
+<pre>
+/addTrackToHistory.php?track=<var>track</var>
+</pre>
+adds <var>track</var> to current user's <var>history.fpl</var> file <br><br>
+
+<pre>
+/addTrackToPlaylist.php?track=<var>track</var>&playlist=<var>playlist</var>
+</pre>
+adds <var>track</var> to the users <var>playlist.fpl</var> . If playlist is not existing, it will be created <br><br>
+
+<pre>
+/getLoggedAs.php
+</pre>
+returns current username if logged in or anonymous if not<br><br>
+
+<pre>
+/getMyPlaylists.php
+</pre>
+returns current user's playlists as plaintext (line separated)<br><br>
+
+<pre>
+/getNextTrack.php?h=<var>HistoryChance</var>&r=<var>RandomChance</var>&t=<var>TrackChance</var>&a=<var>ArtistChance</var>
+</pre>
+returns next recommended track. If no parameters given, using preset chances.   <br>
+generator is rolling dice twice: first time it is picking source (history.fpl or favourite.fpl) then return track from source itself or random track with same artist or same genre <br>
+you can use h,r,t,a parameters (all or none) to control chances. Values aren't limited in range<br><br>
+
+<pre>
+/isInFavourite.php?track=<var>track</var>
+</pre>
+returns true if <var>track</var> is in current user's favourite.fpl<br><br>
+
+<pre>
+  /rememberSearch.php?type=<var>type</var>&query=<var>query</var>
+</pre>
+stores result of <var>query</var> in user's seacrh.fpl.  <pre><var>type</var> = query | track | artist | genre</pre>
+
+</p>

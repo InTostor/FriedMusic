@@ -18,7 +18,24 @@ if ( $uname == "anonymous" ){
   http_response_code(401);
   die;
 }
-// header('Content-Type: text/plain');
+
+if ( isset($_GET['h']) and isset($_GET['r']) and isset($_GET['t']) and isset($_GET['a']) ){
+  $historyChance = $_GET['h']/($_GET['h'] + $_GET['r'])*100;
+  $randomChance = $_GET['r']/($_GET['h'] + $_GET['r'])*100;
+  $trackChance = $_GET['t']/($_GET['t'] + $_GET['a'])*100;
+  $artistChance = $_GET['a']/($_GET['t'] + $_GET['a'])*100;
+}else{
+  $historyChance = 54;
+  // favourite chance is calculated as it is in middle of range
+  $randomChance = 0;
+  
+  $trackChance = 20;
+  $artistChance = 40;
+}
+
+
+
+header('Content-Type: text/plain');
 
 $oldRolls = File::getAsArray("$uroot/oldRoll.frf");
 
@@ -26,25 +43,22 @@ $oldRolls = File::getAsArray("$uroot/oldRoll.frf");
 reroll:
 // source
 $rng = rand(1,100);
-if ($rng<=54){
+if ($rng<=$historyChance){
   $src = "history";
-}elseif ($rng<=97){
+}elseif ($rng>$historyChance and $rng<100-$randomChance){
   $src = "favourite";
 }else{
   $src = "any";
 }
 // level
-$rng = rand(1,10);
-if ($rng<=2){
+$rng = rand(1,100);
+if ($rng<=$trackChance){
   $level = "track";
-}elseif ($rng<=6){
+}elseif ($rng<=100-$artistChance){
   $level = "artist";
 }else{
   $level = "genre";
 }
-
-
-$level = "genre";
 
 
 $retTrack = "na";
@@ -68,6 +82,7 @@ goto reroll;
 }
 File::addToLimited("$uroot/oldRoll.frf",10,$retTrack);
 echo($retTrack);
+
 
 function secondIteration($tracks,$level){
   switch ($level){

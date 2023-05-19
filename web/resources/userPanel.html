@@ -12,13 +12,17 @@
       <div class="title-bar-text">User actions</div>
     </div>
     <div class="window-body">
-      <div class="userpanelActionsSection">
+      <div class="userpanelSection" id="profile">
         <button onclick="logout()">logout</button>
-      </div>
-      <label for="userpanelPlaylists">Playlists</label>
-      <div id="userpanelPlaylists" class="userpanelPlaylists sunken-panel">
-        <div class="userpanelPlaylist" onclick="playRadio()" style="background-color: rgb(192, 0, 64);">gachimuchi wave FM</div>
 
+
+      </div>
+
+      <div class="userpanelSection" id="playlists">
+        <label for="userpanelPlaylists">Playlists</label>
+        <div id="userpanelPlaylists" class="userpanelPlaylists sunken-panel">
+          <div class="userpanelPlaylist" onclick="playRadio()" style="background-color: rgb(192, 0, 64);">gachimuchi wave FM</div>
+        </div>
       </div>
 
     </div>
@@ -26,9 +30,10 @@
 </div>
 
 <style>
+
+
   .usernamePlaylists{
-    display: flex;
-    
+    display: flex;    
   }
   .userpanelPlaylists{
     width:128px;

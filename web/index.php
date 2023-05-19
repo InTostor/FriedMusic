@@ -41,6 +41,7 @@ if ($uname == "anonymous"){
 
 
 <script>
+
 let currPlaylist = []
 
 function reqPlayTrack(key,src,type){
@@ -48,17 +49,32 @@ function reqPlayTrack(key,src,type){
     case "search":
       currPlaylist = syncFetch("/userdata/<?=$uname?>/search.fpl").toString()
       currPlaylist = currPlaylist.split("\n")
+      console.log(currPlaylist)
+      reqPlayList('/userdata/<?=$uname?>/search.fpl')
       a.use("playlist",currPlaylist,key,"search")
       break
   
   }
   
   a.loadTrackIntoMusician()
+  a.play()
 }
 
 
+
+if (getObjectFromCookie("player") == null){
 a.use("radio")
 a.loadTrackIntoMusician()
+
+}else{
+  console.log("FFF")
+  let [loop,shuffle,srcType,src,tracknumber] = getObjectFromCookie("player")
+  a=null
+  a = new AudioPlayer(loop,shuffle,srcType,src,tracknumber)
+  // this is player update
+  a.next()
+  a.prev()
+}
 
 // patch for mobile devices
 if (isMobile()){
