@@ -49,7 +49,6 @@ function reqPlayTrack(key,src,type){
     case "search":
       currPlaylist = syncFetch("/userdata/<?=$uname?>/search.fpl").toString()
       currPlaylist = currPlaylist.split("\n")
-      console.log(currPlaylist)
       reqPlayList('/userdata/<?=$uname?>/search.fpl')
       a.use("playlist",currPlaylist,key,"search")
       break

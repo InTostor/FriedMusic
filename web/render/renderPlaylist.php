@@ -66,7 +66,8 @@ foreach ($musicList as $key=>$track){
   $duration = gmdate("i:s", $track['duration']);
   $filename = $track['filename'];
   $genre = $track['genre'];
-  $title = preg_replace("/\(.+\)/m",'',$track['title']);
+  // $title = preg_replace("/\(.+\)/m",'',$track['title']);
+  $title = $track['title']; //beacuse some songs have (name) and other (metadata)
   $artists=[];
   $fav = '/resources/directory_favorites-2.png';
   if (File::isInFile($filename,$root."/userdata/".User::getUsername()."/favourite.fpl")){
