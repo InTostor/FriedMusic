@@ -3,6 +3,8 @@
 // elastic search for fuzzy track generating, more lists of track (white/black)
 // and maybe machine learning algohritms for most accurate track generation.
 
+error_reporting(0);
+
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
@@ -34,7 +36,6 @@ if ( isset($_GET['h']) and isset($_GET['r']) and isset($_GET['t']) and isset($_G
 }
 
 
-
 header('Content-Type: text/plain');
 
 $oldRolls = File::getAsArray("$uroot/oldRoll.frf");
@@ -64,20 +65,34 @@ if ($rng<=$trackChance){
 $retTrack = "na";
 switch ($src){
   case "history":
-    $tracks = File::getAsArray($root."/userdata/$uname/history.fpl");
+    try{
+      $tracks = array_filter(File::getAsArray($root."/userdata/$uname/history.fpl"));
+    }catch(Exception){
+      goto reroll;
+    }
+    
     $retTrack = secondIteration($tracks,$level);
     break;
   case "favourite":
-    $tracks = File::getAsArray($root."/userdata/$uname/favourite.fpl");
+    try{
+      $tracks = array_filter(File::getAsArray($root."/userdata/$uname/favourite.fpl"));
+    }catch(Exception){
+      goto reroll;
+    }
+    
     $retTrack = secondIteration($tracks,$level);
     break;
   case "anyF":
     // $track = Track::getSameBy()
 }
 
-$retTrack = $retTrack['filename'];
 
-if ($retTrack == "na" or in_array($retTrack,$oldRolls)){
+if ( is_array($retTrack) ){
+  $retTrack = $retTrack['filename'];
+}
+
+
+if ($retTrack == "na" or $retTrack == "" or in_array($retTrack,$oldRolls)){
 goto reroll;
 }
 File::addToLimited("$uroot/oldRoll.frf",10,$retTrack);
@@ -85,9 +100,14 @@ echo($retTrack);
 
 
 function secondIteration($tracks,$level){
+  reroll2:
   switch ($level){
     case "track":
-      return $tracks[rngw(1,sizeof($tracks))];
+      try{
+        return $tracks[rngw(1,sizeof($tracks))];
+      }catch(Exception){
+        goto reroll2;
+      }
       break;
     case "artist":
       $artist = Track::getMetaData($tracks[rngw(2,sizeof($tracks))])['artist'];

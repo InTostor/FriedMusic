@@ -1,17 +1,26 @@
 <?php
 ini_set('display_errors', '1');
-
 $root = $_SERVER['DOCUMENT_ROOT'];
+
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
 require_once "$root/settings/config.php";
+require_once "$root/lib/dev.php";
 
 $error = "";
+$isWeb = !isset($_GET['client']);
 
-if(User::getUsername() != "anonymous"){header("location: /");}
+if(User::getUsername() != "anonymous"){
+  if ($isWeb){
+    header("location: /");
+  }else{
+    echo "ok";
+    die();
+  }
+}
 
 
-if (isset($_POST['login'])){
+if (isset($_POST['login-username'])){
   $uname = $_POST['login-username'];
   $upass = hash('md5',$_POST['login-password']);
   $utoken = hash_pbkdf2(
@@ -21,14 +30,20 @@ if (isset($_POST['login'])){
     10,
     45
   );
+
   if ( Database::executeStmt("select count(*) from users where `username`= ? and `token`= ?","ss",[$uname,$utoken])[0]['count(*)'] >=1){
     User::rememberUser($uname,$upass);
-    header("location: /");
+    if ($isWeb){
+      header("location: /");
+    }else{
+      echo "ok";
+    }
   }else{
     $error = "Wrong login or password or something broke";
+    if(!$isWeb){echo "failed";}
   }
 
-}elseif (isset($_POST['register'])){
+}elseif (isset($_POST['register-username'])){
   $uname = $_POST['register-username'];
   //  check if username is free
   if ( Database::executeStmt("select count(*) from users where username=?","s",[$uname])[0]['count(*)'] =='0'){
@@ -44,19 +59,26 @@ if (isset($_POST['login'])){
     Database::executeStmt("insert into users (`username`,`token`,`gender`) values (?,?,?)","sss",[$uname,$utoken,$ugender]);
     User::rememberUser($uname,$upass);
     User::makeDirectory($uname);
-    header("location: /");
+    if ($isWeb){
+      header("location: /");
+    }else{
+      echo "ok";
+    }
   }else{
     $error = "This user already registered";
+    if(!$isWeb){echo "failed";}
   }
-
-
-
 
 }
 
+if(!$isWeb){
+  die();
+}
 $genderList = file("$root/data/genders.txt");
 
 if(User::getUsername() != "anonymous"){header("location: /");}
+// don't show html if page is requested by standalone client
+
 ?>
 
 

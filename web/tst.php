@@ -1,7 +1,16 @@
 <?php
-header('WWW-Authenticate: Basic realm="My Realm"');
-phpinfo();
-echo $_SERVER['PHP_AUTH_USER'];echo"<br>";
-echo $_SERVER['PHP_AUTH_PW'];
+$root = $_SERVER['DOCUMENT_ROOT'];
+require_once "$root/lib/dev.php";
 
-echo var_dump(isset($_SERVER['PHP_AUTH_USER']));
+
+fout($_FILES);
+
+fout($_FILES[0]);
+
+
+?>
+<form action="" method="post" enctype="multipart/form-data">
+    Upload a File:
+    <input type="file" name="the_file" id="fileToUpload">
+    <input type="submit" name="submit" value="Start Upload">
+</form>

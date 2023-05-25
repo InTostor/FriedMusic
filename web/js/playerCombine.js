@@ -7,7 +7,7 @@ class AudioPlayer {
   shuffle
   srcType
   src
-  savedToHistory
+  savedToHistory = false
   trackNumber
 
   

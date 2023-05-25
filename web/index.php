@@ -32,6 +32,7 @@ if ($uname == "anonymous"){
 <?=html("$root/resources/userPanel.html");?>
 <?=html("$root/resources/player.html");?>
 <?=html("$root/resources/searcher.html");?>
+
 <script src="/js/userpanel.js"></script>
   </div>
 
