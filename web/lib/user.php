@@ -47,7 +47,7 @@ class User{
   
   static function makeDirectory($uname){
     global $root;
-    mkdir("$root/userdata/$uname");
+    mkdir("$root/userdata/$uname",);
   }
 
   static function rememberUser($uname,$upass){

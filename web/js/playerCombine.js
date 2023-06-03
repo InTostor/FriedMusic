@@ -1,4 +1,22 @@
+const showButton = document.getElementById('showDialog');
+const favDialog = document.getElementById('favDialog');
+const outputBox = document.querySelector('output');
+const selectEl = favDialog.querySelector('select');
+const confirmBtn = favDialog.querySelector('#confirmBtn');
+favDialog.addEventListener('close', (e) => {
+  outputBox.value = favDialog.returnValue === 'default' ? "No return value." : `ReturnValue: ${favDialog.returnValue}.`; // Have to check for "default" rather than empty string
+});
 
+
+fetch("/api/getMyPlaylists.php").then((response) => response.text())
+.then(text => {
+  playlists = text.split("\n")
+  playlists.forEach(element => {
+    e = document.createElement("option")
+    e.innerHTML = element.replace(".fpl","")
+    $("playlistSelectModal").appendChild(e)
+  });
+})
 
 SAVETOHISTORYTIME = 15
 
@@ -39,6 +57,14 @@ class AudioPlayer {
     // navigator.mediaSession.setActionHandler('seekto', () => console.log('seekto'));
     navigator.mediaSession.setActionHandler('previoustrack', () => this.prev());
     navigator.mediaSession.setActionHandler('nexttrack', () => this.next());
+
+    confirmBtn.addEventListener('click', (event) => {
+      console.log("FFF")
+      self.tempList = favDialog.returnValue
+      this.addToPlaylistFull(self.tempTrack,self.tempList)
+      event.preventDefault(); // We don't want to submit this fake form
+      favDialog.close(selectEl.value); // Have to send the select box value here.
+    });
 
     // set up
     self.EsoundMaker.volume = self.Eseeker.value/100
@@ -227,8 +253,18 @@ class AudioPlayer {
     this.updateFavouriteIcon()
   }
 
-  addToPlaylist(track = self.currentTrackName){
-    alert("not implemented")
+  addToPlaylist(track){
+    if (track !=""){
+      self.tempTrack = track
+    }else{
+      self.tempTrack = self.currentTrackName
+    }
+    favDialog.showModal();
+  }
+  addToPlaylistFull(track,playlist){
+    console.log(track)
+    console.log(playlist)
+    fetch(`/api/addTrackToPlaylist.php?track=${track}&playlist=${playlist}`)
   }
 
   loopList(){

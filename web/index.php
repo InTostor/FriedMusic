@@ -21,6 +21,9 @@ if ($uname == "anonymous"){
     <!-- <link rel="stylesheet" href="https://unpkg.com/xp.css" /> -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/7.css"> -->
     <link rel="stylesheet" href="/styles/main.css">
+    <noscript>
+      Javascript should be enabled for player to be functional
+    </noscript>
 
   </head>
   <body>
@@ -37,6 +40,11 @@ if ($uname == "anonymous"){
   </div>
 
 </body>
+
+
+
+
+
 
 
 
@@ -59,7 +67,6 @@ function reqPlayTrack(key,src,type){
   a.loadTrackIntoMusician()
   a.play()
 }
-
 
 
 if (getObjectFromCookie("player") == null){

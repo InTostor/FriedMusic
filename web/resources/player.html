@@ -1,5 +1,22 @@
+<!-- A modal dialog containing a form -->
+<dialog id="favDialog">
+  <form>
+    <p>
+      <label>Add track to playlist:
+        <select id="playlistSelectModal">
 
-<!-- this is parent object in html. inside is js generated code-->
+        </select>
+      </label>
+    </p>
+    <div>
+      <button value="cancel" formmethod="dialog">Cancel</button>
+      <button id="confirmBtn" value="default">Confirm</button>
+    </div>
+  </form>
+</dialog>
+<output></output>
+
+
 <div class="playerHolder"id="playerHolder">
   <div class="playerContainer col window">
     <audio id="playerSoundMaker" preload="none" ontimeupdate="a.updateSeeker(this.currentTime)" ondurationchange="a.setSeekerRange()" onended="a.trackEnded()"></audio>
@@ -29,7 +46,7 @@
           </div>
           <div class="playerActionsSection playerBottomCol">
             <button id="playerActionFavourite" class="playerTrackActionButton" onclick="a.toFavourite()"><img class="playerTrackActionIco" src="/resources/directory_favorites-2.png"></button>
-            <button id="playerActionToPlaylist" class="playerTrackActionButton"onclick="a.addToPlaylist()"><img class="playerTrackActionIco" src="/resources/directory_open_file_mydocs-4.png"></button>
+            <button id="playerActionToPlaylist" class="playerTrackActionButton"onclick="a.addToPlaylist('')"><img class="playerTrackActionIco" src="/resources/directory_open_file_mydocs-4.png"></button>
             <button id="playerShuffle" class="playerTrackActionButton" onclick="a.shufflePlay(this)"><img class="playerTrackActionIco" src="/resources/shuffle.svg"></button>
             <button id="playerLoopPlaylist" class="playerTrackActionButton" onclick="a.loopList(this)"><img class="playerTrackActionIco" src="/resources/repeat.svg"></button>
             <button id="playerLoopTrack" class="playerTrackActionButton" onclick="a.loopTrack(this)"><img class="playerTrackActionIco" src="/resources/repeatOnce.svg"></button>

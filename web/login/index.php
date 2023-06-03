@@ -85,6 +85,7 @@ if(User::getUsername() != "anonymous"){header("location: /");}
 <DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <link rel="stylesheet"href="/styles/98.css">
 </head>
 

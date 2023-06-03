@@ -98,14 +98,14 @@ If you are user, you might get there by accident. But if you are developer, read
   /rememberSearch.php?type=<var>type</var>&query=<var>query</var>
   </pre>
   <p>
-    stores result of <var>query</var> in user's seacrh.fpl.  <pre><var>type</var> = query | track | artist | genre</pre><br>
+    stores result of <var>query</var> in user's search.fpl.  <pre><var>type</var> = query | track | artist | genre</pre><br>
   </p>
 </div>
 
 <div class="apiFunction">
   <span class="material-symbols-outlined">table</span>
   <pre>
-  /seacrhTrack.php?type=<var>type</var>&query=<var>query</var>&limit=<var>limit</var>
+  /searchTrack.php?type=<var>type</var>&query=<var>query</var>&limit=<var>limit</var>
   </pre>
   <p>
     returns json with all found tracks and it's metadata. <pre><var>[limit]</var> = int[0;inf]</pre> <pre><var>type</var> = query | track | artist | genre</pre> <span class="warning">Warning!</span> Response can be very heavy
