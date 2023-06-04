@@ -8,13 +8,13 @@
          <label for="searchQuery">Search query</label>
          <input id="searchQuery" type="text"  placeholder="Oxxxymiron - Что такое империя?">
          <label for="searchQueryType">Search for:</label>
-         <select id="searchQueryType"class="searchQueryType" onchange="s.search()">
+         <select id="searchQueryType"class="searchQueryType" oninput="s.search()">
            <option>Query</option>
            <option>Artist</option>
            <option>Genre</option>
            <option>Album</option>
          </select>
-         <button class="searchSubmitButton"><img alt="searchButton"class="searchSubmitIco"src="/resources/search_directory-5.png"></button></button>
+         <button class="searchSubmitButton" title="search tracks"onclick="s.search()"><img alt="search tracks"class="searchSubmitIco"src="/resources/search_directory-5.png"></button></button>
        </div>
        <div class="sunken-panel" id="searchTableHolder">
        </div>

@@ -13,15 +13,15 @@
     </div>
     <div class="window-body">
       <div class="userpanelSection" id="profile">
-        <button onclick="logout()">logout</button>
+        <button onclick="logout()" aria-label="Logout">logout</button>
 
 
       </div>
 
       <div class="userpanelSection" id="playlists">
-        <label for="userpanelPlaylists">Playlists</label>
+        Playlists
         <div id="userpanelPlaylists" class="userpanelPlaylists sunken-panel">
-          <div class="userpanelPlaylist" onclick="playRadio()" style="background-color: rgb(192, 0, 64);">gachimuchi wave FM</div>
+          <button class="userpanelPlaylist" onclick="playRadio()" style="box-shadow: inset 0 0 0 15px rgb(192, 0, 64);">gachimuchi wave FM</button>
         </div>
       </div>
 
@@ -44,11 +44,12 @@
     max-width:500px;
   }
   .userpanelPlaylist{
-    width:80px;
-    height:80px;
+    width:100px;
+    height:100px;
     margin:10px;
-    padding:10px;
+    padding:15px;
     cursor: pointer;
     aspect-ratio: 1;
+    min-width: unset;
   }
 </style>

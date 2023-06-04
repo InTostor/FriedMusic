@@ -17,9 +17,7 @@ if (isset($_GET['file'])){
     http_response_code(400);
     die();
   }
-  try{
+  if (file_exists("$uroot/$filename")){
     unlink("$uroot/$filename");
-  }catch(Exception){
-    // do nothing
   }
 }

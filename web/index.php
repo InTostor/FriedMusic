@@ -14,9 +14,9 @@ if ($uname == "anonymous"){
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="stylesheet" href="/styles/98.css">
     <!-- <link rel="stylesheet" href="https://unpkg.com/xp.css" /> -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/7.css"> -->
@@ -125,6 +125,7 @@ a.setVolume(100)
     width:100%;
     display: flex;
     height:fit-content;
+    overflow-x: unset;
   }
   .pageLimiter{
     justify-content: flex-start;

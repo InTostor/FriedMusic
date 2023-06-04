@@ -32,7 +32,7 @@ const playlistsHolder = $("userpanelPlaylists")
 function drawPlaylists(playlistsString){
 playlists = playlistsString.split("\n")
 playlists.forEach(element => {
-  e = document.createElement("div")
+  e = document.createElement("button")
   e.className = "userpanelPlaylist"
   var nameHash = element.hash()
   let colR = Math.floor(((nameHash & 0xFF0000) >> 16) /64)*64
@@ -40,12 +40,12 @@ playlists.forEach(element => {
   let colB = Math.floor( (nameHash & 0x0000FF)        /64)*64
 
   var color = `rgb( ${colR},${colG},${colB} )`
-  console.log(color)
 
   uname = getCookie('who')
   e.setAttribute('onclick',`reqPlayList('/userdata/${uname}/${element}')`)
 
-  e.style.backgroundColor = color
+  // e.style.backgroundColor = color
+  e.style.boxShadow = `inset 0 0 0 15px ${color}`
   e.innerText = element
   playlistsHolder.appendChild(e)
 });

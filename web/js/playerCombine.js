@@ -3,17 +3,13 @@ const favDialog = document.getElementById('favDialog');
 const outputBox = document.querySelector('output');
 const selectEl = favDialog.querySelector('select');
 const confirmBtn = favDialog.querySelector('#confirmBtn');
-favDialog.addEventListener('close', (e) => {
-  outputBox.value = favDialog.returnValue === 'default' ? "No return value." : `ReturnValue: ${favDialog.returnValue}.`; // Have to check for "default" rather than empty string
-});
-
 
 fetch("/api/getMyPlaylists.php").then((response) => response.text())
 .then(text => {
   playlists = text.split("\n")
   playlists.forEach(element => {
     e = document.createElement("option")
-    e.innerHTML = element.replace(".fpl","")
+    e.innerHTML = element
     $("playlistSelectModal").appendChild(e)
   });
 })
@@ -111,7 +107,7 @@ class AudioPlayer {
       trackField.innerHTML=track
       trackPlay = document.createElement("button")
       trackPlay.setAttribute('onclick',`a.setTrackNumber(${trackNumber})`)
-      trackPlay.innerHTML = `<img class="playerTrackActionIco" src="/resources/Octicons-playback-play.svg">`
+      trackPlay.innerHTML = `<img class="playerTrackActionIco" src="/resources/Octicons-playback-play.svg" alt="play ${track}">`
       trackPlay.className = "playerTrackActionButton"
       e.appendChild(trackField)
       e.appendChild(trackPlay)
@@ -246,9 +242,9 @@ class AudioPlayer {
   toFavourite(track = self.currentTrackName){
     this.updateFavouriteIcon()
     if (self.trackInFavourite){
-      fetch("/api/addTrackToPlaylist.php?playlist=favourite&remove=true&track="+track)
+      fetch("/api/addTrackToPlaylist.php?playlist=favourite.fpl&remove=true&track="+track)
     }else{
-      fetch("/api/addTrackToPlaylist.php?playlist=favourite&track="+track)
+      fetch("/api/addTrackToPlaylist.php?playlist=favourite.fpl&track="+track)
     }
     this.updateFavouriteIcon()
   }

@@ -13,6 +13,9 @@ class File{
     fclose($f);
     return $arr;
   }
+  static function arrayToFile($path,$array){
+    // file_put_contents();
+  }
   static function open($path,$mode="r"){
     if ( !file_exists($path) ){
       fclose(fopen($path,"x"));

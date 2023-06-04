@@ -3,7 +3,7 @@
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/user.php";
 require_once "$root/lib/fileWrapper.php";
-
+require_once "$root/lib/dev.php";
 
 $uname = User::getUsername();
 
@@ -21,6 +21,12 @@ if ( !isset($_GET['track']) and !isset($_GET['playlist']) ){
 $track = $_GET['track'];
 $playlistG = $_GET['playlist'];
 
+if (!str_ends_with($playlistG,".fpl")){
+  echo "400";
+  http_response_code(400);
+  die;
+}
+
 $userRoot = "$root/userdata/$uname";
 
 // create user's directory if there is no
@@ -29,8 +35,8 @@ if ( !file_exists($userRoot) ){
 }
 // create favourites file
 
-$playlistFile = File::open("$userRoot/$playlistG.fpl","r");
-$hFileSize = filesize("$userRoot/$playlistG.fpl");
+$playlistFile = File::open("$userRoot/$playlistG","r");
+$hFileSize = filesize("$userRoot/$playlistG");
 if ($hFileSize==0){
   $playlist = array("");
 }else{
@@ -46,8 +52,9 @@ if (isset($_GET['remove'])){
   array_push($playlist,$track);
 }
 
+$playlist = array_filter($playlist);
 
-$playlistFile = File::open("$userRoot/$playlistG.fpl","w");
+$playlistFile = File::open("$userRoot/$playlistG","w");
 fwrite($playlistFile,implode("\n",$playlist));
 fclose($playlistFile);
 echo "OK";

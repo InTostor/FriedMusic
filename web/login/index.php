@@ -83,10 +83,11 @@ if(User::getUsername() != "anonymous"){header("location: /");}
 
 
 <DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<link rel="stylesheet"href="/styles/98.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <link rel="stylesheet"href="/styles/98.css">
+  <title>Login into account</title>
 </head>
 
 <body>
@@ -94,11 +95,7 @@ if(User::getUsername() != "anonymous"){header("location: /");}
 <div class="window login-form" style="width: max(50%,217px)">
   <div class="title-bar">
     <div class="title-bar-text">Login to your account</div>
-    <div class="title-bar-controls">
-      <button aria-label="Minimize"></button>
-      <button aria-label="Maximize"></button>
-      <button aria-label="Close"></button>
-    </div>
+
   </div>
     <div class="window-body" >
 
@@ -125,11 +122,7 @@ if(User::getUsername() != "anonymous"){header("location: /");}
 <div class="window register-form" style="width: max(50%,217px)">
   <div class="title-bar">
     <div class="title-bar-text">Register in the system</div>
-    <div class="title-bar-controls">
-      <button aria-label="Minimize"></button>
-      <button aria-label="Maximize"></button>
-      <button aria-label="Close"></button>
-    </div>
+
   </div>
     <div class="window-body" >
       <form action="" method="POST">
