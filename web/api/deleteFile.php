@@ -2,12 +2,13 @@
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dev.php";
 require_once "$root/lib/user.php";
+require_once "$ROOT/settings/config.php";
 
 $allowedExtensions = ["fpl","fbl"];
 
 $uname = User::getUsername();
 if ($uname == "anonymous"){die();}
-$uroot = "$root/userdata/$uname";
+$uroot = "$userData/$uname";
 
 if (isset($_GET['file'])){
   $filename = basename($_GET['file']);

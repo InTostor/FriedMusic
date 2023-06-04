@@ -2,6 +2,7 @@
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dev.php";
 require_once "$root/lib/user.php";
+require_once "$ROOT/settings/config.php";
 
 $allowedExtensions = ["fpl","fbl"];
 $MAXUPLOADSIZE = 5242880; // 2^16 * mean filename size * 2 bytes unicode character size
@@ -10,7 +11,7 @@ $MAXALLOWEDFILES = 64;
 $uname = User::getUsername();
 if ($uname == "anonymous"){die();}
 
-$newPath = "$root/userdata/$uname/";
+$newPath = "$userData/$uname/";
 
 
 

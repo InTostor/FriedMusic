@@ -4,6 +4,7 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/user.php";
 require_once "$root/lib/fileWrapper.php";
 require_once "$root/lib/dev.php";
+require_once "$ROOT/settings/config.php";
 
 $uname = User::getUsername();
 
@@ -27,11 +28,11 @@ if (!str_ends_with($playlistG,".fpl")){
   die;
 }
 
-$userRoot = "$root/userdata/$uname";
+$userRoot = "$userData/$uname";
 
 // create user's directory if there is no
 if ( !file_exists($userRoot) ){
-  mkdir("$root/userdata/$uname");
+  mkdir("$userData/$uname");
 }
 // create favourites file
 

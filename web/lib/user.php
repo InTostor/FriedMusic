@@ -1,6 +1,7 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
+require_once "$ROOT/settings/config.php";
 $cookieTime = 157680000; // 5 years
 
 class User{
@@ -46,8 +47,8 @@ class User{
   }
   
   static function makeDirectory($uname){
-    global $root;
-    mkdir("$root/userdata/$uname",);
+    global $userData;
+    mkdir("$userData/$uname",);
   }
 
   static function rememberUser($uname,$upass){

@@ -2,9 +2,10 @@
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/user.php";
 require_once "$root/lib/fileWrapper.php";
+require_once "$ROOT/settings/config.php";
 
 $uname = User::getUsername();
-$uroot = "$root/userdata/$uname/";
+$uroot = "$userData/$uname/";
 
 if ( $uname == "anonymous" ){
   echo "403";

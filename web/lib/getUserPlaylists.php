@@ -2,12 +2,13 @@
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
+require_once "$ROOT/settings/config.php";
 
 
 function getPlaylists($user){
-  $root = $_SERVER['DOCUMENT_ROOT'];
+  global $userData;
   $ret = [];
-  foreach (new DirectoryIterator("$root/userdata/$user/") as $file) {
+  foreach (new DirectoryIterator("/$userData/$user/") as $file) {
     $filename = $file->getFilename();
     if($file->isDot()) continue;
     if (pathinfo($filename, PATHINFO_EXTENSION)=="fpl" ){

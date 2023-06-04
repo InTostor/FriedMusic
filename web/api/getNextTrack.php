@@ -3,7 +3,7 @@
 // elastic search for fuzzy track generating, more lists of track (white/black)
 // and maybe machine learning algohritms for most accurate track generation.
 
-error_reporting(0);
+error_reporting(1);
 
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
@@ -11,9 +11,10 @@ require_once "$root/lib/user.php";
 require_once "$root/lib/track.php";
 require_once "$root/lib/dev.php";
 require_once "$root/lib/fileWrapper.php";
+require_once "$ROOT/settings/config.php";
 
 $uname = User::getUsername();
-$uroot = "$root/userdata/$uname/";
+$uroot = "$userData/$uname/";
 
 if ( $uname == "anonymous" ){
   echo "403";
@@ -66,7 +67,7 @@ $retTrack = "na";
 switch ($src){
   case "history":
     try{
-      $tracks = array_filter(File::getAsArray($root."/userdata/$uname/history.fpl"));
+      $tracks = array_filter(File::getAsArray("$uroot/history.fpl"));
     }catch(Exception){
       goto reroll;
     }
@@ -75,7 +76,7 @@ switch ($src){
     break;
   case "favourite":
     try{
-      $tracks = array_filter(File::getAsArray($root."/userdata/$uname/favourite.fpl"));
+      $tracks = array_filter(File::getAsArray("$uroot/favourite.fpl"));
     }catch(Exception){
       goto reroll;
     }

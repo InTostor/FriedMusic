@@ -2,6 +2,7 @@
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
+require_once "$ROOT/settings/config.php";
 
 $maxHistoryLength = 100;
 
@@ -20,11 +21,11 @@ if ( !isset($_GET['track']) ){
 }
 $track = $_GET['track'];
 
-$userRoot = "$root/userdata/$uname";
+$userRoot = "$userData/$uname";
 
 // create user's directory if there is no
 if ( !file_exists($userRoot) ){
-  mkdir("$root/userdata/$uname");
+  mkdir("$userData/$uname");
 }
 
 $historyFile = fopen("$userRoot/history.fpl","r");
