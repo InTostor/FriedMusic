@@ -6,6 +6,7 @@ require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
 require_once "$root/settings/config.php";
 require_once "$root/lib/dev.php";
+require_once "$root/lib/Locale.php";
 
 $error = "";
 $isWeb = !isset($_GET['client']);
@@ -19,6 +20,7 @@ if(User::getUsername() != "anonymous"){
   }
 }
 
+$locale = new LocalString(User::getLaguage());
 
 if (isset($_POST['login-username'])){
   $uname = $_POST['login-username'];
@@ -39,7 +41,7 @@ if (isset($_POST['login-username'])){
       echo "ok";
     }
   }else{
-    $error = "Wrong login or password or something broke";
+    $error = $locale->get("LoginFailedWrongCredentials");
     if(!$isWeb){echo "failed";}
   }
 
@@ -65,7 +67,7 @@ if (isset($_POST['login-username'])){
       echo "ok";
     }
   }else{
-    $error = "This user already registered";
+    $error = $locale->get("RegisterFailedExists");
     if(!$isWeb){echo "failed";}
   }
 
@@ -94,23 +96,23 @@ if(User::getUsername() != "anonymous"){header("location: /");}
 
 <div class="window login-form" style="width: max(50%,217px)">
   <div class="title-bar">
-    <div class="title-bar-text">Login to your account</div>
+    <div class="title-bar-text"><?=$locale->get("LoginWindowTitle")?></div>
 
   </div>
     <div class="window-body" >
 
       <form action="" method="POST">
         <div class="field-row-stacked" style="width: 200px">
-          <label for="login-username">Username</label>
+          <label for="login-username"><?=$locale->get("Username")?></label>
           <input id="login-username" type="text" name="login-username" placeholder="Франсуа Стасье Жопьен">
         </div>
         <div class="field-row-stacked" style="width: 200px">
-          <label for="login-password">Password</label>
+          <label for="login-password"><?=$locale->get("Password")?></label>
           <input id="login-password" type="password" name="login-password" placeholder="Oralcumshot">
         </div>
         <section class="field-row" style="justify-content: flex-end">
           <?=$error?>
-          <input type="submit" id="login-button"  name="login" value="Login">
+          <input type="submit" id="login-button"  name="login" value="<?=$locale->get("Login")?>">
         </section>
 
     </form>
@@ -121,22 +123,22 @@ if(User::getUsername() != "anonymous"){header("location: /");}
 
 <div class="window register-form" style="width: max(50%,217px)">
   <div class="title-bar">
-    <div class="title-bar-text">Register in the system</div>
+    <div class="title-bar-text"><?=$locale->get("RegisterWindowTitle")?></div>
 
   </div>
     <div class="window-body" >
       <form action="" method="POST">
 
         <div class="field-row-stacked" style="width: 200px">
-          <label for="register-username">Username</label>
+          <label for="register-username"><?=$locale->get("Username")?></label>
           <input id="register-username" type="text" name="register-username" placeholder="Франсуа Стасье Жопьен">
         </div>
         <div class="field-row-stacked" style="width: 200px">
-          <label for="register-password">Password</label>
+          <label for="register-password"><?=$locale->get("Password")?></label>
           <input id="register-password" type="password" name="register-password" placeholder="Oralcumshot">
         </div>
         <div class="field-row-stacked" style="width: 200px">
-          <label for="register-gender">gender</label>
+          <label for="register-gender"><?=$locale->get("Gender")?></label>
           
           <select id="register-gender" name="register-gender">
             <option selected>Genderfluid helisexual</option>
@@ -145,7 +147,7 @@ if(User::getUsername() != "anonymous"){header("location: /");}
         </div>
         <section class="field-row" style="justify-content: flex-end">
           <?=$error?>
-          <input type="submit" id="register-button"  name="register" value="register">
+          <input type="submit" id="register-button"  name="register" value="<?=$locale->get("Register")?>">
         </section>
 
     </form>

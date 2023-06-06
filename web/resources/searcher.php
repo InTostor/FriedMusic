@@ -1,13 +1,13 @@
 <div class="searchHolder">
    <div class="searchContainer window">
      <div class="title-bar">
-       <div class="title-bar-text">Stuff finder</div>
+       <div class="title-bar-text"><?=$locale->get("SearchWindowTitle")?></div>
      </div>
      <div class="window-body">
        <div class="searchTools">
-         <label for="searchQuery">Search query</label>
+         <label for="searchQuery"><?=$locale->get("Search")?></label>
          <input id="searchQuery" type="text"  placeholder="Oxxxymiron - Что такое империя?">
-         <label for="searchQueryType">Search for:</label>
+         <label for="searchQueryType"><?=$locale->get("SearchQueryType")?>:</label>
          <select id="searchQueryType"class="searchQueryType" oninput="s.search()">
            <option>Query</option>
            <option>Artist</option>

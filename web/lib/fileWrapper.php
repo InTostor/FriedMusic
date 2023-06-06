@@ -13,9 +13,22 @@ class File{
     fclose($f);
     return $arr;
   }
+
+  static function getAsString($path){
+    if (file_exists($path)){
+    $f = File::open($path,"r");
+    $out = fread($f,filesize($path));
+    fclose($f);
+    return $out;
+    }else{
+      return "";
+    }
+  }
+
   static function arrayToFile($path,$array){
     // file_put_contents();
   }
+
   static function open($path,$mode="r"){
     if ( !file_exists($path) ){
       fclose(fopen($path,"x"));
@@ -40,5 +53,9 @@ class File{
     }else{
       return false;
     }
+  }
+
+  static function openJson($path){
+    return json_decode(File::getAsString($path), true);
   }
 }

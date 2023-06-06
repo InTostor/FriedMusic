@@ -1,7 +1,8 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
-require_once "$ROOT/settings/config.php";
+require_once "$root/settings/config.php";
+require_once "$root/lib/Locale.php";
 $cookieTime = 157680000; // 5 years
 
 class User{
@@ -9,7 +10,7 @@ class User{
     if ( isset($_GET['basicauth']) ){
       $uname = Self::getUsernameByMethod("basic");
     }else{
-    $uname = Self::getUsernameByMethod("cookie");
+      $uname = Self::getUsernameByMethod("cookie");
     }
     return $uname;
   }
@@ -52,11 +53,49 @@ class User{
   }
 
   static function rememberUser($uname,$upass){
-  global $cookieTime;
-  setcookie("who",$uname, time() +$cookieTime * 30,"/");
-  setcookie("what",$upass, time() +$cookieTime * 30,"/");
-  setcookie("slim_shady","chto_blya", time() +$cookieTime * 30,"/");
+    global $cookieTime;
+    setcookie("who",$uname, time() +$cookieTime * 30,"/");
+    setcookie("what",$upass, time() +$cookieTime * 30,"/");
+    setcookie("slim_shady","chto_blya", time() +$cookieTime * 30,"/");
+  }
+  
+  static function getLaguage(){
+    if (isset($_COOKIE['lang'])){
+      return $_COOKIE['lang'];
+    }else{
+      $out =  User::getPrefferedLaguages();
+      $out = key($out);
+      return $out;
+    }
+  }
+
+  static function getPrefferedLaguages() {
+    $http_accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+    $available_languages = LocalString::getAvailableLocales();
+
+    $available_languages = array_flip($available_languages);
+
+    $langs = array();
+
+    preg_match_all('~([\w-]+)(?:[^,\d]+([\d.]+))?~', strtolower($http_accept_language), $matches, PREG_SET_ORDER);
+
+    foreach($matches as $match) {
+      list($a, $b) = explode('-', $match[1]) + array('', '');
+      $value = isset($match[2]) ? (float) $match[2] : 1.0;
+      if(isset($available_languages[$match[1]])) {
+        $langs[$match[1]] = $value;
+        continue;
+      }
+      if(isset($available_languages[$a])) {
+        $langs[$a] = $value - 0.1;
+      }
+
+    }
+    arsort($langs);
+
+    return $langs;
 }
+
 
 
 }

@@ -9,17 +9,17 @@
 <div class="userpanelHolder">
   <div class="userpanelContainer window">
     <div class="title-bar">
-      <div class="title-bar-text">User actions</div>
+      <div class="title-bar-text"><?=$locale->get("UserActionsWindowTitle")?></div>
     </div>
     <div class="window-body">
       <div class="userpanelSection" id="profile">
-        <button onclick="logout()" aria-label="Logout">logout</button>
+        <button onclick="logout()" aria-label="Logout"><?=$locale->get("Logout")?></button>
 
 
       </div>
 
       <div class="userpanelSection" id="playlists">
-        Playlists
+      <?=$locale->get("Playlists")?>
         <div id="userpanelPlaylists" class="userpanelPlaylists sunken-panel">
           <button class="userpanelPlaylist" onclick="playRadio()" style="box-shadow: inset 0 0 0 15px rgb(192, 0, 64);">gachimuchi wave FM</button>
         </div>

@@ -2,15 +2,14 @@
 <dialog id="favDialog">
   <form>
     <p>
-      <label>Add track to playlist:
+      <label><?=$locale->get("AddTrackToPlaylistModal")?>:
         <select id="playlistSelectModal">
-
         </select>
       </label>
     </p>
     <div>
-      <button value="cancel" formmethod="dialog">Cancel</button>
-      <button id="confirmBtn" value="default">Confirm</button>
+      <button value="cancel" formmethod="dialog"><?=$locale->get("Cancel")?></button>
+      <button id="confirmBtn" value="default"><?=$locale->get("Confirm")?></button>
     </div>
   </form>
 </dialog>
@@ -21,20 +20,20 @@
   <div class="playerContainer col window">
     <audio id="playerSoundMaker" preload="none" ontimeupdate="a.updateSeeker(this.currentTime)" ondurationchange="a.setSeekerRange()" onended="a.trackEnded()"></audio>
     <div class="title-bar">
-      <div class="title-bar-text">Super Ultra hyper black cock player 40k</div>
+      <div class="title-bar-text"><?=$locale->get("PlayerWindowTitle")?></div>
     </div>
     <div class="window-body">
       <div class="playerSection col">
         <div class="playerSectionUpper col">
 
-          <p id="playerTrackMeta"class="playerTrackMeta">Nothing from void</p>
+          <p id="playerTrackMeta"class="playerTrackMeta"><?=$locale->get("NoTrackText")?></p>
           <div class="seekerSection row">
             <div class="playerControls row">
               <button id="playerPrevious"class="playerTrackActionButton" onclick="a.prev()" title="Previous track"><img class="playerTrackActionIco" src="/resources/Fast_backward_font_awesome.svg"alt="previous track"></button>
               <button id="playerPlaypause"class="playerTrackActionButton" onclick="a.playPause()" title="Play/Pause"><img class="playerTrackActionIco" src="/resources/Octicons-playback-play.svg" alt="Play track" ></button>
               <button id="playerNext"class="playerTrackActionButton" onclick="a.next()" title="Next track"><img class="playerTrackActionIco" src="/resources/Fast_forward_font_awesome.svg"alt="next track"></button>
             </div>
-            <label for="playerSeeker">seeker</label>
+            <label for="playerSeeker"><?=$locale->get("Seeker")?></label>
             <input id="playerSeeker" oninput="a.seekTo(this.value)" type="range" min="0" max="11" value="5" title="seek to"/>
           </div>
 
@@ -43,7 +42,7 @@
           <p id="playerTimeElapsed"class="playerTimeElapsed">00:00</p>
           <div class="playerVolumeSection col playerBottomCol">
             <input id="playerVolumeRange"type="range" min="0" max="100" value="5" onchange="a.setVolume(this.value)"oninput="a.setVolume(this.value)" style="margin: auto 0 auto 0;" title="Set volume">
-            <label id="playerVolumeText"for="playerVolumeRange">volume</label>
+            <label id="playerVolumeText"for="playerVolumeRange"><?=$locale->get("Volume")?></label>
           </div>
           <div class="playerActionsSection playerBottomCol">
             <button id="playerActionFavourite" class="playerTrackActionButton" onclick="a.toFavourite()" title="add/remove track from favourites"><img class="playerTrackActionIco" src="/resources/directory_favorites-2.png" alt="add/remove track fom playlist"></button>
@@ -57,9 +56,9 @@
       <div class="playlistSection">
 
         <div class="title-bar playListTitlebar">
-          <div class="title-bar-text">Current playlist</div>
+          <div class="title-bar-text"><?=$locale->get("CurrentPlaylistSubwindowTitle")?></div>
           <div class="title-bar-controls">
-            <button id="playerMinimizePlaylist" aria-label="Minimize currently playing playlist" onclick="a.cyclePlaylistVisibility()"></button>
+            <button id="playerMinimizePlaylist"aria-label="Minimize currently playing playlist" onclick="a.cyclePlaylistVisibility()"></button>
           </div>
         </div>
 

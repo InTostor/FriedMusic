@@ -4,6 +4,7 @@ require_once "$root/lib/dev.php";
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
 require_once "$root/lib/fileWrapper.php";
+require_once "$root/lib/Locale.php";
 
 $uname = User::getUsername();
 $uroot = "$root/userdata/$uname/";
@@ -12,7 +13,10 @@ if ($uname == "anonymous"){
   header('Location: /login/');
 }
 
+$locale = new LocalString(User::getLaguage());
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,7 +26,7 @@ if ($uname == "anonymous"){
     <!-- <link rel="stylesheet" href="https://unpkg.com/7.css"> -->
     <link rel="stylesheet" href="/styles/main.css">
     <noscript>
-      Javascript should be enabled for player to be functional
+      Javascript should be enabled for player to be functional. If you can't, use static version instead. <a href="/noscript/">Go to static version</a>
     </noscript>
 
   </head>
@@ -32,9 +36,9 @@ if ($uname == "anonymous"){
   <div class="pageLimiter">
 
 
-<?=html("$root/resources/userPanel.html");?>
-<?=html("$root/resources/player.html");?>
-<?=html("$root/resources/searcher.html");?>
+<?php include "$root/resources/userPanel.php";?>
+<?php include "$root/resources/player.php";?>
+<?php include "$root/resources/searcher.php";?>
 
 <script src="/js/userpanel.js"></script>
   </div>
