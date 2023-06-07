@@ -89,9 +89,9 @@ foreach ($musicList as $key=>$track){
   }
   // buttons
   echo "<td><div class='trackActionsDiv'>";
-  echo "<button class='trackActionButton'onclick=\"reqPlayTrack($key,'$filename','search') title='play this track'\"><img class='actionIco'src='/resources/loudspeaker_rays-0.png' alt='play this track'></button>";
-  echo "<button class='trackActionButton'onclick=\"a.toFavourite('$filename') title='add/remove track from favourites'\">       <img class='actionIco'src='$fav' alt='add/remove track from favourites'></button>";
-  echo "<button class='trackActionButton'onclick=\"a.addToPlaylist('$filename') title='add this track to the playlist'\">        <img class='actionIco'src='/resources/directory_open_file_mydocs-4.png' alt='add this track to the playlist'></button>";
+  echo "<button class='trackActionButton'onclick=\"reqPlayTrack($key,'$filename','search')\" title='play this track'><img class='actionIco'src='/resources/loudspeaker_rays-0.png' alt='play this track'></button>";
+  echo "<button class='trackActionButton'onclick=\"a.toFavourite('$filename')\" title='add/remove track from favourites'>       <img class='actionIco'src='$fav' alt='add/remove track from favourites'></button>";
+  echo "<button class='trackActionButton'onclick=\"a.addToPlaylist('$filename')\" title='add this track to the playlist'>        <img class='actionIco'src='/resources/directory_open_file_mydocs-4.png' alt='add this track to the playlist'></button>";
   echo "</div></td>";
 
   if ( $playListType == "search"){
