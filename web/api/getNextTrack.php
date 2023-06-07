@@ -108,6 +108,7 @@ function secondIteration($tracks,$level){
     global $uname;
     $bannedArtists = User::getBannedStrings($uname,"artists.fbl");
     $bannedGenres = User::getBannedStrings($uname,"genres.fbl");
+    $bannedTracks = User::getBannedStrings($uname,"tracks.fbl");
   }
 
   switch ($level){
@@ -122,7 +123,7 @@ function secondIteration($tracks,$level){
     case "artist":
       $artist = Track::getMetaData($tracks[rngw(2,sizeof($tracks))])['artist'];
 
-      $tracks = Track::getSameByExclude("artist",$artist,false,$bannedArtists,$bannedGenres);
+      $tracks = Track::getSameByExclude("artist",$artist,false,$bannedArtists,$bannedGenres, $bannedTracks);
       if (!isset($tracks['filename'])){
         return $tracks[rngw(1,sizeof($tracks))];
       }else{
@@ -133,7 +134,7 @@ function secondIteration($tracks,$level){
     case "genre":
       $genre = Track::getMetaData($tracks[rngw(2,sizeof($tracks))])['genre'];
 
-      $tracks = Track::getSameByExclude("genre",$genre,true,$bannedArtists,$bannedGenres);
+      $tracks = Track::getSameByExclude("genre",$genre,true,$bannedArtists,$bannedGenres, $bannedTracks);
       if (!isset($tracks['filename'])){
         return $tracks[rngw(1,sizeof($tracks))];
       }else{

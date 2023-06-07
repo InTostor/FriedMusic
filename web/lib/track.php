@@ -24,17 +24,19 @@ class Track{
 
   }
 
-  static function getSameByExclude($column,$as,$fuzzy=false, array $excludeArtists = array(), array $excludeGenres = array()){
+  static function getSameByExclude($column,$as,$fuzzy=false, array $excludeArtists = array(), array $excludeGenres = array(), array $excludeTracks = array()){
     if ($excludeArtists == array()){$excludeArtists = array("");}
     if ($excludeGenres == array()){$excludeGenres = array("");}
+    if ($excludeTracks == array()){$excludeTracks = array("");}
     $artistString = array_map(function($val){return "'$val'";}, $excludeArtists);
     $genreString = array_map(function($val){return "'$val'";}, $excludeGenres);
+    $trackString = array_map(function($val){return "'$val'";}, $excludeTracks);
 
     $artistString = implode(", ",$artistString);
     $genreString = implode(", ",$genreString);
 
     $baseSqlStart = "select * from fullmeta where $column";
-    $baseSqlEnd = " and artist not in ($artistString) and genre not in ($genreString)";
+    $baseSqlEnd = " and artist not in ($artistString) and genre not in ($genreString) and filename not in ($trackString)";
 
     if ($fuzzy){
       $ret = Database::executeStmt("$baseSqlStart like ? $baseSqlEnd","s",["%$as%"]);
