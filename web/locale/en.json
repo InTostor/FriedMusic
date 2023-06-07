@@ -27,5 +27,6 @@
   "NoTrackText":"Nothing from void",
   "SearchQueryType":"search like",
   "Playlists":"Playlists",
-  "Seeker":"Seeker"
+  "Seeker":"Seeker",
+  "LoginPageTitle":"Login into account"
 }

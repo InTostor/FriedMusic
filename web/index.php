@@ -1,6 +1,6 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
-require_once "$root/lib/dev.php";
+// require_once "$root/lib/dev.php";
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
 require_once "$root/lib/fileWrapper.php";
@@ -18,7 +18,7 @@ $locale = new LocalString(User::getLaguage());
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?=$locale->locale?>">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="stylesheet" href="/styles/98.css">
@@ -34,13 +34,11 @@ $locale = new LocalString(User::getLaguage());
   <script src = "/js/lib.js"></script>
 
   <div class="pageLimiter">
+    <?php include "$root/resources/userPanel.php";?>
+    <?php include "$root/resources/player.php";?>
+    <?php include "$root/resources/searcher.php";?>
 
-
-<?php include "$root/resources/userPanel.php";?>
-<?php include "$root/resources/player.php";?>
-<?php include "$root/resources/searcher.php";?>
-
-<script src="/js/userpanel.js"></script>
+    <script src="/js/userpanel.js"></script>
   </div>
 
 </body>

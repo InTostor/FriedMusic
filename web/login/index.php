@@ -85,11 +85,11 @@ if(User::getUsername() != "anonymous"){header("location: /");}
 
 
 <DOCTYPE html>
-<html lang="en">
+<html lang="<?=$locale->locale?>">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <link rel="stylesheet"href="/styles/98.css">
-  <title>Login into account</title>
+  <title><?=$locale->get("LoginPageTitle")?></title>
 </head>
 
 <body>
