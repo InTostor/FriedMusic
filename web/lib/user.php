@@ -6,6 +6,7 @@ require_once "$root/lib/Locale.php";
 $cookieTime = 157680000; // 5 years
 
 class User{
+
   static function getUsername(){
     if ( isset($_GET['basicauth']) ){
       $uname = Self::getUsernameByMethod("basic");
@@ -14,6 +15,7 @@ class User{
     }
     return $uname;
   }
+
   static function getUsernameByMethod($authmethod = "cookie"){
     if ( $authmethod == "cookie" and isset($_COOKIE['who']) and isset($_COOKIE['what']) ){
       // by cookie
@@ -49,7 +51,12 @@ class User{
   
   static function makeDirectory($uname){
     global $userData;
-    mkdir("$userData/$uname",);
+    mkdir("$userData/$uname");
+  }
+
+  static function getDirectory($uname){
+    global $userData;
+    return "$userData/$uname/";
   }
 
   static function rememberUser($uname,$upass){
@@ -96,6 +103,15 @@ class User{
     return $langs;
 }
 
-
+  static function getBannedStrings($uname,$fname){
+    $bannedStringsFilePath = User::getDirectory($uname)."/$fname";
+    $out = array();
+    if (!file_exists($bannedStringsFilePath)){
+      return $out;
+    }else{
+      $out = File::getAsArray($bannedStringsFilePath);
+      return $out;
+    }
+  }
 
 }

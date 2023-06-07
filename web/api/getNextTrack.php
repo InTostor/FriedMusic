@@ -2,6 +2,8 @@
 // this is most complex script in whole project. At some point it will require
 // elastic search for fuzzy track generating, more lists of track (white/black)
 // and maybe machine learning algohritms for most accurate track generation.
+// Achtung! this script should be re-written because at the moment, it is using 'goto' 
+// and somewhere it can cause ass pain
 
 error_reporting(1);
 
@@ -102,6 +104,12 @@ echo($retTrack);
 
 function secondIteration($tracks,$level){
   reroll2:
+  if ($level=="artist" or $level=="genre"){
+    global $uname;
+    $bannedArtists = User::getBannedStrings($uname,"artists.fbl");
+    $bannedGenres = User::getBannedStrings($uname,"genres.fbl");
+  }
+
   switch ($level){
     case "track":
       try{
@@ -110,18 +118,22 @@ function secondIteration($tracks,$level){
         goto reroll2;
       }
       break;
+
     case "artist":
       $artist = Track::getMetaData($tracks[rngw(2,sizeof($tracks))])['artist'];
-      $tracks = Track::getSameBy("artist",$artist);
+
+      $tracks = Track::getSameByExclude("artist",$artist,false,$bannedArtists,$bannedGenres);
       if (!isset($tracks['filename'])){
         return $tracks[rngw(1,sizeof($tracks))];
       }else{
         return $tracks['filename'];
       }
       break;
+
     case "genre":
       $genre = Track::getMetaData($tracks[rngw(2,sizeof($tracks))])['genre'];
-      $tracks = Track::getSameBy("genre",$genre,true);
+
+      $tracks = Track::getSameByExclude("genre",$genre,true,$bannedArtists,$bannedGenres);
       if (!isset($tracks['filename'])){
         return $tracks[rngw(1,sizeof($tracks))];
       }else{
@@ -129,6 +141,7 @@ function secondIteration($tracks,$level){
       }
       break;
   }
+
 }
 
 function rngw($min,$max){
