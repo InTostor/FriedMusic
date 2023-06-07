@@ -34,9 +34,10 @@ class Track{
 
     $artistString = implode(", ",$artistString);
     $genreString = implode(", ",$genreString);
+    $trackString = implode(", ",$trackString);
 
     $baseSqlStart = "select * from fullmeta where $column";
-    $baseSqlEnd = " and artist not in ($artistString) and genre not in ($genreString) and filename not in ($trackString)";
+    $baseSqlEnd = " and `artist` not in ($artistString) and `genre` not in ($genreString) and `filename` not in ($trackString)";
 
     if ($fuzzy){
       $ret = Database::executeStmt("$baseSqlStart like ? $baseSqlEnd","s",["%$as%"]);
