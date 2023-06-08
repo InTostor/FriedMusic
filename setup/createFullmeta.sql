@@ -13,4 +13,4 @@ CREATE TABLE `fullmeta` (
   KEY `artist` (`title`,`artist`),
   KEY `filename` (`filename`),
   FULLTEXT KEY `genreFULLTEXT` (`genre`)
-) ENGINE=InnoDB AUTO_INCREMENT=7421 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
