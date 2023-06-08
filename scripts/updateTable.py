@@ -2,7 +2,7 @@ from tinytag import TinyTag
 import mysql.connector
 import os, time
 
-musicDir = "/home/intostor/Music"
+musicDir = "/home/intostor/Music/"
 
 db = mysql.connector.connect(
   host="192.168.0.186",
@@ -14,15 +14,19 @@ db = mysql.connector.connect(
 cur = db.cursor()
 
 files = [x for x in os.listdir(musicDir)]
-files = sorted(files,key = lambda x: os.stat(musicDir+"/"+str(x)).st_atime,reverse=True)
+files = sorted(files,key = lambda x: os.stat(musicDir+str(x)).st_atime,reverse=True)
 lf=len(files)
 
 t=time.time()
 
-for i,filename in enumerate(files):
-  tag = TinyTag.get(musicDir+"/"+filename)
 
-  filesize   = int(os.path.getsize(musicDir+"/"+filename))
+
+for i,filename in enumerate(files):
+  filepath = musicDir+filename
+
+  tag = TinyTag.get(filepath)
+
+  filesize   = int(os.path.getsize(filepath))
 
   title      = str(tag.title)
   artist     = str(tag.artist)
