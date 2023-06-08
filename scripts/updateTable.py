@@ -15,48 +15,66 @@ cur = db.cursor()
 
 files = [x for x in os.listdir(musicDir)]
 files = sorted(files,key = lambda x: os.stat(musicDir+str(x)).st_atime,reverse=True)
-lf=len(files)
 
 t=time.time()
 
 
 
-for i,filename in enumerate(files):
-  filepath = musicDir+filename
+def getTracksFromDatabase():
+  sql = "select filename from fullmeta"
+  cur.execute(sql)
+  res = [i[0] for i in cur.fetchall()]
+  print(res)
+  return res
 
-  tag = TinyTag.get(filepath)
+def pushTracksToDatabase(tracks):
+  sql  = "REPLACE INTO `friedmusic`.`fullmeta`(`filename`,`title`,`duration`,`album`,`genre`,`artist`,`year`,`filesize`) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
+  cur.executemany(sql,tracks)
+  db.commit()
 
-  filesize   = int(os.path.getsize(filepath))
 
-  title      = str(tag.title)
-  artist     = str(tag.artist)
-  album      = str(tag.album)
-  samplerate = int(tag.samplerate)
-  duration   = int(tag.duration)
-  genre      = str(tag.genre)
-  try:
-    year       = int(tag.year)
-  except Exception:
-    year = None
+def getAssociativeTracksArray(tracksFilenames):
+  out = []
+  for i,filename in enumerate(tracksFilenames):
+    filepath = musicDir+filename
 
-  title.replace("'","\'")
-  artist.replace("'","\'")
-  album.replace("'","\'")
-  genre.replace("'","\'")
+    tag = TinyTag.get(filepath)
+
+    filesize   = int(os.path.getsize(filepath))
+
+    title      = str(tag.title)
+    artist     = str(tag.artist)
+    album      = str(tag.album)
+    samplerate = int(tag.samplerate)
+    duration   = int(tag.duration)
+    genre      = str(tag.genre)
+    try:
+      year       = int(tag.year)
+    except Exception:
+      year = None
+    title.replace("'","\'")
+    artist.replace("'","\'")
+    album.replace("'","\'")
+    genre.replace("'","\'")
+    out.append((filename,title,duration,album,genre,artist,year,filesize))
+  return out
+
+
+filesInDatabase = getTracksFromDatabase()
+
+if len(filesInDatabase)<len(files):
+  filesInDatabase,files = files,filesInDatabase
+tracksToDatabase = [x for x in filesInDatabase if x not in files]
+
+print(filesInDatabase)
+
+tracksMetadata = getAssociativeTracksArray(tracksToDatabase)
+pushTracksToDatabase(tracksMetadata)
+
+
+
   
-  checkSql = "select count(filename) from `fullmeta` where filename = %s"
-  cur.execute(checkSql,[filename])
-  res = str(cur.fetchall())[2:3]
-  if res == '0':
-    sql = "REPLACE INTO `friedmusic`.`fullmeta`(`filename`,`title`,`duration`,`album`,`genre`,`artist`,`year`,`filesize`) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
-    vals = (filename,title,duration,album,genre,artist,year,filesize)
-    cur.execute(sql,vals)
-    db.commit()
-  if res=="0":
-    res="+"
-  else:
-    res=" "
-  print(res, i+1,"/",lf)
+  
 
 db.close()
 
