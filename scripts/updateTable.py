@@ -24,7 +24,6 @@ def getTracksFromDatabase():
   sql = "select filename from fullmeta"
   cur.execute(sql)
   res = [i[0] for i in cur.fetchall()]
-  print(res)
   return res
 
 def pushTracksToDatabase(tracks):
@@ -66,7 +65,6 @@ if len(filesInDatabase)<len(files):
   filesInDatabase,files = files,filesInDatabase
 tracksToDatabase = [x for x in filesInDatabase if x not in files]
 
-print(filesInDatabase)
 
 tracksMetadata = getAssociativeTracksArray(tracksToDatabase)
 pushTracksToDatabase(tracksMetadata)
