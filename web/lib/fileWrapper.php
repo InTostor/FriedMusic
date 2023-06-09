@@ -26,11 +26,11 @@ class File{
   }
 
   static function arrayToFile($path,$array){
-    // file_put_contents();
+    file_put_contents($path,implode("\n",$array));
   }
 
   static function open($path,$mode="r"){
-    if ( !file_exists($path) ){
+    if (!file_exists($path)){
       fclose(fopen($path,"x"));
     }
     return fopen($path,$mode);
@@ -45,6 +45,14 @@ class File{
     $f = File::open($path,"w");
     fwrite($f,implode("\n",$fArr));
   }
+
+  static function addToFile($path,$add){
+    $fArr = File::getAsArray($path);
+    array_push($fArr,$add);
+    $f = File::open($path,"w");
+    fwrite($f,implode("\n",$fArr));    
+  }
+
   static function isInFile($string,$path){
     $List = File::getAsArray($path);
 

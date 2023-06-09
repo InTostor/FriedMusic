@@ -31,9 +31,8 @@ if (!str_ends_with($playlistG,".fpl")){
 $userRoot = "$userData/$uname";
 
 // create user's directory if there is no
-if ( !file_exists($userRoot) ){
-  mkdir("$userData/$uname");
-}
+User::makeDirectory($uname);
+
 // create favourites file
 
 $playlistFile = File::open("$userRoot/$playlistG","r");
@@ -55,7 +54,6 @@ if (isset($_GET['remove'])){
 
 $playlist = array_filter($playlist);
 
-$playlistFile = File::open("$userRoot/$playlistG","w");
-fwrite($playlistFile,implode("\n",$playlist));
-fclose($playlistFile);
+File::arrayToFile("$userRoot/$playlistG",$playlist);
+
 echo "OK";
