@@ -47,6 +47,3 @@ td + a,td {
   line-clamp: 2; 
 }
 
-button[aria-label="Close"]{
-  tabindex="-1"
-}

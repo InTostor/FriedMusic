@@ -40,7 +40,7 @@ class File{
     $fArr = File::getAsArray($path);
     array_push($fArr,$add);
     if ( sizeof($fArr) > $limit ){
-      $fArr = array_slice($fArr,1,-1);
+      array_shift($fArr);
     }
     $f = File::open($path,"w");
     fwrite($f,implode("\n",$fArr));
