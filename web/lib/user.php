@@ -51,7 +51,9 @@ class User{
   
   static function makeDirectory($uname){
     global $userData;
-    mkdir("$userData/$uname");
+    if (!file_exists("$userData/$uname")){
+      mkdir("$userData/$uname");
+    }
   }
 
   static function getDirectory($uname){

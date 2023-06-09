@@ -4,7 +4,7 @@ require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/user.php";
 require_once "$ROOT/settings/config.php";
 
-$maxHistoryLength = 100;
+global $maxHistoryFileLines;
 
 $uname = User::getUsername();
 
@@ -21,29 +21,10 @@ if ( !isset($_GET['track']) ){
 }
 $track = $_GET['track'];
 
-$userRoot = "$userData/$uname";
+$userRoot = User::getDirectory($uname);
 
 // create user's directory if there is no
-if ( !file_exists($userRoot) ){
-  mkdir("$userData/$uname");
-}
+User::makeDirectory($uname);
 
-$historyFile = fopen("$userRoot/history.fpl","r");
-$hFileSize = filesize("$userRoot/history.fpl");
-if ($hFileSize==0){
-  $history = array("");
-}else{
-  $history = explode("\n",fread($historyFile,$hFileSize));
-}
-fclose($historyFile);
-
-array_push($history,$track);
-// remove limit exceeding element
-if ( sizeof($history) > $maxHistoryLength ){
-  $history = array_slice($history,1,-1);
-}
-// if ( $history[0]==""){$history = array_slice($history,1,-1);}
-$historyFile = fopen("$userRoot/history.fpl","w");
-fwrite($historyFile,implode("\n",$history));
-fclose($historyFile);
+File::addToLimited("$userRoot/history.fpl",$maxHistoryFileLines,$track);
 echo "OK";
