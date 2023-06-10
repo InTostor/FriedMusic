@@ -12,12 +12,25 @@ if ( !isset($_GET['file']) and isset($_GET['type']) ){
 
   $type = $_GET['type'];
 
+  if ($type == "fpl"){
   echo "
   <form method='get' action=''>
   <input type='hidden'name='type'value='$type'>
   <input name='file' type='text' placeholder='enter filename'>
   <input type='submit'>
   ";
+  }else{
+    echo "
+    <form method='get' action=''>
+    <input type='hidden'name='type'value='$type'>
+    <select name='file'>
+      <option value='artists'>artists</option>
+      <option value='genres'> genres</option>
+      <option value='tracks'> tracks</option>
+    </select>
+    <input type='submit'>
+    "; 
+  }
   die();
 }elseif (isset($_GET['file'])){
 
@@ -42,6 +55,8 @@ if ( isset($_GET['type']) and !isset(pathinfo($requestedFilename)['extension']))
   $requestedFilename = "$requestedFilename.$extension";
 }elseif ( isset(pathinfo($requestedFilename)['extension']) ){
   $extension = pathinfo($requestedFilename)['extension'];
+}elseif ( isset($_GET['file']) and isset($_GET['type']) ) {
+
 }else{
   http_response_code(400);
   echo "400";

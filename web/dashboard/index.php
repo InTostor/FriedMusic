@@ -16,9 +16,9 @@ if ($uname == "anonymous"){
 function drawList($list,$listname){
   global $locale;
   if ($listname == "Playlists"){
-    $type = "playlist";
+    $type = "fpl";
   }else{
-    $type = "blocklist";
+    $type = "fbl";
   }
 
   echo "<table><tr><th>".$locale->get($listname)."</th><th>".$locale->get('edit')."</th><th>".$locale->get('delete')."</th></tr>";
