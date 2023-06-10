@@ -4,6 +4,7 @@ require_once "$root/lib/Locale.php";
 require_once "$root/lib/user.php";
 require_once "$root/lib/dev.php";
 require_once "$root/lib/fileWrapper.php";
+require_once "$root/lib/Library.php";
 
 $locale = new LocalString(User::getLaguage());
 $uname = User::getUsername();
@@ -60,7 +61,6 @@ function drawList($list,$listname){
 <div class="window" style="width: 300px">
   <div class="title-bar">
     <div class="title-bar-text"><?=$locale->get('UserAccountWindowTitle')?></div>
-
   </div>
   <div class="window-body">
     Logged as: <?=$uname?>
@@ -101,7 +101,27 @@ function drawList($list,$listname){
 
   </div>
   <div class="window-body">
-    there will be statistics of the library
+    <div class="sunken-panel">
+    <table>
+      <tr>
+        <th>key</th>
+        <th>value</th>
+      </tr>
+      <tr>
+        <td>Data stored</td>
+        <td><?=round(Library::getDatasize()/1073741824,2)?> GB</td>
+      </tr>
+      <tr>
+        <td>Duration of all tracks</td>
+        <td><?=gmdate("H:i:s", Library::getDuration())?></td>
+      </tr>
+      <tr>
+        <td>Tracks count</td>
+        <td><?=Library::getTrackCount()?></td>
+      </tr>
+
+    </table>
+    </div>
   </div>
 </div>
 
