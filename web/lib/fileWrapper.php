@@ -28,6 +28,9 @@ class File{
   static function arrayToFile($path,$array){
     file_put_contents($path,implode("\n",$array));
   }
+  static function stringToFile($path,$string){
+    file_put_contents($path,$string);
+  }
 
   static function open($path,$mode="r"){
     if (!file_exists($path)){

@@ -28,5 +28,6 @@
   "SearchQueryType":"search like",
   "Playlists":"Playlists",
   "Seeker":"Seeker",
-  "LoginPageTitle":"Login into account"
+  "LoginPageTitle":"Login into account",
+  "Editing":"Editing"
 }
