@@ -20,7 +20,7 @@ $uroot = "$userData/$uname/";
 
 if ( $uname == "anonymous" ){
   echo "403";
-  http_response_code(401);
+  http_response_code(403);
   die;
 }
 
@@ -38,8 +38,6 @@ if ( isset($_GET['h']) and isset($_GET['r']) and isset($_GET['t']) and isset($_G
   $artistChance = 40;
 }
 
-
-header('Content-Type: text/plain');
 
 $oldRolls = File::getAsArray("$uroot/oldRoll.frf");
 
@@ -99,6 +97,8 @@ if ($retTrack == "na" or $retTrack == "" or in_array($retTrack,$oldRolls)){
 goto reroll;
 }
 File::addToLimited("$uroot/oldRoll.frf",10,$retTrack);
+
+header('Content-Type: text/plain');
 echo($retTrack);
 
 

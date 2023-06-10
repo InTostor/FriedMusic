@@ -8,4 +8,8 @@ $locale = new LocalString(User::getLaguage());
 
 
 
-echo $locale->get("Yes");
+fout($_GET);
+fout($_POST);
+
+
+?>
