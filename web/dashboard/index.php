@@ -4,7 +4,6 @@ require_once "$root/lib/Locale.php";
 require_once "$root/lib/user.php";
 require_once "$root/lib/dev.php";
 require_once "$root/lib/fileWrapper.php";
-require_once "$root/lib/Locale.php";
 
 $locale = new LocalString(User::getLaguage());
 $uname = User::getUsername();
@@ -55,11 +54,20 @@ function drawList($list,$listname){
 <body>
 <iframe name="void" style="display: none;"></iframe>
 
-<?=$uname?>
 
 
 
+<div class="window" style="width: 300px">
+  <div class="title-bar">
+    <div class="title-bar-text"><?=$locale->get('UserAccountWindowTitle')?></div>
 
+  </div>
+  <div class="window-body">
+    Logged as: <?=$uname?>
+    <button aria-label="Logout"><a href="/login/logout.php"> <?=$locale->get("Logout")?> </a> </button>
+    <button aria-label="Go to player"><a href="/">Player</a></button>
+  </div>
+</div>
 
 
 
@@ -84,6 +92,16 @@ function drawList($list,$listname){
     <div class="sunken-panel">
       <?=drawList(User::getBlocklists($uname),"Blocklists")?>
     </div>
+  </div>
+</div>
+
+<div class="window" style="width: 300px">
+  <div class="title-bar">
+    <div class="title-bar-text"><?=$locale->get('LibraryStatsWindowTitle')?></div>
+
+  </div>
+  <div class="window-body">
+    there will be statistics of the library
   </div>
 </div>
 

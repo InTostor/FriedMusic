@@ -42,10 +42,12 @@ Class Database {
         return $res;
     }
 
-    static function executeStmt($sql,$types,$values){        
+    static function executeStmt($sql,string $types = "",array $values = []){        
         $conn=getDB();
         $stmt = $conn->prepare("$sql");
-        $stmt->bind_param($types,...$values);
+        if ($types !=""){
+            $stmt->bind_param($types,...$values);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
         $lastId = $stmt->insert_id;

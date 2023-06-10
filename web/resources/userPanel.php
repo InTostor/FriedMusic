@@ -1,11 +1,3 @@
-<script>
-
-  function logout(){
-    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
-    document.location.reload()
-}
-</script>
-
 <div class="userpanelHolder">
   <div class="userpanelContainer window">
     <div class="title-bar">
@@ -13,8 +5,7 @@
     </div>
     <div class="window-body">
       <div class="userpanelSection" id="profile">
-        <button onclick="logout()" aria-label="Logout"><?=$locale->get("Logout")?></button>
-
+        <button  aria-label="Dashboard"> <a href="/dashboard/"><?=$locale->get("Dashboard")?></a> </button>
 
       </div>
 
