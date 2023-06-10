@@ -116,4 +116,30 @@ class User{
     }
   }
 
+  static function getPlaylists($uname){
+    $uroot = User::getDirectory($uname);
+    $ret = [];
+    foreach (new DirectoryIterator($uroot) as $file) {
+      $filename = $file->getFilename();
+      if($file->isDot()) continue;
+      if (pathinfo($filename, PATHINFO_EXTENSION)=="fpl" ){
+        array_push($ret, $filename);
+      }
+    }
+    return $ret;
+  }
+
+  static function getBlocklists($uname){
+    $uroot = User::getDirectory($uname);
+    $ret = [];
+    foreach (new DirectoryIterator($uroot) as $file) {
+      $filename = $file->getFilename();
+      if($file->isDot()) continue;
+      if (pathinfo($filename, PATHINFO_EXTENSION)=="fbl" ){
+        array_push($ret, $filename);
+      }
+    }
+    return $ret;
+  }
+
 }

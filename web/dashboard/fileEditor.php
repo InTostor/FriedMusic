@@ -4,21 +4,29 @@ require_once "$root/lib/Locale.php";
 require_once "$root/lib/user.php";
 require_once "$root/lib/dev.php";
 require_once "$root/lib/fileWrapper.php";
-require_once "$root/lib/Locale.php";
+require_once "$root/settings/config.php";
 
 $locale = new LocalString(User::getLaguage());
 
-if (!isset($_GET['file'])){
+if ( !isset($_GET['file']) and isset($_GET['type']) ){
+
+  $type = $_GET['type'];
+
+  echo "
+  <form method='get' action=''>
+  <input type='hidden'name='type'value='$type'>
+  <input name='file' type='text' placeholder='enter filename'>
+  <input type='submit'>
+  ";
+  die();
+}elseif (isset($_GET['file'])){
+
+}elseif ( !isset($_GET['type']) ){
   http_response_code(400);
   echo "400";
   die();
 }
 
-if (!isset($_GET['file'])){
-  http_response_code(401);
-  echo "401";
-  die();
-}
 
 
 
@@ -26,6 +34,30 @@ $uname = User::getUsername();
 $uroot = User::getDirectory($uname);
 
 $requestedFilename = $_GET['file'];
+
+
+// if no extension, try to get extension from $_GET['type']
+if ( isset($_GET['type']) and !isset(pathinfo($requestedFilename)['extension'])){
+  $extension = $_GET['type'];
+  $requestedFilename = "$requestedFilename.$extension";
+}elseif ( isset(pathinfo($requestedFilename)['extension']) ){
+  $extension = pathinfo($requestedFilename)['extension'];
+}else{
+  http_response_code(400);
+  echo "400";
+  die();
+}
+
+
+
+
+
+if ( !in_array($extension,$allowedFileExtensions)){
+  echo "wrong file format";
+  die();
+}
+
+
 
 if (file_exists("$uroot/$requestedFilename")){
   $requestedFileContent = File::getAsString("$uroot/$requestedFilename");
@@ -45,14 +77,11 @@ $textAreaRows = sizeof(explode("\n",$requestedFileContent)) + 3 ;
 
 <head>
   <title><?=$locale->get("editing")?> <?=$requestedFilename?></title>
+  <link rel="stylesheet" href="/styles/98.css">
 </head>
 
-<link rel="stylesheet" href="/styles/98.css">
+<body>
 
-<style>
-
-
-</style>
 
 <iframe name="void" style="display: none;"></iframe>
 
@@ -67,5 +96,5 @@ $textAreaRows = sizeof(explode("\n",$requestedFileContent)) + 3 ;
 
 
 
-
+</body>
 </html>

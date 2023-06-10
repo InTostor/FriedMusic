@@ -14,3 +14,4 @@ $userData = "$root/userdata/";
 
 // Constants
 $maxHistoryFileLines = 500;
+$allowedFileExtensions = ["fpl","fbl"];
