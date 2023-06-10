@@ -25,12 +25,12 @@ function drawList($list,$listname){
   foreach ( $list as $playlistFilename ){
     echo "<tr>";
     echo "<td>$playlistFilename</td>";
-    echo "<td><a href='/useractions/fileEditor.php?file=$playlistFilename'>editView</a></td>";
+    echo "<td><button class='actionButton' ><a  href='/useractions/fileEditor.php?file=$playlistFilename'><img class='actionIcon' src='/resources/rename-2.png' alt='edit playlist'></a></button></td>";
     echo "
     <td>
-    <form target='void' method='get' action='/api/deleteFile.php'>
+    <form class='actionButtonContainer' target='void' method='get' action='/api/deleteFile.php'>
     <input type='hidden' name='file' value='$playlistFilename'>
-    <button type='submit'>delete</button>
+    <button class='actionButton' type='submit'><img class='actionIcon' src='/resources/recycle_bin_empty-4.png' alt='delete'></button>
     </form>
     </td>
     ";
@@ -54,9 +54,24 @@ function drawList($list,$listname){
 </head>
 <body>
 <iframe name="void" style="display: none;"></iframe>
-
-
-
+<style>
+.actionIcon{
+  height: 22px;
+  width: 22px;
+  margin: 2px;
+}
+.actionButton{
+  width:fit-content;
+  height: fit-content;
+  min-width: unset;
+  padding: 2px;
+  margin: auto 0px auto 0px;
+}
+.actionButtonContainer{
+  display: flex;
+  margin:0px;
+}
+</style>
 
 <div class="window" style="width: 300px">
   <div class="title-bar">
@@ -80,6 +95,7 @@ function drawList($list,$listname){
     <div class="sunken-panel">
       <?=drawList(User::getPlaylists($uname),"Playlists")?>
     </div>
+    <?=(sizeof(User::getPlaylists($uname))."/".$MAXALLOWEDFILES-3)?>
   </div>
 </div>
 
