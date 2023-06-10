@@ -25,7 +25,7 @@ function drawList($list,$listname){
   foreach ( $list as $playlistFilename ){
     echo "<tr>";
     echo "<td>$playlistFilename</td>";
-    echo "<td><a href='/account/fileEditor.php?file=$playlistFilename'>editView</a></td>";
+    echo "<td><a href='/useractions/fileEditor.php?file=$playlistFilename'>editView</a></td>";
     echo "
     <td>
     <form target='void' method='get' action='/api/deleteFile.php'>
@@ -36,7 +36,7 @@ function drawList($list,$listname){
     ";
     echo "</tr>";
   }
-  echo "<td>Create New?</td><td><a href='/account/fileEditor.php?type=$type'>create</a></td><td></td>";
+  echo "<td>Create New?</td><td><a href='/useractions/fileEditor.php?type=$type'>create</a></td><td></td>";
   echo "</table>";
 }
 
@@ -48,7 +48,7 @@ function drawList($list,$listname){
 
 <html lang="<?=$locale->locale?>">
 <head>
-  <title><?=$locale->get("AccountPageTitle")?></title>
+  <title><?=$locale->get("DashboardPageTitle")?></title>
   <link rel="stylesheet" href="/styles/98.css">
   <link rel="stylesheet" href="/styles/main.css">
 </head>

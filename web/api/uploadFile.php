@@ -4,16 +4,15 @@ require_once "$root/lib/dev.php";
 require_once "$root/lib/user.php";
 require_once "$ROOT/settings/config.php";
 
-$allowedExtensions = ["fpl","fbl"];
-$MAXUPLOADSIZE = 5242880; // 2^16 * mean filename size * 2 bytes unicode character size
-$MAXALLOWEDFILES = 64;
 
 $uname = User::getUsername();
-if ($uname == "anonymous"){die();}
+if ($uname == "anonymous"){
+  http_response_code(401);
+  echo "401";
+  die();
+}
 
 $uroot = User::getDirectory($uname);
-
-
 
 
 if (isset($_FILES['file'])){
@@ -24,7 +23,7 @@ if (isset($_FILES['file'])){
   // File check section. Checks are sorted from lightest to hardest (for computing)
 
   // check extension
-  if (!in_array($extension,$allowedExtensions)){
+  if (!in_array($extension,$allowedFileExtensions)){
     echo "400";
     http_response_code(400);
     die();
@@ -62,7 +61,7 @@ if (isset($_FILES['file'])){
   
   // check extension
   $extension = pathinfo($filename)['extension'];
-  if (!in_array($extension,$allowedExtensions)){
+  if (!in_array($extension,$allowedFileExtensions)){
     echo "400";
     http_response_code(400);
     die();
