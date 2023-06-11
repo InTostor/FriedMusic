@@ -17,3 +17,4 @@ $maxHistoryFileLines = 500;
 $allowedFileExtensions = ["fpl","fbl"];
 $MAXUPLOADSIZE = 5242880; // 2^16 * mean filename size * 2 bytes unicode character size
 $MAXALLOWEDFILES = 64;
+$cookieTime = 157680000; // 5 years

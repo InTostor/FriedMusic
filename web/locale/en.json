@@ -27,8 +27,12 @@
   "NoTrackText":"Nothing from void",
   "SearchQueryType":"search like",
   "Playlists":"Playlists",
+  "Blocklists":"Blocklists",
   "Seeker":"Seeker",
   "LoginPageTitle":"Login into account",
   "Editing":"Editing",
-  "DashboardPageTitle":"Dashboard"
+  "DashboardPageTitle":"Dashboard",
+  "Return":"Return",
+  "ReturnToPlayerButton":"Return to player",
+  "SelectLanguage":"Select Laguage"
 }

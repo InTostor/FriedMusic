@@ -78,9 +78,30 @@ function drawList($list,$listname){
     <div class="title-bar-text"><?=$locale->get('UserAccountWindowTitle')?></div>
   </div>
   <div class="window-body">
-    Logged as: <?=$uname?>
-    <button aria-label="Logout"><a href="/login/logout.php"> <?=$locale->get("Logout")?> </a> </button>
-    <button aria-label="Go to player"><a href="/">Player</a></button>
+    <div class="field-row-stacked">
+      <button style="margin-top:auto" aria-label="Go to player"><a href="/"><?=$locale->get("ReturnToPlayerButton")?></a></button>
+      <div class="field-row">
+          Logged as: <?=$uname?>
+        <button aria-label="Logout"><a href="/login/logout.php"> <?=$locale->get("Logout")?> </a> </button>
+      </div>
+      <div class="field-row-stacked">
+        <form action="/api/setLanguage.php" method="get" target="void">
+          <label for="langSelect" ><?=$locale->get("SelectLanguage")?></label> 
+          <select name="lang" id="langSelect" aria-label="<?=$locale->get("SelectLanguage")?>">
+            <?php
+              foreach ( LocalString::getAvailableLocales() as $lang ){
+                if ( $lang == $locale->locale ){
+                  echo "<option selected>$lang</option>";
+                }else{
+                  echo "<option>$lang</option>";
+                }                
+              }
+            ?>
+          </select>
+          <input type="submit" value="save">
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 

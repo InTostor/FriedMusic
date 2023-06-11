@@ -3,7 +3,6 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/settings/config.php";
 require_once "$root/lib/Locale.php";
-$cookieTime = 157680000; // 5 years
 
 class User{
 

@@ -3,9 +3,8 @@ import mysql.connector
 import os, time
 
 musicDir = "/home/intostor/Music/"
+sortMode = "name" # name | atime
 
-with open("failed.txt","w") as f:
-  f.write("")
 
 db = mysql.connector.connect(
   host="192.168.0.186",
@@ -14,10 +13,20 @@ db = mysql.connector.connect(
   database="friedmusic",
   port=9889
 )
+
+with open("failed.txt","w") as f:
+  f.write("")
+
+
 cur = db.cursor()
 
 files = [x for x in os.listdir(musicDir)]
-files = sorted(files,key = lambda x: os.stat(musicDir+str(x)).st_atime,reverse=True)
+
+match sortMode:
+  case "name":
+    files = sorted(files)
+  case "atime":
+    files = sorted(files,key = lambda x: os.stat(musicDir+str(x)).st_atime,reverse=True)
 
 t=time.time()
 
@@ -68,7 +77,7 @@ def getAssociativeTracksArray(tracksFilenames):
     album.replace("'","\'")
     genre.replace("'","\'")
     out.append((filename,title,duration,album,genre,artist,year,filesize))
-    print(i,"getting associative array")
+    # print(i,"getting associative array")
   return out
 
 

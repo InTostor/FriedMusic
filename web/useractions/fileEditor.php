@@ -100,16 +100,26 @@ $textAreaRows = sizeof(explode("\n",$requestedFileContent)) + 3 ;
 
 <iframe name="void" style="display: none;"></iframe>
 
-<label for="plaintextFileContent"><?=$locale->get("Editing")?> <?=$requestedFilename?> </label> 
 
-<form id="fileEditorTextarea" method="post" action="/api/uploadFile.php" target="void" class="field-row-stacked" style="width:fit-content">
-  <input type="hidden" name="plaintextFileName" value="<?=$requestedFilename?>" >
-  <input type="submit" value="Upload content of textarea">
-  <textarea id="plaintextFileContent" name="plaintextFileContent" id="filePlaintext" cols="<?=$textAreaColumns?>" rows="<?=$textAreaRows?>" spellcheck="false" ><?=$requestedFileContent?></textarea>
-  
-</form>
 
+<div class="window" style="width: fit-content">
+  <div class="title-bar">
+    <div class="title-bar-text"><label for="plaintextFileContent"><?=$locale->get("Editing")?> <?=$requestedFilename?> </label> </div>
+
+  </div>
+  <div class="window-body">
+    <button><a href="/dashboard/"><?=$locale->get("Return")?></a></button>
+    <form id="fileEditorTextarea" method="post" action="/api/uploadFile.php" target="void" class="field-row-stacked" style="width:fit-content">
+      <input type="hidden" name="plaintextFileName" value="<?=$requestedFilename?>" >
+      <input type="submit" value="Upload content of textarea">
+      <textarea id="plaintextFileContent" name="plaintextFileContent" id="filePlaintext" cols="<?=$textAreaColumns?>" rows="<?=$textAreaRows?>" spellcheck="false" ><?=$requestedFileContent?></textarea>
+
+    </form>
+  </div>
+</div>
 
 
 </body>
 </html>
+
+

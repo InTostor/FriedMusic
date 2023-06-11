@@ -47,3 +47,8 @@ td + a,td {
   line-clamp: 2; 
 }
 
+
+button > a{
+  text-decoration: none;
+  color:#222;
+}
