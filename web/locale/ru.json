@@ -24,8 +24,15 @@
   "SearchWindowTitle":"Кладоискатель",
   "CurrentPlaylistSubwindowTitle":"Сейчас играет:",
   "AddTrackToPlaylistModal":"Добавить выбранный трек в плейлист",
-  "NoTrackText":"Nothing from void",
+  "NoTrackText":"Ничего из ниоткуда",
   "SearchQueryType":"Схожее по:",
   "Playlists":"Плейлисты",
-  "Seeker":"Прокрутка"
+  "Blocklists":"Blocklists",
+  "Seeker":"Прокрутка",
+  "LoginPageTitle":"Вход в учетную запись",
+  "Editing":"Редактируется",
+  "DashboardPageTitle":"Панель управления",
+  "Return":"Вернуться",
+  "ReturnToPlayerButton":"Вернуться к проигрывателю",
+  "SelectLanguage":"Выбор языка"
 }

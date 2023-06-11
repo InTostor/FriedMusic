@@ -27,5 +27,12 @@
   "NoTrackText":"no hay música",
   "SearchQueryType":"Buscar como",
   "Playlists":"Lista de reproducción",
-  "Seeker":"Posición"
+  "Blocklists":"lista de bloqueo",
+  "Seeker":"Posición",
+  "LoginPageTitle":"Iniciar tú sessión",
+  "Editing":"Editando",
+  "DashboardPageTitle":"Tablero",
+  "Return":"Volver",
+  "ReturnToPlayerButton":"Volver al reproductor",
+  "SelectLanguage":"Idioma"
 }
