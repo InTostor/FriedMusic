@@ -4,6 +4,9 @@ import os, time
 
 musicDir = "/home/intostor/Music/"
 
+with open("failed.txt","w") as f:
+  f.write("")
+
 db = mysql.connector.connect(
   host="192.168.0.186",
   user="Admin",
@@ -27,9 +30,11 @@ def getTracksFromDatabase():
   return res
 
 def pushTracksToDatabase(tracks):
+  print("Trying to push data to database")
   sql  = "REPLACE INTO `friedmusic`.`fullmeta`(`filename`,`title`,`duration`,`album`,`genre`,`artist`,`year`,`filesize`) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
   cur.executemany(sql,tracks)
   db.commit()
+  print("pushed succesfully")
 
 
 def getAssociativeTracksArray(tracksFilenames):
@@ -47,6 +52,13 @@ def getAssociativeTracksArray(tracksFilenames):
     samplerate = int(tag.samplerate)
     duration   = int(tag.duration)
     genre      = str(tag.genre)
+
+    if title in (None,"","None") or artist in (None,"","None"):
+      print(filename," doesn't have required metadata")
+      with open("failed.txt","a") as f:
+        f.write(filename+"\n")
+      continue
+
     try:
       year       = int(tag.year)
     except Exception:
@@ -56,6 +68,7 @@ def getAssociativeTracksArray(tracksFilenames):
     album.replace("'","\'")
     genre.replace("'","\'")
     out.append((filename,title,duration,album,genre,artist,year,filesize))
+    print(i,"getting associative array")
   return out
 
 
@@ -68,12 +81,12 @@ tracksToDatabase = [x for x in filesInDatabase if x not in files]
 
 tracksMetadata = getAssociativeTracksArray(tracksToDatabase)
 pushTracksToDatabase(tracksMetadata)
-
-
-
-  
   
 
 db.close()
+
+with open("failed.txt","r") as f:
+  print("Fix metadata in this files and re run")
+  print(f.read())
 
 print("elapsed: ", time.time()-t)

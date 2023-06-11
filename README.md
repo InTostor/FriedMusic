@@ -1,6 +1,6 @@
 # FriedMusic
 Self-hosted music library, player with recomendations
-
+[demo](https://music.explorers.net.ru)
 
 ## Installation
 1.Move [/web/](/web/) to the webserver
