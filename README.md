@@ -3,11 +3,11 @@ Self-hosted music library, player with recomendations
 [demo](https://music.explorers.net.ru)
 
 ## Project status
-[X] PoC
-[X] MVP
-[ ] Tests
-[ ] Desktop client
-[ ] Mobile app
+- [X] PoC
+- [X] MVP
+- [ ] Tests
+- [ ] Desktop client
+- [ ] Mobile app
 
 ## Installation
 1. Move [/web/](/web/) to the webserver
