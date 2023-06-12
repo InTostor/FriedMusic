@@ -4,6 +4,7 @@ require_once "$root/lib/user.php";
 require_once "$root/lib/dev.php";
 require_once "$root/lib/fileWrapper.php";
 require_once "$root/lib/dbWrapper.php";
+require_once "$root/settings/config.php";
 
 class Library{
 
@@ -41,6 +42,16 @@ class Library{
     return Database::executeStmt($sql)[0]['sum(filesize)'];
   }
 
+  static function getTableSize(){
+    global $dbName;
+    $sql = "
+    SELECT round(((data_length + index_length)), 2) `bytes` 
+    FROM information_schema.TABLES 
+    WHERE table_schema = '$dbName'AND table_name = 'fullmeta'
+    ";
+    return Database::executeStmt($sql)[0]['bytes'];
+  }
+
   static function getDuration(){
     $sql = "SELECT sum(duration) from fullmeta";
     return Database::executeStmt($sql)[0]['sum(duration)'];
@@ -55,4 +66,7 @@ class Library{
     return $out; 
   }
 
+  static function getUsersCount(){
+    return Database::executeStmt("select count(*) from users")[0]['count(*)'];
+  }
 }

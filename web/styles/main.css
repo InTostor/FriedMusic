@@ -47,8 +47,10 @@ td + a,td {
   line-clamp: 2; 
 }
 
-
 button > a{
   text-decoration: none;
   color:#222;
+  width:100%;
+  height: 100%;
+  display: inline-block;
 }

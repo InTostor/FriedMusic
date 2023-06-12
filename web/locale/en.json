@@ -34,5 +34,11 @@
   "DashboardPageTitle":"Dashboard",
   "Return":"Return",
   "ReturnToPlayerButton":"Return to player",
-  "SelectLanguage":"Select Laguage"
+  "SelectLanguage":"Select Laguage",
+  "LibraryStatsWindowTitle":"Library statistics",
+  "LibraryDatasize":"Music datasize",
+  "LibraryTableSize":"Music index size",
+  "LibraryDuration":"Duration of audio in library",
+  "LibraryTrackCount":"Tracks count",
+  "LibraryUsersCount":"Registered users"
 }

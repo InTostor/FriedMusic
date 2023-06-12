@@ -53,6 +53,7 @@ function drawList($list,$listname){
   <link rel="stylesheet" href="/styles/main.css">
 </head>
 <body>
+<div class="pageLimiter">
 <iframe name="void" style="display: none;"></iframe>
 <style>
 .actionIcon{
@@ -70,6 +71,9 @@ function drawList($list,$listname){
 .actionButtonContainer{
   display: flex;
   margin:0px;
+}
+.window{
+  height:fit-content;
 }
 </style>
 
@@ -145,23 +149,30 @@ function drawList($list,$listname){
         <th>value</th>
       </tr>
       <tr>
-        <td>Data stored</td>
+        <td><?=$locale->get("LibraryDatasize")?></td>
         <td><?=round(Library::getDatasize()/1073741824,2)?> GB</td>
       </tr>
       <tr>
-        <td>Duration of all tracks</td>
+        <td><?=$locale->get("LibraryTableSize")?></td>
+        <td><?=((Library::getTableSize()/1024)." KB")?></td>
+      </tr>
+      <tr>
+        <td><?=$locale->get("LibraryDuration")?></td>
         <td><?=gmdate("H:i:s", Library::getDuration())?></td>
       </tr>
       <tr>
-        <td>Tracks count</td>
+        <td><?=$locale->get("LibraryTrackCount")?></td>
         <td><?=Library::getTrackCount()?></td>
       </tr>
-
+      <tr>
+        <td><?=$locale->get("LibraryUsersCount")?></td>
+        <td><?=Library::getUsersCount()?></td>
+      </tr>
     </table>
     </div>
   </div>
 </div>
 
-
+</div>
 </body>
 </html>

@@ -33,7 +33,7 @@
               <button id="playerPlaypause"class="playerTrackActionButton" onclick="a.playPause()" title="Play/Pause"><img class="playerTrackActionIco" src="/resources/Octicons-playback-play.svg" alt="Play track" ></button>
               <button id="playerNext"class="playerTrackActionButton" onclick="a.next()" title="Next track"><img class="playerTrackActionIco" src="/resources/Fast_forward_font_awesome.svg"alt="next track"></button>
             </div>
-            <label for="playerSeeker"><?=$locale->get("Seeker")?></label>
+            <label for="playerSeeker" style="margin: auto 5px auto 5px"><?=$locale->get("Seeker")?></label>
             <input id="playerSeeker" oninput="a.seekTo(this.value)" type="range" min="0" max="11" value="5" title="seek to"/>
           </div>
 
@@ -116,6 +116,10 @@
   height:30px;
   resize: vertical;
   transition: resize linear 0s;
+}
+#playerTimeElapsed{
+  width:26px;
+  align-self: center;
 }
 </style>
 
