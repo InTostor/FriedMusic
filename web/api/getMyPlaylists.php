@@ -7,4 +7,4 @@ $uname = User::getUsername();
 header('Content-Type: text/plain');
 
 
-echo (implode("\n",getPlaylists($uname)));
+echo (implode("\n",User::getPlaylists($uname)));
