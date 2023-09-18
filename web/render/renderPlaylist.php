@@ -10,7 +10,7 @@ if (isset($_GET['src'])){
     $type = $_GET['type'];
     $musicList = search($type,$_GET['query']);
     $playListType = "search";
-  }else{
+  }elseif ($_GET['src']!="search"){
     $musicList = File::getAsArray($root."/".$_GET['src']);
     $playListType = "general";
   }
@@ -51,6 +51,7 @@ if (isset($_GET['src'])){
   <?php if ( $playListType == "search"){echo"
   <th>artist</th>
   <th>title</th>
+  <th>Album</th>
   <th>actions</th>
   <th>duration</th>
   <th>genre</th>";
@@ -68,6 +69,7 @@ foreach ($musicList as $key=>$track){
   $genre = $track['genre'];
   // $title = preg_replace("/\(.+\)/m",'',$track['title']);
   $title = $track['title']; //beacuse some songs have (name) and other (metadata)
+  $album = $track['album'];
   $artists=[];
   $fav = '/resources/directory_favorites-2.png';
   if (File::isInFile($filename,$root."/userdata/".User::getUsername()."/favourite.fpl")){
@@ -83,6 +85,7 @@ foreach ($musicList as $key=>$track){
 
   // title
   echo"<td>".$title."</td>";
+  echo"<td><a href='javascript:s.search(\"Album\",\"$album\");'>$album</a></td>";
   }else{
     echo"<td>$track</td>";
     $filename = $track;
@@ -96,7 +99,7 @@ foreach ($musicList as $key=>$track){
 
   if ( $playListType == "search"){
   echo"<td>$duration</td>";
-  echo"<td>$genre</td>";
+  echo"<td><a href='javascript:s.search(\"Genre\",\"$genre\");'>$genre</a></td>";
   }
 
   echo"</tr>";

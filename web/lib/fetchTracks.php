@@ -8,10 +8,7 @@ function search($type,$q,$limit = 100){
   }else{
     $limit = "";
   }
-  switch ($type){
-    default:
-      $sql = "SELECT * FROM `fullmeta` where filename like ? or artist like ? or album like ? or title like ? $limit";
-      return Database::executeStmt($sql,"ssss",[$q,$q,$q,$q]);
+  switch (strtolower($type)){
     case "album":
       $sql = "SELECT * FROM `fullmeta` where album like ? $limit";
       break;
@@ -20,7 +17,10 @@ function search($type,$q,$limit = 100){
       break;
     case "genre":
       $sql = "SELECT * FROM `fullmeta` where genre like ? $limit";
-      break; 
+      break;
+    default:
+      $sql = "SELECT * FROM `fullmeta` where filename like ? or artist like ? or album like ? or title like ? $limit";
+      return Database::executeStmt($sql,"ssss",[$q,$q,$q,$q]);
   }
   
   return Database::executeStmt($sql,"s",[$q]);

@@ -8,12 +8,24 @@ class SearchPanel{
     self.tableHolder = $('searchTableHolder')   
   }
   search(){
-    let query = self.searchQuery.value
-    let type = self.searchQueryType.value
-    fetch(`/render/renderPlaylist.php?src=search&type=${type}&query=${query}`)
-    .then((response) => response.text())
-    .then(text => {self.tableHolder.innerHTML = text})
-    fetch(`/api/rememberSearch.php?type=${type}&query=${query}`)
+    if (arguments.length==2){
+      console.log(arguments[0])
+      if (["Genre","Artist","Album"].includes(arguments[0])){
+        console.log("search")
+        self.searchQueryType.value = arguments[0]
+        self.searchQuery.value = arguments[1]
+        this.search()
+        
+      }
+    }else{
+      let query = self.searchQuery.value
+      let type = self.searchQueryType.value
+      fetch(`/render/renderPlaylist.php?src=search&type=${type}&query=${query}`)
+      .then((response) => response.text())
+      .then(text => {self.tableHolder.innerHTML = text})
+      fetch(`/api/rememberSearch.php?type=${type}&query=${query}`)
+    }
+
   }
 
 

@@ -9,18 +9,18 @@ require_once "$root/lib/renderMusicTable.php";
 function search($type,$q){
   $q="%$q%";
   switch ($type){
-    default:
-      $sql = "SELECT * FROM `fullmeta` where filename like ? or artist like ? or album like ? or title like ?";
-      return Database::executeStmt($sql,"ssss",[$q,$q,$q,$q]);
-    case "album":
+    case "Album":
       $sql = "SELECT * FROM `fullmeta` where album like ?";
       break;
-    case "artist":
+    case "Artist":
       $sql = "SELECT * FROM `fullmeta` where artist like ?";
       break;
-    case "genre":
+    case "Genre":
       $sql = "SELECT * FROM `fullmeta` where genre like ?";
       break; 
+    default:      
+      $sql = "SELECT * FROM `fullmeta` where filename like ? or artist like ? or album like ? or title like ?";
+      return Database::executeStmt($sql,"ssss",[$q,$q,$q,$q]);
   }
   
   return Database::executeStmt($sql,"s",[$q]);
