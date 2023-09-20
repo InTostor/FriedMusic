@@ -5,8 +5,16 @@ class SearchPanel{
   constructor(){
     self.searchQuery = $('searchQuery')
     self.searchQueryType = $('searchQueryType')
-    self.tableHolder = $('searchTableHolder')   
+    self.tableHolder = $('searchTableHolder')
+    if (isUrlParamSet(window.location.href,"sq") & isUrlParamSet(window.location.href,"sqt")){
+    getUrlParams(window.location.href).forEach(element=>{
+      if (element.key=="sq"){self.searchQuery.value=decodeURI(element.value)}
+      if (element.key=="sqt"){self.searchQueryType.value=element.value}
+    })
+    this.search()
+    }
   }
+
   search(){
     if (arguments.length==2){
       console.log(arguments[0])
@@ -20,6 +28,8 @@ class SearchPanel{
     }else{
       let query = self.searchQuery.value
       let type = self.searchQueryType.value
+      updateCurrentURL("sq",query)
+      updateCurrentURL("sqt",type)
       fetch(`/render/renderPlaylist.php?src=search&type=${type}&query=${query}`)
       .then((response) => response.text())
       .then(text => {self.tableHolder.innerHTML = text})

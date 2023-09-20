@@ -1,10 +1,3 @@
-function updateUrl(newurl,reload=false){
-  let a = document.createElement('a')
-  a.href= document.location.href 
-  let host = a.origin
-  history.pushState({}, null, host+newurl);
-}
-
 function createTrackButtons(row){
   row.createElement()
 }
@@ -17,16 +10,7 @@ function playTrack(playerId,trackUrl){
 
 }
 
-// php style global variable
-function getUrlParams(){
-  var parts = window.location.search.substr(1).split("&");
-  var $_GET = {};
-  for (var i = 0; i < parts.length; i++) {
-      var temp = parts[i].split("=");
-      $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
-  }
-  return $_GET
-}
+
 
 function getMusicPath(){
   return "/Music/"
@@ -92,4 +76,32 @@ function updateURLParameter(url, param, paramVal){
 
   var rows_txt = temp + "" + param + "=" + paramVal;
   return baseURL + "?" + newAdditionalURL + rows_txt;
+}
+
+function getUrlParams(url){
+  var paramtoval = url.split("?")[1].split("&")
+  var returnArray = []
+  paramtoval.forEach(element => {
+    var splitElement = element.split("=")
+    returnArray.push(
+      {
+        key:splitElement[0],
+        value:splitElement[1]
+      }
+      )
+  });
+  return returnArray
+}
+
+function isUrlParamSet(url,param){
+  var parameters = getUrlParams(url)
+  var ret = false
+  parameters.forEach(element => {
+    ret = ret | element.key == param
+  });
+  return ret
+}
+
+function updateCurrentURL(param, val){  
+  window.history.replaceState('', '', updateURLParameter(window.location.href, param, val));
 }

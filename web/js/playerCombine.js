@@ -43,6 +43,7 @@ class AudioPlayer {
     self.musicRoot = "/Music/"
     self.srcType = srcType
     self.src = src
+    self.srcref = ""
     self.savedToHistory = false
     self.trackNumber = trackNumber
     // listeners & handlers
@@ -69,7 +70,16 @@ class AudioPlayer {
     return [self.loop,self.shuffle,self.srcType,self.src,self.trackNumber]
   }
 
-  use(type,src="",trackNumber=0,playlistName=""){
+  getDebugData(){
+    console.log("src    ",self.src)
+    console.log("srcType",self.srcType)
+    console.log("trackN ",self.trackNumber)
+    console.log("srcName",self.srcName)
+    console.log("srcRef",self.srcName)
+  }
+
+  use(type,src="",trackNumber=0,playlistName="",srcref=""){
+    self.srcref=srcref
     self.srcType = type
     self.src = src
     self.trackNumber = trackNumber

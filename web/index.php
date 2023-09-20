@@ -58,10 +58,11 @@ let currPlaylist = []
 function reqPlayTrack(key,src,type){
   switch (type){
     case "search":
-      currPlaylist = syncFetch("/userdata/<?=$uname?>/search.fpl").toString()
+      srcref = "/userdata/<?=$uname?>/search.fpl"
+      currPlaylist = syncFetch(srcref).toString()
       currPlaylist = currPlaylist.split("\n")
       reqPlayList('/userdata/<?=$uname?>/search.fpl')
-      a.use("playlist",currPlaylist,key,"search")
+      a.use("playlist",currPlaylist,key,"search",srcref)
       break
   
   }
