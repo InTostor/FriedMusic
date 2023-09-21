@@ -1,133 +1,202 @@
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-<link rel="stylesheet" href="/styles/98.css">
+<html lang="en">
+
+<head>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="/styles/98.css">
+  <title>API documentation</title>
+</head>
 <style>
-  body{
+  body {
     background-color: #c0c0c0;
     color: #222;
   }
-  var{
-    color:rgb(220,30,20);
+
+  var {
+    color: rgb(200, 0, 0);
+
   }
+
   .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
   }
-  .apiFunction{
-    width:100%;
-    padding:5px;
+
+  .apiFunction {
+    padding: 5px;
     margin: 15px 0 0 0;
-    box-shadow: inset -1px -1px #fff,inset 1px 1px grey,inset -2px -2px #dfdfdf,inset 2px 2px #0a0a0a;
+    box-shadow: inset -1px -1px #fff, inset 1px 1px grey, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
   }
-  .warning{
-    color:yellow
+
+  .warning {
+    color: yellow;
+    background-color: #000;
+    box-shadow: 0px 0px 0px 2px #000;
+  }
+
+  .section {
+    padding: 5px;
+    margin: 15px 0 0 0;
+    border: 2px solid black;
   }
 </style>
 
+<body>
+  If you are user, you might get there by accident. But if you are developer, read the documentation for api
 
-If you are user, you might get there by accident. But if you are developer, read the documentation for api
+  <div class="section">
+
+    <h1>User actions</h1>
+
+    <div class="section">
+      <h2>Account actions</h2>
+      <div class="apiFunction">
+        <span class="material-symbols-outlined">key</span>
+        <pre>
+      /getLoggedAs.php
+      </pre>
+        <p>
+          returns current username if logged in or anonymous if not
+        </p>
+      </div>
+    </div>
+    <div class="section">
+      <h2>Userdata (files) actions</h2>
+
+      <div class="apiFunction">
+        <span class="material-symbols-outlined">key</span>
+        <pre>
+      /addTrackToHistory.php?track=<var>track</var>
+      </pre>
+        <p>
+          adds <var>track</var> to current user's <var>history.fpl</var> file
+        </p>
+      </div>
+
+      <div class="apiFunction">
+        <span class="material-symbols-outlined">key</span>
+        <pre>
+      /addTrackToPlaylist.php?track=<var>track</var>&playlist=<var>playlist</var>
+      </pre>
+        <p>
+          adds <var>track</var> to the users <var>playlist.fpl</var> . If playlist is not existing, it will be created
+        </p>
+      </div>
 
 
-<div class="apiFunction">
-  <span class="material-symbols-outlined">key</span>
-  <pre>
-  /addTrackToHistory.php?track=<var>track</var>
-  </pre>
-  <p>
-    adds <var>track</var> to current user's <var>history.fpl</var> file
-  </p>
-</div>
+      <div class="apiFunction">
+        <span class="material-symbols-outlined">key</span>
+        <pre>
+      /getMyPlaylists.php
+      </pre>
+        <p>
+          returns current user's playlists as plaintext (line separated)
+        </p>
+      </div>
 
-<div class="apiFunction">
-  <span class="material-symbols-outlined">key</span>
-  <pre>
-  /addTrackToPlaylist.php?track=<var>track</var>&playlist=<var>playlist</var>
-  </pre>
-  <p>
-    adds <var>track</var> to the users <var>playlist.fpl</var> . If playlist is not existing, it will be created 
-  </p>
-</div>
+      <div class="apiFunction">
+        <span class="material-symbols-outlined">key</span>
+        <pre>
+      /isInFavourite.php?track=<var>track</var>
+      </pre>
+        <p>
+          returns true if <var>track</var> is in current user's favourite.fpl
+        </p>
+      </div>
 
-<div class="apiFunction">
-  <span class="material-symbols-outlined">key</span>
-  <pre>
-  /getLoggedAs.php
-  </pre>
-  <p>
-    returns current username if logged in or anonymous if not
-  </p>
-</div>
+      <div class="apiFunction">
+        <span class="material-symbols-outlined">key</span>
+        <pre>
+      /rememberSearch.php?type=<var>type</var>&query=<var>query</var>
+      </pre>
+        <p>
+          stores result of <var>query</var> in user's search.fpl.
+        <pre><var>type</var> = query | track | artist | genre</pre><br>
+        </p>
+      </div>
+
+      <div class="apiFunction">
+        <span class="material-symbols-outlined">key</span><span class="material-symbols-outlined">upload</span>
+        <pre>
+      /uploadFile.php  $_POST['file']
+      </pre>
+        <p>
+          saving give in post file to user's directory. Allowed 5120kB *.fpl | *.fbl 64 files per user
+        </p>
+      </div>
+
+      <div class="apiFunction">
+        <span class="material-symbols-outlined">key</span><span class="material-symbols-outlined">delete</span>
+        <pre>
+      /deleteFile.php?file=<var>filename</var>
+      </pre>
+        <p>
+          Deletes <var>filename</var> from user's directory. Only allowed *.fpl | *.fbl
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h1>Database actions</h1>
 
 
-<div class="apiFunction">
-  <span class="material-symbols-outlined">key</span>
-  <pre>
-  /getMyPlaylists.php
-  </pre>
-  <p>
-    returns current user's playlists as plaintext (line separated)
-  </p>
-</div>
 
-<div class="apiFunction">
-  <span class="material-symbols-outlined">key</span>
-  <pre>
+    <div class="apiFunction">
+      <span class="material-symbols-outlined">key</span>
+      <pre>
   /getNextTrack.php?h=<var>HistoryChance</var>&r=<var>RandomChance</var>&t=<var>TrackChance</var>&a=<var>ArtistChance</var>
   </pre>
-  <p>
-    returns next recommended track. If no parameters given, using preset chances.   <br>
-    generator is rolling dice twice: first time it is picking source (history.fpl or favourite.fpl) then return track from source itself or random track with same artist or same genre <br>
-    you can use h,r,t,a parameters (all or none) to control chances. Values aren't limited in range
-  </p>
-</div>
+      <p>
+        returns next recommended track. If no parameters given, using preset chances. <br>
+        generator is rolling dice twice: first time it is picking source (history.fpl or favourite.fpl) then return
+        track
+        from source itself or random track with same artist or same genre <br>
+        you can use h,r,t,a parameters (all or none) to control chances. Values aren't limited in range
+      </p>
+    </div>
 
-<div class="apiFunction">
-  <span class="material-symbols-outlined">key</span>
-  <pre>
-  /isInFavourite.php?track=<var>track</var>
-  </pre>
-  <p>
-    returns true if <var>track</var> is in current user's favourite.fpl
-  </p>
-</div>
-<div class="apiFunction">
-  <span class="material-symbols-outlined">key</span>
-  <pre>
-  /rememberSearch.php?type=<var>type</var>&query=<var>query</var>
-  </pre>
-  <p>
-    stores result of <var>query</var> in user's search.fpl.  <pre><var>type</var> = query | track | artist | genre</pre><br>
-  </p>
-</div>
 
-<div class="apiFunction">
-  <span class="material-symbols-outlined">table</span>
-  <pre>
+
+    <div class="apiFunction">
+      <span class="material-symbols-outlined">table</span>
+      <pre>
   /searchTrack.php?type=<var>type</var>&query=<var>query</var>&limit=<var>limit</var>
   </pre>
-  <p>
-    returns json with all found tracks and it's metadata. <pre><var>[limit]</var> = int[0;inf]</pre> <pre><var>type</var> = query | track | artist | genre</pre> <span class="warning">Warning!</span> Response can be very heavy
-  </p>
-</div>
+      <p>
+        returns json with all found tracks and it's metadata.
+      <pre><var>[limit]</var> = int[0;inf]</pre>
+      <pre><var>type</var> = query | track | artist | genre</pre> <span class="warning">Warning!</span> Response can be
+      very heavy
+      </p>
+    </div>
 
-<div class="apiFunction">
-  <span class="material-symbols-outlined">key</span><span class="material-symbols-outlined">upload</span>
-  <pre>
-  /uploadFile.php  $_POST['file']
-  </pre>
-  <p>
-    saving give in post file to user's directory. Allowed 5120kB *.fpl | *.fbl 64 files per user
-  </p>
-</div>
 
-<div class="apiFunction">
-  <span class="material-symbols-outlined">key</span><span class="material-symbols-outlined">delete</span>
-  <pre>
-  /deleteFile.php?file=<var>filename</var>
-  </pre>
-  <p>
-    Deletes <var>filename</var> from user's directory. Only allowed *.fpl | *.fbl
-  </p>
-</div>
+    <div class="apiFunction">
+      <span class="material-symbols-outlined">table</span>
+      <pre>/getTrackMetadata.php?track=<var>trackfilename</var></pre>
+      <p>
+        returns all data of track by it's filename
+      </p>
+    </div>
+
+    <div class="apiFunction">
+      <span class="material-symbols-outlined">table</span>
+      <pre>/selectMetadata?sql=<var>sql</var></pre>
+      <p>
+        returns all data of track. <var>sql</var> is right part of full statement.<br>
+        for example <pre>select * from fullmeta</pre>
+      </p>
+    </div>
+
+  </div>
+
+  <h1>Miscellanous</h1>
+  no methods yet
+
+</body>
+
+</html>

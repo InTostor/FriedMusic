@@ -77,6 +77,37 @@ Class Database {
         return $result->fetch_assoc()[$field];
     }
 
+    static function executeUserSelect($sql){
+        // Check if no other harmfull statements exist
+        if (preg_match(
+        '/|INSERT|
+        |UPDATE|
+        |DELETE|
+        |RENAME|
+        |DROP|
+        |CREATE|
+        |TRUNCATE|
+        |ALTER|
+        |COMMIT|
+        |ROLLBACK|
+        |MERGE|
+        |CALL|
+        |EXPLAIN|
+        |LOCK|
+        |GRANT|
+        |REVOKE|
+        |SAVEPOINT|
+        |TRANSACTION|
+        |SET/mi', 
+        $sql) == 0) {
+            // Execute query
+            $conn=getDB();
+            $result = $conn->query($sql);
+            return $result->fetch_assoc();
+        }else{
+            return false;
+        }
+    }
 
 
 
