@@ -80,30 +80,16 @@ Class Database {
     static function executeUserSelect($sql){
         // Check if no other harmfull statements exist
         if (preg_match(
-        '/|INSERT|
-        |UPDATE|
-        |DELETE|
-        |RENAME|
-        |DROP|
-        |CREATE|
-        |TRUNCATE|
-        |ALTER|
-        |COMMIT|
-        |ROLLBACK|
-        |MERGE|
-        |CALL|
-        |EXPLAIN|
-        |LOCK|
-        |GRANT|
-        |REVOKE|
-        |SAVEPOINT|
-        |TRANSACTION|
-        |SET/mi', 
+        '/INSERT|UPDATE|DELETE|RENAME|DROP|CREATE|TRUNCATE|ALTER|COMMIT|ROLLBACK|MERGE|CALL|EXPLAIN|LOCK|GRANT|REVOKE|SAVEPOINT|TRANSACTION|SET/mi', 
         $sql) == 0) {
-            // Execute query
+            $returnAssoc = [];
             $conn=getDB();
             $result = $conn->query($sql);
-            return $result->fetch_assoc();
+            while($row = $result->fetch_assoc()) {
+                array_push($returnAssoc,$row);
+            }
+            
+            return $returnAssoc;
         }else{
             return false;
         }

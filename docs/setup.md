@@ -32,3 +32,6 @@ SQL create `fullmeta`
 
 SQL create `users`
 [/setup/createUsers.sql](/setup/createUsers.sql)
+
+SQL create `apicooldown`
+[/setup/createUsers.sql](/setup/createApiCooldown.sql)

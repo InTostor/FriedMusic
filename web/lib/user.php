@@ -15,6 +15,25 @@ class User{
     return $uname;
   }
 
+  static function getUserID(){
+    return User::convertUsernameToId(User::getUsername())['id'];
+  }
+
+  static function convertIdToUsername($id){
+    try{
+      return Database::executeStmt("select username from users where id = ?","s",[$id])[0];
+    }catch (Exception){
+      return Null;
+    }
+  }
+  static function convertUsernameToId($username){
+    try{
+      return Database::executeStmt("select id from users where username = ?","s",[$username])[0];
+    }catch (Exception){
+      return Null;
+    }
+  }
+
   static function getUsernameByMethod($authmethod = "cookie"){
     if ( $authmethod == "cookie" and isset($_COOKIE['who']) and isset($_COOKIE['what']) ){
       // by cookie

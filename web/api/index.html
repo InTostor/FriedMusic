@@ -13,8 +13,7 @@
   }
 
   var {
-    color: rgb(200, 0, 0);
-
+    color: rgb(0, 150, 150);
   }
 
   .material-symbols-outlined {
@@ -45,7 +44,18 @@
 </style>
 
 <body>
-  If you are user, you might get there by accident. But if you are developer, read the documentation for api
+  <div class="section">
+    <h1>Info</h1>
+    This is documentaion for the API. It is usefull to gather data, make custom web or desktop/mobile client. <br>
+    Not all web functionality available in API and vice versa.<br>
+    No constants are taken from config files. Changing config will cause this document to be outdated
+    <p>There are used some icons which describing type and behaviour of an API methods</p>
+    <p><span class="material-symbols-outlined">key</span> - authentication required</p>
+    <p><span class="material-symbols-outlined">upload</span> - file in POST expected (upload file)</p>
+    <p><span class="material-symbols-outlined">delete</span> - deleting information (files or database data)</p>
+    <p><span class="material-symbols-outlined">table</span> - get data from database</p>
+    <p><span class="material-symbols-outlined">timer</span> - method has cooldown (DoS prevention)</p>
+  </div>
 
   <div class="section">
 
@@ -176,19 +186,12 @@
 
 
     <div class="apiFunction">
-      <span class="material-symbols-outlined">table</span>
-      <pre>/getTrackMetadata.php?track=<var>trackfilename</var></pre>
-      <p>
-        returns all data of track by it's filename
-      </p>
-    </div>
-
-    <div class="apiFunction">
-      <span class="material-symbols-outlined">table</span>
+      <span class="material-symbols-outlined">table</span><span class="material-symbols-outlined">timer</span>
       <pre>/selectMetadata?sql=<var>sql</var></pre>
       <p>
         returns all data of track. <var>sql</var> is right part of full statement.<br>
-        for example <pre>select * from fullmeta</pre>
+        for example <pre>where artist = "Linkin Park" and duration>0 limit 10</pre><br>
+        As it is very heavy method, it has cooldown which is calculated as <pre>(rows number)/200 sec</pre> Consider using limit
       </p>
     </div>
 
