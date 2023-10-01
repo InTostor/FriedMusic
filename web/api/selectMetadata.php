@@ -7,10 +7,9 @@ require_once "$root/lib/apiCooldown.php";
 
 
 if ( User::getUsername() == "anonymous" ){
-  header('Content-Type: text/plain');
-  echo "403";
-  http_response_code(403);
-  die;
+  $useLimit = true;
+}else{
+  $useLimit = false;
 }
 
 
@@ -23,10 +22,18 @@ if (!isset($_GET['sql'])){
 
 if (apiCooldown::checkCooldown(User::getUserID(),"selectDB")<=0){
   $sql = "select * from `fullmeta` ".$_GET['sql'];
+  if ($useLimit){
+    $sql = preg_replace('/limit\s*\d*/mi', "LIMIT 50", $sql);
+  }
   $response = Database::executeUserSelect($sql);
   apiCooldown::setCooldown(User::getUserID(),"selectDB",floor(sizeof($response)/200));
   header('Content-Type: application/json');
-  echo json_encode($response);
+  if (sizeof($response)!=0){
+    echo json_encode($response);
+  }else{
+    header('Content-Type: text/plain');
+    http_response_code(404);
+  }
 }else{
   header('Content-Type: text/plain');
   header('Retry-After: '.apiCooldown::checkCooldown(User::getUserID(),"selectDB"));

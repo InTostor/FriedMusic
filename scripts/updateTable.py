@@ -40,7 +40,7 @@ def getTracksFromDatabase():
 
 def pushTracksToDatabase(tracks):
   print("Trying to push data to database")
-  sql  = "REPLACE INTO `friedmusic`.`fullmeta`(`filename`,`title`,`duration`,`album`,`genre`,`artist`,`year`,`filesize`) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
+  sql  = "REPLACE INTO `friedmusic`.`fullmeta`(`filename`,`title`,`duration`,`album`,`tracknumber`,`genre`,`artist`,`year`,`filesize`) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
   cur.executemany(sql,tracks)
   db.commit()
   print("pushed succesfully")
@@ -58,16 +58,23 @@ def getAssociativeTracksArray(tracksFilenames):
     title      = str(tag.title)
     artist     = str(tag.artist)
     album      = str(tag.album)
-    samplerate = int(tag.samplerate)
+    # samplerate = int(tag.samplerate) # not used because most of tracks have same quality
     duration   = int(tag.duration)
     genre      = str(tag.genre)
 
-    if title in (None,"","None") or artist in (None,"","None"):
-      print(filename," doesn't have required metadata")
+    if title in (None,"","None") or artist in (None,"","None") or duration==30:
+      print(filename," doesn't have required metadata or constrained (d<=30)")
       with open("failed.txt","a") as f:
         f.write(filename+"\n")
       continue
 
+    # sometimes track doesnt have number
+    try:
+      tracknumber= int(tag.track)
+    except Exception:
+      tracknumber= None
+
+    # or year
     try:
       year       = int(tag.year)
     except Exception:
@@ -76,7 +83,7 @@ def getAssociativeTracksArray(tracksFilenames):
     artist.replace("'","\'")
     album.replace("'","\'")
     genre.replace("'","\'")
-    out.append((filename,title,duration,album,genre,artist,year,filesize))
+    out.append((filename,title,duration,album,tracknumber,genre,artist,year,filesize))
     # print(i,"getting associative array")
   return out
 

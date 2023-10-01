@@ -191,7 +191,8 @@
       <p>
         returns all data of track. <var>sql</var> is right part of full statement.<br>
         for example <pre>where artist = "Linkin Park" and duration>0 limit 10</pre><br>
-        As it is very heavy method, it has cooldown which is calculated as <pre>(rows number)/200 sec</pre> Consider using limit
+        As it is very heavy method, it has cooldown which is calculated as <pre>(rows number)/200 sec</pre> Consider using limit.<br>
+        If not logged in, limit is 50 rows
       </p>
     </div>
 
