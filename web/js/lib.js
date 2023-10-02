@@ -79,6 +79,7 @@ function updateURLParameter(url, param, paramVal){
 }
 
 function getUrlParams(url){
+  try{
   var paramtoval = url.split("?")[1].split("&")
   var returnArray = []
   paramtoval.forEach(element => {
@@ -91,6 +92,9 @@ function getUrlParams(url){
       )
   });
   return returnArray
+}catch(e){
+  return []
+}
 }
 
 function isUrlParamSet(url,param){

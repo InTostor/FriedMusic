@@ -173,6 +173,18 @@ function drawList($list,$listname){
   </div>
 </div>
 
+<div class="window" style="width: 300px">
+  <div class="title-bar">
+    <div class="title-bar-text"><?=$locale->get('System')?></div>
+
+  </div>
+  <div class="window-body">
+    <?php
+    fout(shell_exec("git -h"));
+    ?>
+  </div>
+</div>
+
 </div>
 </body>
 </html>
