@@ -77,7 +77,7 @@ function drawList($list,$listname){
 }
 </style>
 
-<div class="window" style="width: 300px">
+<div class="window" style="width: 350px">
   <div class="title-bar">
     <div class="title-bar-text"><?=$locale->get('UserAccountWindowTitle')?></div>
   </div>
@@ -111,7 +111,7 @@ function drawList($list,$listname){
 
 
 
-<div class="window" style="width: 300px">
+<div class="window" style="width: 350px">
   <div class="title-bar">
     <div class="title-bar-text"><?=$locale->get('Playlists')?></div>
 
@@ -124,7 +124,7 @@ function drawList($list,$listname){
   </div>
 </div>
 
-<div class="window" style="width: 300px">
+<div class="window" style="width: 350px">
   <div class="title-bar">
     <div class="title-bar-text"><?=$locale->get('Blocklists')?></div>
 
@@ -136,7 +136,7 @@ function drawList($list,$listname){
   </div>
 </div>
 
-<div class="window" style="width: 300px">
+<div class="window" style="width: 350px">
   <div class="title-bar">
     <div class="title-bar-text"><?=$locale->get('LibraryStatsWindowTitle')?></div>
 
@@ -173,14 +173,15 @@ function drawList($list,$listname){
   </div>
 </div>
 
-<div class="window" style="width: 300px">
+<div class="window" style="width: 350px">
   <div class="title-bar">
     <div class="title-bar-text"><?=$locale->get('System')?></div>
 
   </div>
   <div class="window-body">
+    <label>Last git commit</label>
     <?php
-    fout(shell_exec("git -h"));
+    fout(shell_exec("git --no-pager log -1 2>&1"));
     ?>
   </div>
 </div>

@@ -9,4 +9,4 @@ require_once "$root/lib/apiCooldown.php";
 
 
 
-fout(apiCooldown::checkCooldown(User::getUserID(),"selectDB"));
+fout(shell_exec("git -h 2>&1"));
