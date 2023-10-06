@@ -19,7 +19,7 @@ function search($type,$q,$limit = 100){
       $sql = "SELECT * FROM `fullmeta` where genre like ? $limit";
       break;
     default:
-      $sql = "SELECT * FROM `fullmeta` where filename like ? or artist like ? or album like ? or title like ? $limit";
+      $sql = "SELECT * FROM `fullmeta` where filename like ? or artist like ? or album like ? or title like ? order by album, tracknumber, artist $limit";
       return Database::executeStmt($sql,"ssss",[$q,$q,$q,$q]);
   }
   
