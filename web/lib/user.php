@@ -35,10 +35,10 @@ class User{
   }
 
   static function getUsernameByMethod($authmethod = "cookie"){
-    if ( $authmethod == "cookie" and isset($_COOKIE['who']) and isset($_COOKIE['what']) ){
+    if ( $authmethod == "cookie" and isset($_COOKIE['autUsername']) and isset($_COOKIE['authToken']) ){
       // by cookie
-      $uname = $_COOKIE['who'];
-      $upass = $_COOKIE['what'];
+      $uname = $_COOKIE['autUsername'];
+      $upass = $_COOKIE['authToken'];
       $utoken = Self::credsToToken($uname,$upass);
       $res = Database::executeStmt("select count(*) from users where `username`= ? and `token`= ?","ss",[$uname,$utoken])[0]['count(*)'] >=1 ? $uname : "anonymous";
       return $res;
@@ -81,8 +81,8 @@ class User{
 
   static function rememberUser($uname,$upass){
     global $cookieTime;
-    setcookie("who",$uname, time() +$cookieTime * 30,"/");
-    setcookie("what",$upass, time() +$cookieTime * 30,"/");
+    setcookie("autUsername",$uname, time() +$cookieTime * 30,"/");
+    setcookie("authToken",$upass, time() +$cookieTime * 30,"/");
     setcookie("slim_shady","chto_blya", time() +$cookieTime * 30,"/");
   }
   
