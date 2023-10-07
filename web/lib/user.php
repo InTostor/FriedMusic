@@ -35,9 +35,9 @@ class User{
   }
 
   static function getUsernameByMethod($authmethod = "cookie"){
-    if ( $authmethod == "cookie" and isset($_COOKIE['autUsername']) and isset($_COOKIE['authToken']) ){
+    if ( $authmethod == "cookie" and isset($_COOKIE['authUsername']) and isset($_COOKIE['authToken']) ){
       // by cookie
-      $uname = $_COOKIE['autUsername'];
+      $uname = $_COOKIE['authUsername'];
       $upass = $_COOKIE['authToken'];
       $utoken = Self::credsToToken($uname,$upass);
       $res = Database::executeStmt("select count(*) from users where `username`= ? and `token`= ?","ss",[$uname,$utoken])[0]['count(*)'] >=1 ? $uname : "anonymous";
