@@ -81,7 +81,7 @@ class User{
 
   static function rememberUser($uname,$upass){
     global $cookieTime;
-    setcookie("autUsername",$uname, time() +$cookieTime * 30,"/");
+    setcookie("authUsername",$uname, time() +$cookieTime * 30,"/");
     setcookie("authToken",$upass, time() +$cookieTime * 30,"/");
     setcookie("slim_shady","chto_blya", time() +$cookieTime * 30,"/");
   }
