@@ -5,7 +5,7 @@ import os, time
 musicDir = "/home/intostor/Music/"
 sortMode = "name" # name | atime
 
-fullmetaTableName = 'fullmeta_test'
+fullmetaTableName = 'fullmeta'
 try:
   db = mysql.connector.connect(
     host="192.168.0.186",
