@@ -1,0 +1,12 @@
+{
+  "url":"/api/getLoggedAs.php",
+  "description":"returns current username if logged in or anonymous if not",
+  "methodHumanName":"get username",
+  "tags":[
+    "key"
+  ],
+  "category":"User actions",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"John Smith"
+}

@@ -1,0 +1,12 @@
+{
+  "url":"/api/authenticate.php",
+  "description":"returns both http cookies and json with them.Credentials are given in http basic authentication. If authentication failed, returns 401",
+  "methodHumanName":"Authenticate",
+  "tags":[
+    "key"
+  ],
+  "category":"User actions",
+  "requestType":"GET",
+  "returnMime":"application/json",
+  "returnExample":"{\n'authUsername':'John Smith',\n'authToken':'23b4222d2613a2765d4d432d2d65e88e'\n}"
+}

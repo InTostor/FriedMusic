@@ -1,0 +1,12 @@
+{
+  "url":"/api/getVersion.php",
+  "description":"returns current git commit hash",
+  "methodHumanName":"get version (git commit hash)",
+  "tags":[
+    "key"
+  ],
+  "category":"Miscellanous",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"0fc476c21d46030fc11f8f839b5d25266f0bb635"
+}
