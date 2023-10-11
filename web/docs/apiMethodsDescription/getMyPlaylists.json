@@ -1,0 +1,12 @@
+{
+  "url":"/api/getMyPlaylists.php",
+  "description":"returns list of currently logged user",
+  "methodHumanName":"get my playlists",
+  "tags":[
+    "key"
+  ],
+  "category":"User actions",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"favourite.fpl\nAwesome_Mix.fpl\nTracks_from_childhood.fpl\nSoundtracks.fpl"
+}

@@ -1,0 +1,13 @@
+{
+  "url":"/api/getNextTrack.php?h=<HistoryChance>&r=<RandomChance>&t=<TrackChance>&a=<ArtistChance>",
+  "description":"returns next recommended track. If no parameters given, using preset chances. <br>generator is rolling dice twice: first time it is picking source (history.fpl or favourite.fpl) then return track from source itself or random track with same artist or same genre <br>you can use h,r,t,a parameters (all or none) to control chances. Values aren't limited in range",
+  "methodHumanName":"get next track",
+  "tags":[
+    "key",
+    "table"
+  ],
+  "category":"Database actions",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"Linkin Park - Faint.mp3"
+}

@@ -1,0 +1,13 @@
+{
+  "url":"/api/uploadFile.php $_POST['file']",
+  "description":"saves given in post file to user's directory. Allowed 5120kB *.fpl | *.fbl 64 files per user",
+  "methodHumanName":"upload file",
+  "tags":[
+    "key",
+    "upload"
+  ],
+  "category":"User actions",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"ok"
+}

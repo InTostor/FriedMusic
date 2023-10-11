@@ -70,7 +70,8 @@ usort($methodsArray, function ($item1, $item2) {
   .apiUrl{
     font-size:1rem;
     color:#000 !important;
-    font-family: unset;
+    font-family: monospace;
+    width:100%;
   }
 </style>
   <body>
@@ -89,7 +90,7 @@ usort($methodsArray, function ($item1, $item2) {
     <div class="section">
       <h1>Outline</h1>
       <?php foreach ($methodsArray as $method){
-        echo "<div class=\"apiFunction\"><a href=\"#{$method['url']}\">".$method['url']." ". $method['methodHumanName']."</a></div>";
+        echo "<div class=\"apiFunction\"><a href=\"#{$method['methodHumanName']}\">{$method['methodHumanName']}</a></div>";
       }?>
     </div>
   </body>
@@ -113,14 +114,16 @@ foreach ($methodsArray as $method){
   echo 
   "
   <div class=\"section\">
-    <h3 id=\"{$method['url']}\">{$method['methodHumanName']}</h3>
+    <h3 id=\"{$method['methodHumanName']}\">{$method['methodHumanName']}</h3>
     ".implode('',$spanTags)."
     <div class=\"apiFunction\">
     <p>{$method['description']}</p>
     <h4>Request</h4>
-    {$method['requestType']}<input class=\"apiUrl\" readonly value={$method['url']}></input>
+    {$method['requestType']}<input class=\"apiUrl\" readonly value=\"{$method['url']}\"></input>
     <h4>Return</h4>
     <p>MIME type <var>{$method['returnMime']}</var></p>
     <pre>{$method['returnExample']}</pre>
+    </div>
+    </div>
   ";
 }

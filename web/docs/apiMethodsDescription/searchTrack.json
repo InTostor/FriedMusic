@@ -1,0 +1,12 @@
+{
+  "url":"/api/searchTrack.php?type=<type>&query=<query>&limit=<limit>",
+  "description":"returns json with all found tracks and it's metadata.<pre><var>[limit]</var> = int[0;inf]</pre><pre><var>type</var> = query | track | artist | genre</pre> <span class=\"warning\">Warning!</span> Response can be very heavy",
+  "methodHumanName":"search track",
+  "tags":[
+    "table"
+  ],
+  "category":"Database actions",
+  "requestType":"GET",
+  "returnMime":"application/json",
+  "returnExample":"JSON with structure of database select operation"
+}

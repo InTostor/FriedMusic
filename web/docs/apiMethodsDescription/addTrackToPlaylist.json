@@ -1,0 +1,12 @@
+{
+  "url":"/api/addTrackToPlaylist.php?track=<track>&playlist=<playlist>",
+  "description":"adds <var>track</var> to the users <var>playlist.fpl</var> . If playlist is not existing, it will be created",
+  "methodHumanName":"add track to the playlist",
+  "tags":[
+    "key"
+  ],
+  "category":"User actions",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"ok"
+}

@@ -1,0 +1,13 @@
+{
+  "url":"/api/deleteFile.php?file=<filename>",
+  "description":"deletes <filename> in user's directory",
+  "methodHumanName":"delete file",
+  "tags":[
+    "key",
+    "delete"
+  ],
+  "category":"User actions",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"ok"
+}

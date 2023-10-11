@@ -1,0 +1,12 @@
+{
+  "url":"/api/isInFavourite.php?track=<track>",
+  "description":"returns true or false if <var>track</var> in currently logged user's favourite.fpl",
+  "methodHumanName":"is track in favourite",
+  "tags":[
+    "key"
+  ],
+  "category":"User actions",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"true"
+}

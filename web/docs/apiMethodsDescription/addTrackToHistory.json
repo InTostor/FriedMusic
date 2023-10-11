@@ -1,0 +1,12 @@
+{
+  "url":"/api/addTrackToHistory.php?track=<track>",
+  "description":"adds <var>track</var> to current user's <var>history.fpl</var> file",
+  "methodHumanName":"add track to the history",
+  "tags":[
+    "key"
+  ],
+  "category":"User actinons",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"ok"
+}

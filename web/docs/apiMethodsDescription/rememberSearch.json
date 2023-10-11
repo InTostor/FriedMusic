@@ -1,0 +1,12 @@
+{
+  "url":"/api/rememberSearch.php?type=<type>&query=<query>",
+  "description":"writing result of web search into search.fpl",
+  "methodHumanName":"remember web search",
+  "tags":[
+    "key"
+  ],
+  "category":"User actions",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"ok"
+}
