@@ -26,7 +26,13 @@ if (apiCooldown::checkCooldown(User::getUserID(),"selectDB")<=0){
     $sql = preg_replace('/limit\s*\d*/mi', "LIMIT 50", $sql);
   }
   $response = Database::executeUserSelect($sql);
-  apiCooldown::setCooldown(User::getUserID(),"selectDB",floor(sizeof($response)/200));
+
+  $columns = sizeof($response[0]);
+  $rows = sizeof($response);
+
+  $cooldown = floor($columns * $rows)/2000;
+
+  apiCooldown::setCooldown(User::getUserID(),"selectDB",$cooldown);
   header('Content-Type: application/json');
   if (sizeof($response)!=0){
     echo json_encode($response);

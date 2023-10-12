@@ -3,7 +3,6 @@
   "description":"returns current git commit hash",
   "methodHumanName":"get version (git commit hash)",
   "tags":[
-    "key"
   ],
   "category":"Miscellanous",
   "requestType":"GET",
