@@ -1,7 +1,10 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/dbWrapper.php";
+require_once "$root/settings/config.php";
+
 function search($type,$q,$limit = 100){
+  global $trackMetadataTable;
   $q="%$q%";
   if ($limit != 0 ){
     $limit = "LIMIT $limit";
@@ -10,16 +13,16 @@ function search($type,$q,$limit = 100){
   }
   switch (strtolower($type)){
     case "album":
-      $sql = "SELECT * FROM `fullmeta` where album like ? $limit";
+      $sql = "SELECT * FROM `$trackMetadataTable` where album like ? $limit";
       break;
     case "artist":
-      $sql = "SELECT * FROM `fullmeta` where artist like ? $limit";
+      $sql = "SELECT * FROM `$trackMetadataTable` where artist like ? $limit";
       break;
     case "genre":
-      $sql = "SELECT * FROM `fullmeta` where genre like ? $limit";
+      $sql = "SELECT * FROM `$trackMetadataTable` where genre like ? $limit";
       break;
     default:
-      $sql = "SELECT * FROM `fullmeta` where filename like ? or artist like ? or album like ? or title like ? order by album, tracknumber, artist $limit";
+      $sql = "SELECT * FROM `$trackMetadataTable` where filename like ? or artist like ? or album like ? or title like ? order by album, tracknumber, artist $limit";
       return Database::executeStmt($sql,"ssss",[$q,$q,$q,$q]);
   }
   

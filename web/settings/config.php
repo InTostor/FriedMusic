@@ -8,6 +8,11 @@ $dbUser = "Admin";
 $dbPass = "ffq6KLHYY583MdEahTYe";
 $dbName = "friedmusic";
 
+// Database tables
+$trackMetadataTable = "fullmeta";
+$usersAuthTable = "users";
+$usersCooldownTable = "apicooldown";
+
 // Paths
 $musicPath = "$root/Music/";
 $userData = "$root/userdata/";

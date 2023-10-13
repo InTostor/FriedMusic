@@ -4,6 +4,7 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 require_once "$root/lib/getUserPlaylists.php";
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/apiCooldown.php";
+require_once "$root/settings/config.php";
 
 
 if ( User::getUsername() == "anonymous" ){
@@ -21,7 +22,7 @@ if (!isset($_GET['sql'])){
 
 
 if (apiCooldown::checkCooldown(User::getUserID(),"selectDB")<=0){
-  $sql = "select * from `fullmeta` ".$_GET['sql'];
+  $sql = "select * from `$trackMetadataTable` ".$_GET['sql'];
   if ($useLimit){
     $sql = preg_replace('/limit\s*\d*/mi', "LIMIT 50", $sql);
   }
