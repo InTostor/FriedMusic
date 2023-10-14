@@ -141,7 +141,7 @@ pushTracksToDatabase(tracksMetadata)
 
 
 print("elapsed: ", time.time()-t)
-truncateTable()
+# truncateTable()
 db.close()
 
 with open("failed.txt","r") as f:
