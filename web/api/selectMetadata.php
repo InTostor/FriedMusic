@@ -19,10 +19,14 @@ if (!isset($_GET['sql'])){
   http_response_code(400);
   echo "400";
 }
-
+if (isset($_GET['what'])){
+  $what = $_GET['what'];
+}else{
+  $what = "*";
+}
 
 if (apiCooldown::checkCooldown(User::getUserID(),"selectDB")<=0){
-  $sql = "select * from `$trackMetadataTable` ".$_GET['sql'];
+  $sql = "select $what from `$trackMetadataTable` ".$_GET['sql'];
   if ($useLimit){
     $sql = preg_replace('/limit\s*\d*/mi', "LIMIT 50", $sql);
   }
