@@ -1,6 +1,6 @@
 {
   "url":"/api/getMyPlaylists.php",
-  "description":"returns playlists of currently logged user",
+  "description":"returns blocklists of currently logged user",
   "methodHumanName":"get my playlists",
   "tags":[
     "key"
