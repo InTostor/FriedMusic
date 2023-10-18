@@ -74,8 +74,12 @@ def getAssociativeTracksArray(tracksFilenames):
       print("files checked",i)
 
     filepath = musicDir+filename
+    if not TinyTag.is_supported(filepath):
+      print(filepath,"not supported")
+      continue
 
     tag = TinyTag.get(filepath)
+    
 
     filesize   = int(os.path.getsize(filepath))
 
