@@ -1,6 +1,6 @@
 {
-  "url":"/api/getDatabaseCreateStatement.php",
-  "description":"returns create statement of fullmeta table. Usefull for clients, downloading dump of this table",
+  "url":"/api/getDatabaseCreateStatement.php?typesonly",
+  "description":"returns create statement of fullmeta table. If <var>typesonly</var> is set, returns only columns info<br>Usefull for clients, downloading dump of this table",
   "methodHumanName":"get database create statement",
   "tags":[
     "table"
