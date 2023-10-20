@@ -1,0 +1,12 @@
+{
+  "url":"/api/getDatabaseCreateStatement.php",
+  "description":"returns create statement of fullmeta table. Usefull for clients, downloading dump of this table",
+  "methodHumanName":"get database create statement",
+  "tags":[
+    "table"
+  ],
+  "category":"User actinons",
+  "requestType":"GET",
+  "returnMime":"text/plain",
+  "returnExample":"CREATE TABLE `fullmeta` \n( `id` int NOT NULL AUTO_INCREMENT,\n`filename` varchar(256) DEFAULT NULL,\n`title` varchar(256) DEFAULT NULL,\n`duration` int DEFAULT NULL,\n`album` varchar(256) DEFAULT NULL,\n`tracknumber` int DEFAULT NULL,\n`genre` varchar(45) NOT NULL,\n`artist` varchar(256) DEFAULT NULL,\n`year` int DEFAULT NULL,\n`filesize` int DEFAULT NULL,\nPRIMARY KEY (`id`),\nUNIQUE KEY `filename_UNIQUE` (`filename`),\nKEY `artist` (`title`,`artist`),\nKEY `filename` (`filename`),\nFULLTEXT KEY `genreFULLTEXT` (`genre`) )\nENGINE=InnoDB\nAUTO_INCREMENT=0\nDEFAULT CHARSET=utf8mb4\nCOLLATE=utf8mb4_0900_ai_ci"
+}
