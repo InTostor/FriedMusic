@@ -3,5 +3,5 @@
 /.vscode/
 /scripts/bulkDownloader/urls.txt  
 /web/tst.php
-/scripts/bulkDownloader/
-/scripts/failed.txt
+/scripts/bulkDownloader/*
+scripts/failed.txt
