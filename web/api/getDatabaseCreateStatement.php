@@ -8,4 +8,5 @@ require_once "$root/settings/config.php";
 $sql = "show create table $trackMetadataTable";
 
 $answer = Database::executeStmt($sql);
+header("text/plain");
 echo $answer[0]['Create Table'];
