@@ -16,10 +16,18 @@ class User{
   }
 
   static function getUserID(){
-    return User::convertUsernameToId(User::getUsername())['id'];
+    $ret = User::convertUsernameToId(User::getUsername());
+    if ($ret != null){
+      return $ret['id'];
+    }else{
+      return 0;
+    }
   }
 
   static function convertIdToUsername($id){
+    if ($id == 0){
+      return "anonymous";
+    }
     try{
       return Database::executeStmt("select username from users where id = ?","s",[$id])[0];
     }catch (Exception){
@@ -28,7 +36,13 @@ class User{
   }
   static function convertUsernameToId($username){
     try{
-      return Database::executeStmt("select id from users where username = ?","s",[$username])[0];
+      $ret = Database::executeStmt("select id from users where username = ?","s",[$username]);
+      if (sizeof($ret)>0){
+        return $ret[0];
+      }else{
+        return Null;
+      }
+      
     }catch (Exception){
       return Null;
     }

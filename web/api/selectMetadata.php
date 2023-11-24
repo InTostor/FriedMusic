@@ -9,10 +9,11 @@ require_once "$root/settings/config.php";
 
 if ( User::getUsername() == "anonymous" ){
   $useLimit = true;
+  $cooledDown = false;
 }else{
   $useLimit = false;
+  $cooledDown = apiCooldown::checkCooldown(User::getUserID(),"selectDB")<=0;
 }
-
 
 if (!isset($_GET['sql'])){
   header('Content-Type: text/plain');
@@ -25,7 +26,7 @@ if (isset($_GET['what'])){
   $what = "*";
 }
 
-if (apiCooldown::checkCooldown(User::getUserID(),"selectDB")<=0){
+if (!$cooledDown){
   $sql = "select $what from `$trackMetadataTable` ".$_GET['sql'];
   if ($useLimit){
     $sql = preg_replace('/limit\s*\d*/mi', "LIMIT 50", $sql);
