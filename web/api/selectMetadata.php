@@ -15,11 +15,17 @@ if ( User::getUsername() == "anonymous" ){
   $cooledDown = apiCooldown::checkCooldown(User::getUserID(),"selectDB")>0;
 }
 
-if (!isset($_GET['sql'])){
+if (!isset($_GET['sql']) and !isset($_POST['sql'])){
   header('Content-Type: text/plain');
   http_response_code(400);
   echo "400";
 }
+if (isset($_POST['sql'])){
+  $sqlRequested = $_POST['sql'];
+}else{
+  $sqlRequested = $_GET['sql'];
+}
+
 if (isset($_GET['what'])){
   $what = $_GET['what'];
 }else{
@@ -27,7 +33,7 @@ if (isset($_GET['what'])){
 }
 
 if (!$cooledDown){
-  $sql = "select $what from `$trackMetadataTable` ".$_GET['sql'];
+  $sql = "select $what from `$trackMetadataTable` ".$sqlRequested;
   if ($useLimit){
     $sql = preg_replace('/limit\s*\d*/mi', "LIMIT 50", $sql);
   }
