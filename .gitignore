@@ -1,5 +1,6 @@
-/web/userdata/
-/Music/
+web/userdata/
+Music/
+web/Music
 /.vscode/
 /scripts/bulkDownloader/urls.txt  
 /web/tst.php

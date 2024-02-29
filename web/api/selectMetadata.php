@@ -5,8 +5,9 @@ require_once "$root/lib/getUserPlaylists.php";
 require_once "$root/lib/dbWrapper.php";
 require_once "$root/lib/apiCooldown.php";
 require_once "$root/settings/config.php";
+require_once "$root/lib/dev.php";
 
-
+$useLimit = false;
 if ( User::getUsername() == "anonymous" ){
   $useLimit = true;
   $cooledDown = false;
@@ -19,6 +20,7 @@ if (!isset($_GET['sql']) and !isset($_POST['sql'])){
   header('Content-Type: text/plain');
   http_response_code(400);
   echo "400";
+  die();
 }
 if (isset($_POST['sql'])){
   $sqlRequested = $_POST['sql'];
@@ -53,7 +55,7 @@ if (!$cooledDown){
   apiCooldown::setCooldown(User::getUserID(),"selectDB",$cooldown);
   header('Content-Type: application/json');
   if (sizeof($response)!=0){
-    echo json_encode($response);
+    echo json_encode($response, JSON_NUMERIC_CHECK);
   }else{
     header('Content-Type: text/plain');
     http_response_code(404);
